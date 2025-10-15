@@ -4,7 +4,9 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/usr/lib/llvm-18/include"
+                "/usr/lib/llvm-18/include",
+                "${workspaceFolder}/eraser_static/include",
+                "${workspaceFolder}/eraser_static/graph_nodes/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",
