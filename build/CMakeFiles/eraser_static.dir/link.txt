@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/eraser_static.dir/main.cpp.o CMakeFiles/eraser_static.dir/src/parser.cpp.o -o eraser_static  -Wl,-rpath,/lib:/usr/lib/llvm-18/lib /usr/lib/llvm-18/lib/libclang.so 
+/usr/bin/c++ CMakeFiles/eraser_static.dir/eraser_static/src/main.cpp.o CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o -o eraser_static  -Wl,-rpath,/lib:/usr/lib/llvm-18/lib /usr/lib/llvm-18/lib/libclang.so 

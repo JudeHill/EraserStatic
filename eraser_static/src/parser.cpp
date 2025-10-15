@@ -1,4 +1,4 @@
-#include "include/eraser_static/parser.h"
+#include "parser.h"
 
 static std::unordered_map<std::string, bool> funcMap = {};
 static std::vector<std::string> functions = {};

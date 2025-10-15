@@ -129,53 +129,53 @@ eraser_static/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/build
 .PHONY : eraser_static/fast
 
-main.o: main.cpp.o
-.PHONY : main.o
+eraser_static/src/main.o: eraser_static/src/main.cpp.o
+.PHONY : eraser_static/src/main.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/main.cpp.o
-.PHONY : main.cpp.o
+eraser_static/src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/main.cpp.o
+.PHONY : eraser_static/src/main.cpp.o
 
-main.i: main.cpp.i
-.PHONY : main.i
+eraser_static/src/main.i: eraser_static/src/main.cpp.i
+.PHONY : eraser_static/src/main.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/main.cpp.i
-.PHONY : main.cpp.i
+eraser_static/src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/main.cpp.i
+.PHONY : eraser_static/src/main.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+eraser_static/src/main.s: eraser_static/src/main.cpp.s
+.PHONY : eraser_static/src/main.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/main.cpp.s
-.PHONY : main.cpp.s
+eraser_static/src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/main.cpp.s
+.PHONY : eraser_static/src/main.cpp.s
 
-src/parser.o: src/parser.cpp.o
-.PHONY : src/parser.o
+eraser_static/src/parser.o: eraser_static/src/parser.cpp.o
+.PHONY : eraser_static/src/parser.o
 
 # target to build an object file
-src/parser.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/src/parser.cpp.o
-.PHONY : src/parser.cpp.o
+eraser_static/src/parser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o
+.PHONY : eraser_static/src/parser.cpp.o
 
-src/parser.i: src/parser.cpp.i
-.PHONY : src/parser.i
+eraser_static/src/parser.i: eraser_static/src/parser.cpp.i
+.PHONY : eraser_static/src/parser.i
 
 # target to preprocess a source file
-src/parser.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/src/parser.cpp.i
-.PHONY : src/parser.cpp.i
+eraser_static/src/parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.i
+.PHONY : eraser_static/src/parser.cpp.i
 
-src/parser.s: src/parser.cpp.s
-.PHONY : src/parser.s
+eraser_static/src/parser.s: eraser_static/src/parser.cpp.s
+.PHONY : eraser_static/src/parser.s
 
 # target to generate assembly for a file
-src/parser.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/src/parser.cpp.s
-.PHONY : src/parser.cpp.s
+eraser_static/src/parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.s
+.PHONY : eraser_static/src/parser.cpp.s
 
 # Help Target
 help:
@@ -186,12 +186,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... eraser_static"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
-	@echo "... src/parser.o"
-	@echo "... src/parser.i"
-	@echo "... src/parser.s"
+	@echo "... eraser_static/src/main.o"
+	@echo "... eraser_static/src/main.i"
+	@echo "... eraser_static/src/main.s"
+	@echo "... eraser_static/src/parser.o"
+	@echo "... eraser_static/src/parser.i"
+	@echo "... eraser_static/src/parser.s"
 .PHONY : help
 
 

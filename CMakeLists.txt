@@ -4,13 +4,14 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Your sources
 add_executable(eraser_static
-  main.cpp
-  src/parser.cpp
+  eraser_static/src/main.cpp
+  eraser_static/src/parser.cpp
 )
 
 # Your public headers (so #include "eraser_static/parser.h" works)
 target_include_directories(eraser_static PRIVATE
-  ${CMAKE_SOURCE_DIR}/include
+  ${CMAKE_SOURCE_DIR}/eraser_static/include
+  ${CMAKE_SOURCE_DIR}/eraser_static/graph_nodes/include
 )
 
 # ---- libclang (Ubuntu LLVM 18) ----
