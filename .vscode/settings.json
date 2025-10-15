@@ -58,5 +58,6 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "iostream": "cpp"
-    }
+    },
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
 }
