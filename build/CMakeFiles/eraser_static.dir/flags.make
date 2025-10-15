@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+CXX_INCLUDES = -I/home/jude/EraserStatic/include -I/usr/lib/llvm-18/include
 
 CXX_FLAGS = -std=gnu++17 -Wall -Wextra -Wpedantic
 

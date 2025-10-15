@@ -83,30 +83,30 @@ CMakeFiles/eraser_static.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/eraser_static.dir/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jude/EraserStatic/main.cpp -o CMakeFiles/eraser_static.dir/main.cpp.s
 
-CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o: CMakeFiles/eraser_static.dir/flags.make
-CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o: /home/jude/EraserStatic/eraser_static/src/parser.cpp
-CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o -c /home/jude/EraserStatic/eraser_static/src/parser.cpp
+CMakeFiles/eraser_static.dir/src/parser.cpp.o: CMakeFiles/eraser_static.dir/flags.make
+CMakeFiles/eraser_static.dir/src/parser.cpp.o: /home/jude/EraserStatic/src/parser.cpp
+CMakeFiles/eraser_static.dir/src/parser.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/eraser_static.dir/src/parser.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/src/parser.cpp.o -MF CMakeFiles/eraser_static.dir/src/parser.cpp.o.d -o CMakeFiles/eraser_static.dir/src/parser.cpp.o -c /home/jude/EraserStatic/src/parser.cpp
 
-CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jude/EraserStatic/eraser_static/src/parser.cpp > CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.i
+CMakeFiles/eraser_static.dir/src/parser.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/eraser_static.dir/src/parser.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jude/EraserStatic/src/parser.cpp > CMakeFiles/eraser_static.dir/src/parser.cpp.i
 
-CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jude/EraserStatic/eraser_static/src/parser.cpp -o CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.s
+CMakeFiles/eraser_static.dir/src/parser.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/eraser_static.dir/src/parser.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jude/EraserStatic/src/parser.cpp -o CMakeFiles/eraser_static.dir/src/parser.cpp.s
 
 # Object files for target eraser_static
 eraser_static_OBJECTS = \
 "CMakeFiles/eraser_static.dir/main.cpp.o" \
-"CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o"
+"CMakeFiles/eraser_static.dir/src/parser.cpp.o"
 
 # External object files for target eraser_static
 eraser_static_EXTERNAL_OBJECTS =
 
 eraser_static: CMakeFiles/eraser_static.dir/main.cpp.o
-eraser_static: CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o
+eraser_static: CMakeFiles/eraser_static.dir/src/parser.cpp.o
 eraser_static: CMakeFiles/eraser_static.dir/build.make
 eraser_static: /usr/lib/llvm-18/lib/libclang.so
 eraser_static: CMakeFiles/eraser_static.dir/link.txt

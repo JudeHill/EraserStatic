@@ -158,8 +158,4 @@ CMakeFiles/eraser_static.dir/main.cpp.o: /home/jude/EraserStatic/main.cpp \
  /usr/lib/llvm-18/include/clang-c/CXString.h \
  /usr/lib/llvm-18/include/clang-c/CXDiagnostic.h \
  /usr/lib/llvm-18/include/clang-c/CXSourceLocation.h \
- /usr/lib/llvm-18/include/clang-c/CXFile.h /usr/include/c++/13/fstream \
- /usr/include/c++/13/bits/codecvt.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
- /usr/include/c++/13/bits/fstream.tcc
+ /usr/lib/llvm-18/include/clang-c/CXFile.h
