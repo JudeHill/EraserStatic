@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/jude/EraserStatic/build",
+  "command": "/usr/bin/c++  -I/home/jude/EraserStatic/include -I/usr/lib/llvm-18/include -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles/eraser_static.dir/main.cpp.o -c /home/jude/EraserStatic/main.cpp",
+  "file": "/home/jude/EraserStatic/main.cpp",
+  "output": "CMakeFiles/eraser_static.dir/main.cpp.o"
+},
+{
+  "directory": "/home/jude/EraserStatic/build",
+  "command": "/usr/bin/c++  -I/home/jude/EraserStatic/include -I/usr/lib/llvm-18/include -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles/eraser_static.dir/src/parser.cpp.o -c /home/jude/EraserStatic/src/parser.cpp",
+  "file": "/home/jude/EraserStatic/src/parser.cpp",
+  "output": "CMakeFiles/eraser_static.dir/src/parser.cpp.o"
+}
+]

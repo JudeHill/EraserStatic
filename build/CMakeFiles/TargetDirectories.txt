@@ -1,0 +1,3 @@
+/home/jude/EraserStatic/build/CMakeFiles/eraser_static.dir
+/home/jude/EraserStatic/build/CMakeFiles/edit_cache.dir
+/home/jude/EraserStatic/build/CMakeFiles/rebuild_cache.dir
