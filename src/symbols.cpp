@@ -26,5 +26,5 @@ std::string usr(const clang::Decl* decl, clang::ASTContext& ast_context){
         return "<invalid-usr>";
     };
 
-    return "";
+    return usr.data();
 }

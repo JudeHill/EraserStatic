@@ -8,6 +8,8 @@ SourceLoc toSpellingLoc(const clang::SourceManager &SM, const clang::SourceLocat
         return out;
     }
 
+    // spelling location - where chars of token were written
+    // Expansion location - the callsite (e.g. where a macro was expanded)
     clang::SourceLocation spelling = SM.getSpellingLoc(loc);
     clang::SourceLocation expansion = SM.getExpansionLoc(loc);
     
@@ -24,7 +26,10 @@ SourceLoc toSpellingLoc(const clang::SourceManager &SM, const clang::SourceLocat
         const clang::FileEntry *ExpFile = SM.getFileEntryForID(SM.getFileID(expansion));
         if (ExpFile) {
             out.expansion_file = ExpFile->getName().str();
-    
+        out.expansion_line = SM.getExpansionLineNumber(loc);
+        out.expansion_column = SM.getExpansionColumnNumber(loc);
         }
+
+        out.is_system = SM.isInSystemHeader(spelling);
     }
 }
