@@ -1,0 +1,12 @@
+digraph G {
+  gfsgbyokkr [label="1 Function print_message"];
+  wvsgbyokkr [label="2 Call printf"];
+  kbtgbyokkr [label="3 Call pthread_exit"];
+  kjpgbyokkr [label="4 return"];
+  odbcbyokkr [label="1 Function /usr/include/x86_64-linux-gnu/bits/uintn-identity.h __uint64_identity"];
+  iaccbyokkr [label="2 return"];
+  gfsgbyokkr -> wvsgbyokkr;
+  wvsgbyokkr -> kbtgbyokkr;
+  kbtgbyokkr -> kjpgbyokkr;
+  odbcbyokkr -> iaccbyokkr;
+}

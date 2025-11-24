@@ -65,16 +65,19 @@ extern std::unordered_map<std::string, StartNode *> funcCfgs;
 
 class Parser {
 public:
-  explicit Parser(CallGraph *callGraph, FileIncludes *fileIncludes);
+  explicit Parser(CallGraph *callGraph_, FileIncludes *fileIncludes_);
   virtual ~Parser();
 
-  void parseFile(const char *fileName, bool fileChanged = false);
+  void parseFile(const char *fileName, bool fileChanged = false, bool verbose = false);
   void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd);
-
+  void visualizeCFG();
   std::vector<std::string> getFunctions();
 
+
 private:
+  CallGraph *callGraph;
   FileIncludes *fileIncludes;
   std::string fileNameString;
-  CallGraph *callGraph;
+  CXCursor ast = clang_getNullCursor();
+  void dump_AST(CXCursor ast);
 };

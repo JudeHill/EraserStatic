@@ -3,6 +3,8 @@
 #include <functional>
 #include <iostream>
 #include <sstream>
+#include <format>
+static uint16_t graph_number = 0;
 
 template <typename T> std::string GraphVisualizer::pointerToString(T *ptr) {
   if (ptr == nullptr) {
@@ -43,8 +45,9 @@ void GraphVisualizer::visitNode(GraphNode *node) {
 
 void GraphVisualizer::visualizeGraph(StartNode *node) {
   visitNode(node);
-
-  std::ofstream file("graph.dot");
+  graph_number++;
+  std::string fileName = std::format("graph_{}.dot", graph_number);
+  std::ofstream file(fileName);
   if (!file.is_open()) {
     std::cerr << "Error: Unable to create DOT file!" << std::endl;
     return;
@@ -66,7 +69,7 @@ void GraphVisualizer::visualizeGraph(StartNode *node) {
   file << "}\n";
 
   file.close();
-  if (system("dot -Tpng graph.dot -o graph.png") == -1) {
+  if (system(std::format("dot -Tpng {} -o graph_{}.png", fileName, graph_number).c_str()) == -1) {
     std::cerr << "Error: Unable to create PNG file!" << std::endl;
   }
 }

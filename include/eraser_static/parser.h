@@ -2,11 +2,11 @@
 #include <string>
 #include <iostream>
 
-class Parser {
+class SmallParser {
     public:
         const std::string filepath;
         CXCursor ast;
-        Parser(std::string path);
+        SmallParser(std::string path);
 
         void Parse();
 

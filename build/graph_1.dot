@@ -1,0 +1,9 @@
+digraph G {
+  gfsgbyokkr [label="1 Function print_message"];
+  wvsgbyokkr [label="2 Call printf"];
+  kbtgbyokkr [label="3 Call pthread_exit"];
+  kjpgbyokkr [label="4 return"];
+  gfsgbyokkr -> wvsgbyokkr;
+  wvsgbyokkr -> kbtgbyokkr;
+  kbtgbyokkr -> kjpgbyokkr;
+}

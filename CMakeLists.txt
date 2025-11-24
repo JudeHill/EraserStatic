@@ -1,11 +1,36 @@
 cmake_minimum_required(VERSION 3.15)
 project(EraserStatic)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 # Your sources
 add_executable(eraser_static
   eraser_static/src/main.cpp
   eraser_static/src/parser.cpp
+  eraser_static/src/graph_visualizer.cpp
+  eraser_static/src/call_graph.cpp
+  eraser_static/src/file_includes.cpp
+  eraser_static/src/construction_environment.cpp
+  eraser_static/graph_nodes/src/basic_node.cpp
+  eraser_static/graph_nodes/src/break_node.cpp
+  eraser_static/graph_nodes/src/continue_node.cpp
+  eraser_static/graph_nodes/src/continue_return_node.cpp
+  eraser_static/graph_nodes/src/endif_node.cpp
+  eraser_static/graph_nodes/src/endwhile_node.cpp
+  eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp
+  eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp
+  eraser_static/graph_nodes/src/function_call_node.cpp
+  eraser_static/graph_nodes/src/graph_node.cpp
+  eraser_static/graph_nodes/src/if_node.cpp
+  eraser_static/graph_nodes/src/lock_node.cpp
+  eraser_static/graph_nodes/src/read_node.cpp
+  eraser_static/graph_nodes/src/return_node.cpp
+  eraser_static/graph_nodes/src/start_node.cpp
+  eraser_static/graph_nodes/src/startwhile_node.cpp
+  eraser_static/graph_nodes/src/thread_create_node.cpp
+  eraser_static/graph_nodes/src/thread_join_node.cpp
+  eraser_static/graph_nodes/src/unlock_node.cpp
+  eraser_static/graph_nodes/src/while_node.cpp
+  eraser_static/graph_nodes/src/write_node.cpp
 )
 
 # Your public headers (so #include "eraser_static/parser.h" works)

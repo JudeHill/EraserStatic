@@ -129,6 +129,606 @@ eraser_static/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/build
 .PHONY : eraser_static/fast
 
+eraser_static/graph_nodes/src/basic_node.o: eraser_static/graph_nodes/src/basic_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/basic_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/basic_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/basic_node.cpp.o
+
+eraser_static/graph_nodes/src/basic_node.i: eraser_static/graph_nodes/src/basic_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/basic_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/basic_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/basic_node.cpp.i
+
+eraser_static/graph_nodes/src/basic_node.s: eraser_static/graph_nodes/src/basic_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/basic_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/basic_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/basic_node.cpp.s
+
+eraser_static/graph_nodes/src/break_node.o: eraser_static/graph_nodes/src/break_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/break_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/break_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/break_node.cpp.o
+
+eraser_static/graph_nodes/src/break_node.i: eraser_static/graph_nodes/src/break_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/break_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/break_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/break_node.cpp.i
+
+eraser_static/graph_nodes/src/break_node.s: eraser_static/graph_nodes/src/break_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/break_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/break_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/break_node.cpp.s
+
+eraser_static/graph_nodes/src/continue_node.o: eraser_static/graph_nodes/src/continue_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/continue_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/continue_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/continue_node.cpp.o
+
+eraser_static/graph_nodes/src/continue_node.i: eraser_static/graph_nodes/src/continue_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/continue_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/continue_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/continue_node.cpp.i
+
+eraser_static/graph_nodes/src/continue_node.s: eraser_static/graph_nodes/src/continue_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/continue_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/continue_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/continue_node.cpp.s
+
+eraser_static/graph_nodes/src/continue_return_node.o: eraser_static/graph_nodes/src/continue_return_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/continue_return_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/continue_return_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/continue_return_node.cpp.o
+
+eraser_static/graph_nodes/src/continue_return_node.i: eraser_static/graph_nodes/src/continue_return_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/continue_return_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/continue_return_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/continue_return_node.cpp.i
+
+eraser_static/graph_nodes/src/continue_return_node.s: eraser_static/graph_nodes/src/continue_return_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/continue_return_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/continue_return_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/continue_return_node.cpp.s
+
+eraser_static/graph_nodes/src/endif_node.o: eraser_static/graph_nodes/src/endif_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/endif_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/endif_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/endif_node.cpp.o
+
+eraser_static/graph_nodes/src/endif_node.i: eraser_static/graph_nodes/src/endif_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/endif_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/endif_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/endif_node.cpp.i
+
+eraser_static/graph_nodes/src/endif_node.s: eraser_static/graph_nodes/src/endif_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/endif_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/endif_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/endif_node.cpp.s
+
+eraser_static/graph_nodes/src/endwhile_node.o: eraser_static/graph_nodes/src/endwhile_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/endwhile_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/endwhile_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/endwhile_node.cpp.o
+
+eraser_static/graph_nodes/src/endwhile_node.i: eraser_static/graph_nodes/src/endwhile_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/endwhile_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/endwhile_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/endwhile_node.cpp.i
+
+eraser_static/graph_nodes/src/endwhile_node.s: eraser_static/graph_nodes/src/endwhile_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/endwhile_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/endwhile_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/endwhile_node.cpp.s
+
+eraser_static/graph_nodes/src/eraser_ignore_off_node.o: eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/eraser_ignore_off_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.o
+
+eraser_static/graph_nodes/src/eraser_ignore_off_node.i: eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/eraser_ignore_off_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.i
+
+eraser_static/graph_nodes/src/eraser_ignore_off_node.s: eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/eraser_ignore_off_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.s
+
+eraser_static/graph_nodes/src/eraser_ignore_on_node.o: eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/eraser_ignore_on_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.o
+
+eraser_static/graph_nodes/src/eraser_ignore_on_node.i: eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/eraser_ignore_on_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.i
+
+eraser_static/graph_nodes/src/eraser_ignore_on_node.s: eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/eraser_ignore_on_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.s
+
+eraser_static/graph_nodes/src/function_call_node.o: eraser_static/graph_nodes/src/function_call_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/function_call_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/function_call_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/function_call_node.cpp.o
+
+eraser_static/graph_nodes/src/function_call_node.i: eraser_static/graph_nodes/src/function_call_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/function_call_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/function_call_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/function_call_node.cpp.i
+
+eraser_static/graph_nodes/src/function_call_node.s: eraser_static/graph_nodes/src/function_call_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/function_call_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/function_call_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/function_call_node.cpp.s
+
+eraser_static/graph_nodes/src/graph_node.o: eraser_static/graph_nodes/src/graph_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/graph_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/graph_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/graph_node.cpp.o
+
+eraser_static/graph_nodes/src/graph_node.i: eraser_static/graph_nodes/src/graph_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/graph_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/graph_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/graph_node.cpp.i
+
+eraser_static/graph_nodes/src/graph_node.s: eraser_static/graph_nodes/src/graph_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/graph_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/graph_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/graph_node.cpp.s
+
+eraser_static/graph_nodes/src/if_node.o: eraser_static/graph_nodes/src/if_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/if_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/if_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/if_node.cpp.o
+
+eraser_static/graph_nodes/src/if_node.i: eraser_static/graph_nodes/src/if_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/if_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/if_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/if_node.cpp.i
+
+eraser_static/graph_nodes/src/if_node.s: eraser_static/graph_nodes/src/if_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/if_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/if_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/if_node.cpp.s
+
+eraser_static/graph_nodes/src/lock_node.o: eraser_static/graph_nodes/src/lock_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/lock_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/lock_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/lock_node.cpp.o
+
+eraser_static/graph_nodes/src/lock_node.i: eraser_static/graph_nodes/src/lock_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/lock_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/lock_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/lock_node.cpp.i
+
+eraser_static/graph_nodes/src/lock_node.s: eraser_static/graph_nodes/src/lock_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/lock_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/lock_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/lock_node.cpp.s
+
+eraser_static/graph_nodes/src/read_node.o: eraser_static/graph_nodes/src/read_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/read_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/read_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/read_node.cpp.o
+
+eraser_static/graph_nodes/src/read_node.i: eraser_static/graph_nodes/src/read_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/read_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/read_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/read_node.cpp.i
+
+eraser_static/graph_nodes/src/read_node.s: eraser_static/graph_nodes/src/read_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/read_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/read_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/read_node.cpp.s
+
+eraser_static/graph_nodes/src/return_node.o: eraser_static/graph_nodes/src/return_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/return_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/return_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/return_node.cpp.o
+
+eraser_static/graph_nodes/src/return_node.i: eraser_static/graph_nodes/src/return_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/return_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/return_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/return_node.cpp.i
+
+eraser_static/graph_nodes/src/return_node.s: eraser_static/graph_nodes/src/return_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/return_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/return_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/return_node.cpp.s
+
+eraser_static/graph_nodes/src/start_node.o: eraser_static/graph_nodes/src/start_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/start_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/start_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/start_node.cpp.o
+
+eraser_static/graph_nodes/src/start_node.i: eraser_static/graph_nodes/src/start_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/start_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/start_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/start_node.cpp.i
+
+eraser_static/graph_nodes/src/start_node.s: eraser_static/graph_nodes/src/start_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/start_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/start_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/start_node.cpp.s
+
+eraser_static/graph_nodes/src/startwhile_node.o: eraser_static/graph_nodes/src/startwhile_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/startwhile_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/startwhile_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/startwhile_node.cpp.o
+
+eraser_static/graph_nodes/src/startwhile_node.i: eraser_static/graph_nodes/src/startwhile_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/startwhile_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/startwhile_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/startwhile_node.cpp.i
+
+eraser_static/graph_nodes/src/startwhile_node.s: eraser_static/graph_nodes/src/startwhile_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/startwhile_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/startwhile_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/startwhile_node.cpp.s
+
+eraser_static/graph_nodes/src/thread_create_node.o: eraser_static/graph_nodes/src/thread_create_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/thread_create_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/thread_create_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/thread_create_node.cpp.o
+
+eraser_static/graph_nodes/src/thread_create_node.i: eraser_static/graph_nodes/src/thread_create_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/thread_create_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/thread_create_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/thread_create_node.cpp.i
+
+eraser_static/graph_nodes/src/thread_create_node.s: eraser_static/graph_nodes/src/thread_create_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/thread_create_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/thread_create_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/thread_create_node.cpp.s
+
+eraser_static/graph_nodes/src/thread_join_node.o: eraser_static/graph_nodes/src/thread_join_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/thread_join_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/thread_join_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/thread_join_node.cpp.o
+
+eraser_static/graph_nodes/src/thread_join_node.i: eraser_static/graph_nodes/src/thread_join_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/thread_join_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/thread_join_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/thread_join_node.cpp.i
+
+eraser_static/graph_nodes/src/thread_join_node.s: eraser_static/graph_nodes/src/thread_join_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/thread_join_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/thread_join_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/thread_join_node.cpp.s
+
+eraser_static/graph_nodes/src/unlock_node.o: eraser_static/graph_nodes/src/unlock_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/unlock_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/unlock_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/unlock_node.cpp.o
+
+eraser_static/graph_nodes/src/unlock_node.i: eraser_static/graph_nodes/src/unlock_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/unlock_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/unlock_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/unlock_node.cpp.i
+
+eraser_static/graph_nodes/src/unlock_node.s: eraser_static/graph_nodes/src/unlock_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/unlock_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/unlock_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/unlock_node.cpp.s
+
+eraser_static/graph_nodes/src/while_node.o: eraser_static/graph_nodes/src/while_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/while_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/while_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/while_node.cpp.o
+
+eraser_static/graph_nodes/src/while_node.i: eraser_static/graph_nodes/src/while_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/while_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/while_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/while_node.cpp.i
+
+eraser_static/graph_nodes/src/while_node.s: eraser_static/graph_nodes/src/while_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/while_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/while_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/while_node.cpp.s
+
+eraser_static/graph_nodes/src/write_node.o: eraser_static/graph_nodes/src/write_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/write_node.o
+
+# target to build an object file
+eraser_static/graph_nodes/src/write_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.o
+.PHONY : eraser_static/graph_nodes/src/write_node.cpp.o
+
+eraser_static/graph_nodes/src/write_node.i: eraser_static/graph_nodes/src/write_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/write_node.i
+
+# target to preprocess a source file
+eraser_static/graph_nodes/src/write_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.i
+.PHONY : eraser_static/graph_nodes/src/write_node.cpp.i
+
+eraser_static/graph_nodes/src/write_node.s: eraser_static/graph_nodes/src/write_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/write_node.s
+
+# target to generate assembly for a file
+eraser_static/graph_nodes/src/write_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.s
+.PHONY : eraser_static/graph_nodes/src/write_node.cpp.s
+
+eraser_static/src/call_graph.o: eraser_static/src/call_graph.cpp.o
+.PHONY : eraser_static/src/call_graph.o
+
+# target to build an object file
+eraser_static/src/call_graph.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/call_graph.cpp.o
+.PHONY : eraser_static/src/call_graph.cpp.o
+
+eraser_static/src/call_graph.i: eraser_static/src/call_graph.cpp.i
+.PHONY : eraser_static/src/call_graph.i
+
+# target to preprocess a source file
+eraser_static/src/call_graph.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/call_graph.cpp.i
+.PHONY : eraser_static/src/call_graph.cpp.i
+
+eraser_static/src/call_graph.s: eraser_static/src/call_graph.cpp.s
+.PHONY : eraser_static/src/call_graph.s
+
+# target to generate assembly for a file
+eraser_static/src/call_graph.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/call_graph.cpp.s
+.PHONY : eraser_static/src/call_graph.cpp.s
+
+eraser_static/src/construction_environment.o: eraser_static/src/construction_environment.cpp.o
+.PHONY : eraser_static/src/construction_environment.o
+
+# target to build an object file
+eraser_static/src/construction_environment.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.o
+.PHONY : eraser_static/src/construction_environment.cpp.o
+
+eraser_static/src/construction_environment.i: eraser_static/src/construction_environment.cpp.i
+.PHONY : eraser_static/src/construction_environment.i
+
+# target to preprocess a source file
+eraser_static/src/construction_environment.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.i
+.PHONY : eraser_static/src/construction_environment.cpp.i
+
+eraser_static/src/construction_environment.s: eraser_static/src/construction_environment.cpp.s
+.PHONY : eraser_static/src/construction_environment.s
+
+# target to generate assembly for a file
+eraser_static/src/construction_environment.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.s
+.PHONY : eraser_static/src/construction_environment.cpp.s
+
+eraser_static/src/file_includes.o: eraser_static/src/file_includes.cpp.o
+.PHONY : eraser_static/src/file_includes.o
+
+# target to build an object file
+eraser_static/src/file_includes.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.o
+.PHONY : eraser_static/src/file_includes.cpp.o
+
+eraser_static/src/file_includes.i: eraser_static/src/file_includes.cpp.i
+.PHONY : eraser_static/src/file_includes.i
+
+# target to preprocess a source file
+eraser_static/src/file_includes.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.i
+.PHONY : eraser_static/src/file_includes.cpp.i
+
+eraser_static/src/file_includes.s: eraser_static/src/file_includes.cpp.s
+.PHONY : eraser_static/src/file_includes.s
+
+# target to generate assembly for a file
+eraser_static/src/file_includes.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.s
+.PHONY : eraser_static/src/file_includes.cpp.s
+
+eraser_static/src/graph_visualizer.o: eraser_static/src/graph_visualizer.cpp.o
+.PHONY : eraser_static/src/graph_visualizer.o
+
+# target to build an object file
+eraser_static/src/graph_visualizer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/graph_visualizer.cpp.o
+.PHONY : eraser_static/src/graph_visualizer.cpp.o
+
+eraser_static/src/graph_visualizer.i: eraser_static/src/graph_visualizer.cpp.i
+.PHONY : eraser_static/src/graph_visualizer.i
+
+# target to preprocess a source file
+eraser_static/src/graph_visualizer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/graph_visualizer.cpp.i
+.PHONY : eraser_static/src/graph_visualizer.cpp.i
+
+eraser_static/src/graph_visualizer.s: eraser_static/src/graph_visualizer.cpp.s
+.PHONY : eraser_static/src/graph_visualizer.s
+
+# target to generate assembly for a file
+eraser_static/src/graph_visualizer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/graph_visualizer.cpp.s
+.PHONY : eraser_static/src/graph_visualizer.cpp.s
+
 eraser_static/src/main.o: eraser_static/src/main.cpp.o
 .PHONY : eraser_static/src/main.o
 
@@ -186,6 +786,81 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... eraser_static"
+	@echo "... eraser_static/graph_nodes/src/basic_node.o"
+	@echo "... eraser_static/graph_nodes/src/basic_node.i"
+	@echo "... eraser_static/graph_nodes/src/basic_node.s"
+	@echo "... eraser_static/graph_nodes/src/break_node.o"
+	@echo "... eraser_static/graph_nodes/src/break_node.i"
+	@echo "... eraser_static/graph_nodes/src/break_node.s"
+	@echo "... eraser_static/graph_nodes/src/continue_node.o"
+	@echo "... eraser_static/graph_nodes/src/continue_node.i"
+	@echo "... eraser_static/graph_nodes/src/continue_node.s"
+	@echo "... eraser_static/graph_nodes/src/continue_return_node.o"
+	@echo "... eraser_static/graph_nodes/src/continue_return_node.i"
+	@echo "... eraser_static/graph_nodes/src/continue_return_node.s"
+	@echo "... eraser_static/graph_nodes/src/endif_node.o"
+	@echo "... eraser_static/graph_nodes/src/endif_node.i"
+	@echo "... eraser_static/graph_nodes/src/endif_node.s"
+	@echo "... eraser_static/graph_nodes/src/endwhile_node.o"
+	@echo "... eraser_static/graph_nodes/src/endwhile_node.i"
+	@echo "... eraser_static/graph_nodes/src/endwhile_node.s"
+	@echo "... eraser_static/graph_nodes/src/eraser_ignore_off_node.o"
+	@echo "... eraser_static/graph_nodes/src/eraser_ignore_off_node.i"
+	@echo "... eraser_static/graph_nodes/src/eraser_ignore_off_node.s"
+	@echo "... eraser_static/graph_nodes/src/eraser_ignore_on_node.o"
+	@echo "... eraser_static/graph_nodes/src/eraser_ignore_on_node.i"
+	@echo "... eraser_static/graph_nodes/src/eraser_ignore_on_node.s"
+	@echo "... eraser_static/graph_nodes/src/function_call_node.o"
+	@echo "... eraser_static/graph_nodes/src/function_call_node.i"
+	@echo "... eraser_static/graph_nodes/src/function_call_node.s"
+	@echo "... eraser_static/graph_nodes/src/graph_node.o"
+	@echo "... eraser_static/graph_nodes/src/graph_node.i"
+	@echo "... eraser_static/graph_nodes/src/graph_node.s"
+	@echo "... eraser_static/graph_nodes/src/if_node.o"
+	@echo "... eraser_static/graph_nodes/src/if_node.i"
+	@echo "... eraser_static/graph_nodes/src/if_node.s"
+	@echo "... eraser_static/graph_nodes/src/lock_node.o"
+	@echo "... eraser_static/graph_nodes/src/lock_node.i"
+	@echo "... eraser_static/graph_nodes/src/lock_node.s"
+	@echo "... eraser_static/graph_nodes/src/read_node.o"
+	@echo "... eraser_static/graph_nodes/src/read_node.i"
+	@echo "... eraser_static/graph_nodes/src/read_node.s"
+	@echo "... eraser_static/graph_nodes/src/return_node.o"
+	@echo "... eraser_static/graph_nodes/src/return_node.i"
+	@echo "... eraser_static/graph_nodes/src/return_node.s"
+	@echo "... eraser_static/graph_nodes/src/start_node.o"
+	@echo "... eraser_static/graph_nodes/src/start_node.i"
+	@echo "... eraser_static/graph_nodes/src/start_node.s"
+	@echo "... eraser_static/graph_nodes/src/startwhile_node.o"
+	@echo "... eraser_static/graph_nodes/src/startwhile_node.i"
+	@echo "... eraser_static/graph_nodes/src/startwhile_node.s"
+	@echo "... eraser_static/graph_nodes/src/thread_create_node.o"
+	@echo "... eraser_static/graph_nodes/src/thread_create_node.i"
+	@echo "... eraser_static/graph_nodes/src/thread_create_node.s"
+	@echo "... eraser_static/graph_nodes/src/thread_join_node.o"
+	@echo "... eraser_static/graph_nodes/src/thread_join_node.i"
+	@echo "... eraser_static/graph_nodes/src/thread_join_node.s"
+	@echo "... eraser_static/graph_nodes/src/unlock_node.o"
+	@echo "... eraser_static/graph_nodes/src/unlock_node.i"
+	@echo "... eraser_static/graph_nodes/src/unlock_node.s"
+	@echo "... eraser_static/graph_nodes/src/while_node.o"
+	@echo "... eraser_static/graph_nodes/src/while_node.i"
+	@echo "... eraser_static/graph_nodes/src/while_node.s"
+	@echo "... eraser_static/graph_nodes/src/write_node.o"
+	@echo "... eraser_static/graph_nodes/src/write_node.i"
+	@echo "... eraser_static/graph_nodes/src/write_node.s"
+	@echo "... eraser_static/src/call_graph.o"
+	@echo "... eraser_static/src/call_graph.i"
+	@echo "... eraser_static/src/call_graph.s"
+	@echo "... eraser_static/src/construction_environment.o"
+	@echo "... eraser_static/src/construction_environment.i"
+	@echo "... eraser_static/src/construction_environment.s"
+	@echo "... eraser_static/src/file_includes.o"
+	@echo "... eraser_static/src/file_includes.i"
+	@echo "... eraser_static/src/file_includes.s"
+	@echo "... eraser_static/src/graph_visualizer.o"
+	@echo "... eraser_static/src/graph_visualizer.i"
+	@echo "... eraser_static/src/graph_visualizer.s"
 	@echo "... eraser_static/src/main.o"
 	@echo "... eraser_static/src/main.i"
 	@echo "... eraser_static/src/main.s"

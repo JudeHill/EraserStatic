@@ -1,6 +1,7 @@
 // to be implemented
 #include <iostream>
-#include "include/eraser_static/parser.h"
+#include "parser.h"
+#include "graph_visualizer.h"
 
 int main(int argc, char* argv[]){
     if (argc != 2){
@@ -8,9 +9,15 @@ int main(int argc, char* argv[]){
         exit(-1);
     }
     std::string filename(argv[1]);
-    Parser parser(filename);
-    parser.Parse();
-    parser.dump_AST();
+    CallGraph *cg = new CallGraph();
+    FileIncludes *fi = new FileIncludes();
+    Parser parser(cg, fi);
+    
+    parser.parseFile(filename.c_str(), true);
+   
+    parser.visualizeCFG();
+    delete cg;
+    delete fi;
     return 0;
 
 }

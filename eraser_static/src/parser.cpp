@@ -1,4 +1,5 @@
 #include "parser.h"
+#include <graph_visualizer.h>
 
 static std::unordered_map<std::string, bool> funcMap = {};
 static std::vector<std::string> functions = {};
@@ -17,8 +18,8 @@ static bool eraserIgnoreOn = false;
 
 std::unordered_map<std::string, StartNode *> funcCfgs;
 
-Parser::Parser(CallGraph *callgraph, FileIncludes *fileIncludes):
-callGraph(callGraph), fileIncludes(fileIncludes)
+Parser::Parser(CallGraph *callGraph_, FileIncludes *fileIncludes_):
+callGraph(callGraph_), fileIncludes(fileIncludes_)
 {
   funcCfgs = {};
   environment = new ConstructionEnvironment();
@@ -349,6 +350,89 @@ void onNewScope() {
   }
 }
 
+void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd, CallGraph *callGraph) {
+  std::string caller = funcName;
+  std::string funcName = clang_getCString(clang_getCursorSpelling(cursor));
+  if (funcName == "EraserIgnoreOff") {
+    eraserIgnoreOn = false;
+    environment->onAdd(new EraserIgnoreOffNode());
+  } else if (funcName == "pthread_mutex_lock" ||
+    funcName == "pthread_mutex_unlock") {
+    std::string spelling = getNthArg(cursor, 1, true);
+    VariableInfo variableInfo = findVariableInfo(spelling);
+    if (isSharedVar(variableInfo)) {
+      std::string varName = getVariableName(spelling, cursor, variableInfo);
+      if (funcName == "pthread_mutex_lock") {
+        environment->onAdd(new LockNode(varName));
+      } else if (funcName == "pthread_mutex_unlock") {
+        environment->onAdd(new UnlockNode(varName));
+      }
+    }
+  } else if (funcName == "pthread_join") {
+    std::string spelling = getNthArg(cursor, 1);
+    VariableInfo variableInfo = findVariableInfo(spelling);
+    std::string varName = getVariableName(spelling, cursor, variableInfo);
+    bool global = isSharedVar(variableInfo);
+    if (varName != "") {
+      environment->onAdd(new ThreadJoinNode(varName, global));
+    }
+  } else if (!eraserIgnoreOn) {
+    if (funcName == "pthread_create") {
+      std::string called = getNthArg(cursor, 3);
+      if (called != "") {
+        std::string spelling = getNthArg(cursor, 1, true);
+        VariableInfo variableInfo = findVariableInfo(spelling);
+        std::string varName = getVariableName(spelling, cursor, variableInfo);
+        std::string funcName = getFuncName(cursor, called);
+        bool global = isSharedVar(variableInfo);
+        environment->onAdd(new ThreadCreateNode(funcName, varName, global));
+        if (global && varName != "") {
+          environment->onAdd(new WriteNode(varName));
+        }
+        if (updateCallGraph) {
+          callGraph->addEdge(caller, funcName, true);
+        }
+      }
+    } else if (funcName == "EraserIgnoreOn") {
+      eraserIgnoreOn = true;
+      environment->onAdd(new EraserIgnoreOnNode());
+    } else if (funcName != "pthread_cond_wait" && funcName != "pthread_cond_broadcast") {
+      funcName = getFuncName(cursor, funcName);
+      (*nodesToAdd).push_back(new FunctionCallNode(funcName));
+      if (updateCallGraph) {
+        callGraph->addEdge(caller, funcName, false);
+      }
+    }
+  }
+}
+
+CXChildVisitResult printVisitor(CXCursor cursor, CXCursor parent, CXClientData data) {
+  unsigned indent = *(unsigned*)data;
+  for (unsigned i = 0; i < indent; ++i) std::cout << "  ";
+
+  CXString kind = clang_getCursorKindSpelling(clang_getCursorKind(cursor));
+  CXString spelling = clang_getCursorSpelling(cursor);
+
+  std::cout << clang_getCString(kind) << ": " << clang_getCString(spelling) << std::endl;
+
+  clang_disposeString(kind);
+  clang_disposeString(spelling);
+
+  unsigned nextIndent = indent + 1;
+  clang_visitChildren(cursor, printVisitor, &nextIndent);
+  return CXChildVisit_Continue;
+}
+
+void Parser::dump_AST(CXCursor ast){
+  if (clang_Cursor_isNull(ast)){
+    std::cout << "Null cursor, exiting" << std::endl;
+    return;
+  }
+  std::cout << "Non-null cursor, dumping" << std::endl;
+  unsigned indent = 0;
+  clang_visitChildren((ast), printVisitor, &indent);
+}
+
 CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
                            CXClientData clientData) {
   
@@ -483,7 +567,7 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
   return CXChildVisit_Continue;
 }
 
-void Parser::parseFile(const char *fileName, bool fileChanged) {
+void Parser::parseFile(const char *fileName, bool fileChanged, bool verbose) {
   funcMap = {};
   functionDeclarations = {};
   scopeStack.clear();
@@ -507,6 +591,7 @@ void Parser::parseFile(const char *fileName, bool fileChanged) {
   }
 
   CXCursor cursor = clang_getTranslationUnitCursor(unit);
+  
 
   VisitorData initialData = {callGraph, 0, {}, LHS_NONE};
 
@@ -531,7 +616,9 @@ void Parser::parseFile(const char *fileName, bool fileChanged) {
         },
         this);
   }
-
+  if (verbose){
+    dump_AST(cursor);
+  }
   clang_disposeTranslationUnit(unit);
   clang_disposeIndex(index);
 }
@@ -565,58 +652,12 @@ Parser::~Parser() {
   }
 }
 
-void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd, CallGraph *callGraph) {
-  std::string caller = funcName;
-  std::string funcName = clang_getCString(clang_getCursorSpelling(cursor));
-  if (funcName == "EraserIgnoreOff") {
-    eraserIgnoreOn = false;
-    environment->onAdd(new EraserIgnoreOffNode());
-  } else if (funcName == "pthread_mutex_lock" ||
-    funcName == "pthread_mutex_unlock") {
-    std::string spelling = getNthArg(cursor, 1, true);
-    VariableInfo variableInfo = findVariableInfo(spelling);
-    if (isSharedVar(variableInfo)) {
-      std::string varName = getVariableName(spelling, cursor, variableInfo);
-      if (funcName == "pthread_mutex_lock") {
-        environment->onAdd(new LockNode(varName));
-      } else if (funcName == "pthread_mutex_unlock") {
-        environment->onAdd(new UnlockNode(varName));
-      }
-    }
-  } else if (funcName == "pthread_join") {
-    std::string spelling = getNthArg(cursor, 1);
-    VariableInfo variableInfo = findVariableInfo(spelling);
-    std::string varName = getVariableName(spelling, cursor, variableInfo);
-    bool global = isSharedVar(variableInfo);
-    if (varName != "") {
-      environment->onAdd(new ThreadJoinNode(varName, global));
-    }
-  } else if (!eraserIgnoreOn) {
-    if (funcName == "pthread_create") {
-      std::string called = getNthArg(cursor, 3);
-      if (called != "") {
-        std::string spelling = getNthArg(cursor, 1, true);
-        VariableInfo variableInfo = findVariableInfo(spelling);
-        std::string varName = getVariableName(spelling, cursor, variableInfo);
-        std::string funcName = getFuncName(cursor, called);
-        bool global = isSharedVar(variableInfo);
-        environment->onAdd(new ThreadCreateNode(funcName, varName, global));
-        if (global && varName != "") {
-          environment->onAdd(new WriteNode(varName));
-        }
-        if (updateCallGraph) {
-          callGraph->addEdge(caller, funcName, true);
-        }
-      }
-    } else if (funcName == "EraserIgnoreOn") {
-      eraserIgnoreOn = true;
-      environment->onAdd(new EraserIgnoreOnNode());
-    } else if (funcName != "pthread_cond_wait" && funcName != "pthread_cond_broadcast") {
-      funcName = getFuncName(cursor, funcName);
-      (*nodesToAdd).push_back(new FunctionCallNode(funcName));
-      if (updateCallGraph) {
-        callGraph->addEdge(caller, funcName, false);
-      }
-    }
+
+void Parser::visualizeCFG(){
+  GraphVisualizer *gv = new GraphVisualizer();
+  for (const auto& [_, node] : funcCfgs){
+    gv->visualizeGraph(node);
   }
+  
+  delete gv;
 }

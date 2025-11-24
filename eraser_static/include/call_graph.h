@@ -7,12 +7,13 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include "usings.h"
 
 class CallGraph {
 public:
   explicit CallGraph();
   virtual ~CallGraph() = default;
-  void addNode(std::string funcName, std::string fileName);
+  void addNode(std::string funcName, Filename fileName);
   void addEdge(std::string caller, std::string callee, bool onThread);
   std::vector<std::string>
   deltaLocksetOrdering(std::vector<std::string> functions);
@@ -26,7 +27,7 @@ public:
 private:
   struct FuncInfo{
     std::string funcname;
-    std::string filename;
+    Filename filename;
     bool stale;
     bool recently_changed;
     bool marked;
