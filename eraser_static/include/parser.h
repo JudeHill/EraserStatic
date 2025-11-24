@@ -49,6 +49,7 @@ struct VariableInfo {
 };
 
 struct VisitorData {
+  CallGraph *callGraph;
   unsigned int childIndex;
   std::vector<GraphNode *> nodesToAdd;
   LhsType lhsType;
@@ -68,9 +69,12 @@ public:
   virtual ~Parser();
 
   void parseFile(const char *fileName, bool fileChanged = false);
+  void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd);
+
   std::vector<std::string> getFunctions();
 
 private:
   FileIncludes *fileIncludes;
   std::string fileNameString;
+  CallGraph *callGraph;
 };

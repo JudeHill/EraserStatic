@@ -12,16 +12,15 @@ static bool ignoreNextCompound = false;
 static std::string funcName = "";
 static StartNode *startNode = nullptr;
 static ConstructionEnvironment *environment;
-static CallGraph *callGraph;
 static bool updateCallGraph;
 static bool eraserIgnoreOn = false;
 
 std::unordered_map<std::string, StartNode *> funcCfgs;
 
-Parser::Parser(CallGraph *callGraphPtr, FileIncludes *fileIncludesPtr) {
+Parser::Parser(CallGraph *callgraph, FileIncludes *fileIncludes):
+callGraph(callGraph), fileIncludes(fileIncludes)
+{
   funcCfgs = {};
-  callGraph = callGraphPtr;
-  fileIncludes = fileIncludesPtr;
   environment = new ConstructionEnvironment();
 }
 
@@ -188,7 +187,7 @@ std::string getFuncName(CXCursor cursor, std::string funcName) {
   return funcName;
 }
 
-void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd) {
+void Parser::handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd) {
   std::string caller = funcName;
   std::string funcName = clang_getCString(clang_getCursorSpelling(cursor));
   if (funcName == "EraserIgnoreOff") {
@@ -352,7 +351,10 @@ void onNewScope() {
 
 CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
                            CXClientData clientData) {
+  
   CXCursorKind cursorKind = clang_getCursorKind(cursor);
+  VisitorData *visitorData = reinterpret_cast<VisitorData *>(clientData);
+  CallGraph *callGraph = visitorData->callGraph;
 
   if (cursorKind == CXCursor_FunctionDecl) {
     ignoreNextCompound = true;
@@ -378,7 +380,7 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
     }
   }
 
-  VisitorData *visitorData = reinterpret_cast<VisitorData *>(clientData);
+  
   unsigned int childIndex = visitorData->childIndex;
   LhsType lhsType = visitorData->lhsType;
   LhsType nextLhsType = lhsType;
@@ -386,10 +388,10 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
     nextLhsType = assignmentOperatorType(cursor);
   }
 
-  VisitorData childData = {0, {}, nextLhsType};
+  VisitorData childData = {callGraph, 0, {}, nextLhsType};
   std::vector<GraphNode *> nodesToAddAfterChildren = {};
   if (cursorKind == CXCursor_CallExpr) {
-    handleFunctionCall(cursor, &childData.nodesToAdd);
+    handleFunctionCall(cursor, &childData.nodesToAdd, callGraph);
   } else if (cursorKind == CXCursor_VarDecl ||
              cursorKind == CXCursor_DeclRefExpr ||
              cursorKind == CXCursor_ParmDecl) {
@@ -506,7 +508,7 @@ void Parser::parseFile(const char *fileName, bool fileChanged) {
 
   CXCursor cursor = clang_getTranslationUnitCursor(unit);
 
-  VisitorData initialData = {0, {}, LHS_NONE};
+  VisitorData initialData = {callGraph, 0, {}, LHS_NONE};
 
   clang_visitChildren(cursor, visitor, &initialData);
 
@@ -560,5 +562,61 @@ Parser::~Parser() {
   delete environment;
   for (auto it = funcCfgs.begin(); it != funcCfgs.end(); ++it) {
     deallocateCFG(it->second);
+  }
+}
+
+void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd, CallGraph *callGraph) {
+  std::string caller = funcName;
+  std::string funcName = clang_getCString(clang_getCursorSpelling(cursor));
+  if (funcName == "EraserIgnoreOff") {
+    eraserIgnoreOn = false;
+    environment->onAdd(new EraserIgnoreOffNode());
+  } else if (funcName == "pthread_mutex_lock" ||
+    funcName == "pthread_mutex_unlock") {
+    std::string spelling = getNthArg(cursor, 1, true);
+    VariableInfo variableInfo = findVariableInfo(spelling);
+    if (isSharedVar(variableInfo)) {
+      std::string varName = getVariableName(spelling, cursor, variableInfo);
+      if (funcName == "pthread_mutex_lock") {
+        environment->onAdd(new LockNode(varName));
+      } else if (funcName == "pthread_mutex_unlock") {
+        environment->onAdd(new UnlockNode(varName));
+      }
+    }
+  } else if (funcName == "pthread_join") {
+    std::string spelling = getNthArg(cursor, 1);
+    VariableInfo variableInfo = findVariableInfo(spelling);
+    std::string varName = getVariableName(spelling, cursor, variableInfo);
+    bool global = isSharedVar(variableInfo);
+    if (varName != "") {
+      environment->onAdd(new ThreadJoinNode(varName, global));
+    }
+  } else if (!eraserIgnoreOn) {
+    if (funcName == "pthread_create") {
+      std::string called = getNthArg(cursor, 3);
+      if (called != "") {
+        std::string spelling = getNthArg(cursor, 1, true);
+        VariableInfo variableInfo = findVariableInfo(spelling);
+        std::string varName = getVariableName(spelling, cursor, variableInfo);
+        std::string funcName = getFuncName(cursor, called);
+        bool global = isSharedVar(variableInfo);
+        environment->onAdd(new ThreadCreateNode(funcName, varName, global));
+        if (global && varName != "") {
+          environment->onAdd(new WriteNode(varName));
+        }
+        if (updateCallGraph) {
+          callGraph->addEdge(caller, funcName, true);
+        }
+      }
+    } else if (funcName == "EraserIgnoreOn") {
+      eraserIgnoreOn = true;
+      environment->onAdd(new EraserIgnoreOnNode());
+    } else if (funcName != "pthread_cond_wait" && funcName != "pthread_cond_broadcast") {
+      funcName = getFuncName(cursor, funcName);
+      (*nodesToAdd).push_back(new FunctionCallNode(funcName));
+      if (updateCallGraph) {
+        callGraph->addEdge(caller, funcName, false);
+      }
+    }
   }
 }
