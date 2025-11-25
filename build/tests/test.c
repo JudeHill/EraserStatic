@@ -5,21 +5,38 @@
 // Number of threads
 #define NUM_THREADS 4
 
+struct shared_data {
+    int value;
+    pthread_mutex_t lock;
+};
+
+int global = 0;
+pthread_mutex_t global_lock;
 // Function executed by each thread
-void* print_message(void* thread_id) {
-    long tid = (long) thread_id;
-    printf("Hello from thread %ld!\n", tid);
-    pthread_exit(NULL);
+void* print_message(void* arg) {
+    struct shared_data *data = (struct shared_data *) arg;
+    pthread_mutex_lock(&data->lock);
+    pthread_mutex_lock(&global_lock);
+    global = 5 + global;
+    (data->value) += 1;
+    printf("Updated value to %i\n", data->value);
+    pthread_mutex_unlock(&global_lock);
+    pthread_mutex_unlock(&data->lock);
+    
 }
+
 
 int main() {
     pthread_t threads[NUM_THREADS];
     int rc;
     long t;
+    struct shared_data data = { .value = 0};
+    pthread_mutex_init(&data.lock, NULL);
+    pthread_mutex_init(&global_lock, NULL);
 
     for (t = 0; t < NUM_THREADS; t++) {
         printf("Creating thread %ld\n", t);
-        rc = pthread_create(&threads[t], NULL, print_message, (void*) t);
+        rc = pthread_create(&threads[t], NULL, print_message, (void*) &data);
         if (rc) {
             fprintf(stderr, "Error: unable to create thread, %d\n", rc);
             exit(EXIT_FAILURE);
@@ -30,7 +47,7 @@ int main() {
     for (t = 0; t < NUM_THREADS; t++) {
         pthread_join(threads[t], NULL);
     }
-
+    pthread_mutex_destroy(&data.lock);
     printf("All threads completed.\n");
     pthread_exit(NULL);
 }

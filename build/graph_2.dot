@@ -1,12 +1,22 @@
 digraph G {
-  gfsgbyokkr [label="1 Function print_message"];
-  wvsgbyokkr [label="2 Call printf"];
-  kbtgbyokkr [label="3 Call pthread_exit"];
-  kjpgbyokkr [label="4 return"];
-  odbcbyokkr [label="1 Function /usr/include/x86_64-linux-gnu/bits/uintn-identity.h __uint64_identity"];
-  iaccbyokkr [label="2 return"];
-  gfsgbyokkr -> wvsgbyokkr;
-  wvsgbyokkr -> kbtgbyokkr;
-  kbtgbyokkr -> kjpgbyokkr;
-  odbcbyokkr -> iaccbyokkr;
+  aiacqcbtir [label="1 Function print_message"];
+  wracqcbtir [label="2 Lock "];
+  ewacqcbtir [label="3 Lock global_lock"];
+  ghbcqcbtir [label="4 Read global"];
+  eebcqcbtir [label="5 Write global"];
+  olbcqcbtir [label="6 Call printf"];
+  isbcqcbtir [label="7 Unlock global_lock"];
+  iaccqcbtir [label="8 Unlock "];
+  kxwbqcbtir [label="9 return"];
+  orixpcbtir [label="1 Function /usr/include/x86_64-linux-gnu/bits/uintn-identity.h __uint64_identity"];
+  iojxpcbtir [label="2 return"];
+  aiacqcbtir -> wracqcbtir;
+  wracqcbtir -> ewacqcbtir;
+  ewacqcbtir -> ghbcqcbtir;
+  ghbcqcbtir -> eebcqcbtir;
+  eebcqcbtir -> olbcqcbtir;
+  olbcqcbtir -> isbcqcbtir;
+  isbcqcbtir -> iaccqcbtir;
+  iaccqcbtir -> kxwbqcbtir;
+  orixpcbtir -> iojxpcbtir;
 }
