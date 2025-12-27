@@ -3,7 +3,7 @@
 #include <pthread.h>
 
 // Number of threads
-#define NUM_THREADS 4
+#define NUM_THREADS 1000
 
 struct shared_data {
     int value;
@@ -15,7 +15,7 @@ pthread_mutex_t global_lock;
 // Function executed by each thread
 void* print_message(void* arg) {
     pthread_mutex_lock(&global_lock);
-    global = 5 + global;
+    global++;
     printf("Incremented global to %d\n", global);
     pthread_mutex_unlock(&global_lock);
 

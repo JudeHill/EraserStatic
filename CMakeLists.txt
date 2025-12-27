@@ -1,3 +1,7 @@
+# COMMANDS:
+# cmake --build .
+# cmake
+
 cmake_minimum_required(VERSION 3.15)
 project(EraserStatic)
 set(CMAKE_CXX_STANDARD 20)
@@ -56,5 +60,7 @@ set_target_properties(eraser_static PROPERTIES
 if (MSVC)
   target_compile_options(eraser_static PRIVATE /W4 /EHsc)
 else()
-  target_compile_options(eraser_static PRIVATE -Wall -Wextra -Wpedantic)
+target_compile_options(eraser_static PRIVATE
+$<$<COMPILE_LANGUAGE:CXX>:-Wall -Wextra -Wpedantic -Werror>
+)
 endif()

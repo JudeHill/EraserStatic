@@ -74,7 +74,7 @@ public:
   void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd);
   void visualizeCFG();
   std::vector<std::string> getFunctions();
-  FuncNodeMap Parser::getFunctionCfgs();
+  FuncNodeMap getFunctionCfgs();
 
 
 private:
