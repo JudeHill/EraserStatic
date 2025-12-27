@@ -1,0 +1,43 @@
+#pragma once
+#include "basic_node.h"
+#include "lock_node.h"
+#include "function_call_node.h"
+#include "start_node.h"
+#include "if_node.h"
+#include "while_node.h"
+#include "startwhile_node.h"
+#include "continue_node.h"
+#include "continue_return_node.h"
+#include "read_node.h"
+#include "write_node.h"
+#include "unlock_node.h"
+#include <unordered_set>
+#include <unordered_map>
+#include <format>
+#include <memory>
+
+enum VarStatus {
+    VIRGIN,
+    EXCLUSIVE,
+    SHARED,
+    SHARED_MODIFIED,
+
+};
+
+
+
+using LockName = std::string;
+using FuncName = std::string;
+using LockSet = std::unordered_set<LockName>;
+
+struct Var {
+    std::string var_name;
+    u_int32_t init_thread;
+    VarStatus status;
+    LockSet lockset;
+};
+
+struct DataRace {
+    std::string var_name;
+    GraphNode* node;
+};
