@@ -9,6 +9,7 @@
 #include "continue_node.h"
 #include "continue_return_node.h"
 #include "read_node.h"
+#include "parser.h"
 #include "write_node.h"
 #include "unlock_node.h"
 #include <unordered_set>
@@ -40,4 +41,19 @@ struct Var {
 struct DataRace {
     std::string var_name;
     GraphNode* node;
+};
+
+class Eraser {
+    private:
+        FuncNodeMap start_nodes; 
+        std::vector<DataRace> data_races; 
+        std::unordered_map<std::string, std::unique_ptr<Var>> vars;
+        LockSet visit(GraphNode *node, LockSet lockset);
+        bool handle_read(LockName var_name, const LockSet lockset);
+        bool handle_write(LockName var_name, const LockSet lockset);
+    public:
+        Eraser(){};
+        std::vector<DataRace> compute_data_races(FuncNodeMap func_map, FuncName main_name = "main");
+
+
 };

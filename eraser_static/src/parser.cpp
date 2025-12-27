@@ -25,6 +25,10 @@ callGraph(callGraph_), fileIncludes(fileIncludes_)
   environment = new ConstructionEnvironment();
 }
 
+FuncNodeMap Parser::getFunctionCfgs(){
+  return funcCfgs;
+}
+
 std::string getCursorFilename(CXCursor cursor) {
   CXSourceLocation location = clang_getCursorLocation(cursor);
 

@@ -48,6 +48,8 @@ struct VariableInfo {
   bool isAtomic;
 };
 
+using FuncNodeMap = std::unordered_map<std::string, StartNode*>;
+
 struct VisitorData {
   CallGraph *callGraph;
   unsigned int childIndex;
@@ -72,6 +74,7 @@ public:
   void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd);
   void visualizeCFG();
   std::vector<std::string> getFunctions();
+  FuncNodeMap Parser::getFunctionCfgs();
 
 
 private:

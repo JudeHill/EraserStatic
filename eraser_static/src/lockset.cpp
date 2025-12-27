@@ -1,9 +1,8 @@
 #include "lockset.h"
 
-static std::unordered_map<FuncName, StartNode*> start_nodes; 
-static std::vector<DataRace> data_races;
 
-LockSet visit(GraphNode *node, LockSet lockset){
+
+LockSet Eraser::visit(GraphNode *node, LockSet lockset){
     if (node == nullptr){
         return lockset;
     }
@@ -110,9 +109,7 @@ LockSet visit(GraphNode *node, LockSet lockset){
 }
 
 
-static std::unordered_map<std::string, std::unique_ptr<Var>> vars;
-
-bool handle_read(LockName var_name, const LockSet lockset){
+bool Eraser::handle_read(LockName var_name, const LockSet lockset){
     // TODO
     if (!vars.contains(var_name)){
         throw std::logic_error(std::format("Attempted read to unrecognised variable name {}", var_name));
@@ -133,7 +130,7 @@ bool handle_read(LockName var_name, const LockSet lockset){
 
 }
 
-bool handle_write(LockName var_name, const LockSet lockset){
+bool Eraser::handle_write(LockName var_name, const LockSet lockset){
     // handle init
     if (!vars.contains(var_name)){
         vars[var_name] = std::make_unique<Var>(Var{
@@ -157,6 +154,12 @@ bool handle_write(LockName var_name, const LockSet lockset){
         return true;
     }
     return false;
+}
 
-
+std::vector<DataRace> Eraser::compute_data_races(FuncNodeMap func_map, FuncName main_name){
+    data_races.clear();
+    start_nodes = func_map;
+    StartNode* start_node = func_map[main_name];
+    visit(start_node, LockSet());
+    return data_races;
 }
