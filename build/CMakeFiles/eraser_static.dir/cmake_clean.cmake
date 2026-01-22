@@ -49,6 +49,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.o.d"
   "CMakeFiles/eraser_static.dir/eraser_static/src/graph_visualizer.cpp.o"
   "CMakeFiles/eraser_static.dir/eraser_static/src/graph_visualizer.cpp.o.d"
+  "CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.o"
+  "CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.o.d"
   "CMakeFiles/eraser_static.dir/eraser_static/src/main.cpp.o"
   "CMakeFiles/eraser_static.dir/eraser_static/src/main.cpp.o.d"
   "CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o"

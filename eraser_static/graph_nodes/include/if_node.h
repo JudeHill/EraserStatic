@@ -10,6 +10,7 @@ public:
   explicit IfNode();
   virtual ~IfNode();
   GraphNode *getNextNode();
+  GraphNode *getDefaultNextNode();
   void add(GraphNode *node);
   std::string getPrintableName();
 

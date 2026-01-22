@@ -11,6 +11,7 @@ public:
   explicit WhileNode();
   virtual ~WhileNode();
   GraphNode *getNextNode();
+  GraphNode *getDefaultNextNode();
   void add(GraphNode *node);
   void add(EndwhileNode *node);
   std::string getPrintableName();

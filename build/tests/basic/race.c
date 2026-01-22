@@ -14,12 +14,8 @@ int global = 0;
 pthread_mutex_t global_lock;
 // Function executed by each thread
 void* print_message(void* arg) {
-    pthread_mutex_lock(&global_lock);
     global++;
-    printf("Incremented global to %d\n", global);
-    pthread_mutex_unlock(&global_lock);
-
-    
+  
 }
 
 

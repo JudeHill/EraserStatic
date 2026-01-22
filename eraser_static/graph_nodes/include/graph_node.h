@@ -14,6 +14,8 @@ public:
 
   virtual void add(GraphNode *node) = 0;
   virtual GraphNode *getNextNode() = 0;
+  virtual GraphNode* getDefaultNextNode() = 0;
+
   virtual std::string getPrintableName() = 0;
 
   std::string getPrintableNameWithId();

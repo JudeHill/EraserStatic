@@ -12,6 +12,10 @@ GraphNode *BasicNode::getNextNode() {
   return nullptr;
 }
 
+GraphNode *BasicNode::getDefaultNextNode(){
+  return next;
+}
+
 void BasicNode::add(GraphNode *node) { next = node; }
 
 std::vector<GraphNode *> BasicNode::getNextNodes() {

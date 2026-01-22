@@ -14,6 +14,10 @@ GraphNode *WhileNode::getNextNode() {
   }
 }
 
+GraphNode *WhileNode::getDefaultNextNode() {
+  return endWhile;
+}
+
 void WhileNode::add(GraphNode *node) { whileNode = node; }
 
 void WhileNode::add(EndwhileNode *node) { endWhile = node; }

@@ -729,6 +729,30 @@ eraser_static/src/graph_visualizer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/graph_visualizer.cpp.s
 .PHONY : eraser_static/src/graph_visualizer.cpp.s
 
+eraser_static/src/lockset.o: eraser_static/src/lockset.cpp.o
+.PHONY : eraser_static/src/lockset.o
+
+# target to build an object file
+eraser_static/src/lockset.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.o
+.PHONY : eraser_static/src/lockset.cpp.o
+
+eraser_static/src/lockset.i: eraser_static/src/lockset.cpp.i
+.PHONY : eraser_static/src/lockset.i
+
+# target to preprocess a source file
+eraser_static/src/lockset.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.i
+.PHONY : eraser_static/src/lockset.cpp.i
+
+eraser_static/src/lockset.s: eraser_static/src/lockset.cpp.s
+.PHONY : eraser_static/src/lockset.s
+
+# target to generate assembly for a file
+eraser_static/src/lockset.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/eraser_static.dir/build.make CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.s
+.PHONY : eraser_static/src/lockset.cpp.s
+
 eraser_static/src/main.o: eraser_static/src/main.cpp.o
 .PHONY : eraser_static/src/main.o
 
@@ -861,6 +885,9 @@ help:
 	@echo "... eraser_static/src/graph_visualizer.o"
 	@echo "... eraser_static/src/graph_visualizer.i"
 	@echo "... eraser_static/src/graph_visualizer.s"
+	@echo "... eraser_static/src/lockset.o"
+	@echo "... eraser_static/src/lockset.i"
+	@echo "... eraser_static/src/lockset.s"
 	@echo "... eraser_static/src/main.o"
 	@echo "... eraser_static/src/main.i"
 	@echo "... eraser_static/src/main.s"

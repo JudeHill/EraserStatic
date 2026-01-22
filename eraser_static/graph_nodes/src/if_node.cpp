@@ -13,6 +13,10 @@ GraphNode *IfNode::getNextNode() {
   return nullptr;
 }
 
+GraphNode *IfNode::getDefaultNextNode() {
+  return ifNode;
+}
+
 void IfNode::add(GraphNode *node) {
   if (hasElse) {
     elseNode = node;

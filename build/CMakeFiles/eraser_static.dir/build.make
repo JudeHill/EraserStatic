@@ -125,10 +125,24 @@ CMakeFiles/eraser_static.dir/eraser_static/src/call_graph.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/eraser_static.dir/eraser_static/src/call_graph.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jude/EraserStatic/eraser_static/src/call_graph.cpp -o CMakeFiles/eraser_static.dir/eraser_static/src/call_graph.cpp.s
 
+CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.o: CMakeFiles/eraser_static.dir/flags.make
+CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.o: /home/jude/EraserStatic/eraser_static/src/lockset.cpp
+CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.o -c /home/jude/EraserStatic/eraser_static/src/lockset.cpp
+
+CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jude/EraserStatic/eraser_static/src/lockset.cpp > CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.i
+
+CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jude/EraserStatic/eraser_static/src/lockset.cpp -o CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.s
+
 CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.o: /home/jude/EraserStatic/eraser_static/src/file_includes.cpp
 CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.o -c /home/jude/EraserStatic/eraser_static/src/file_includes.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.i: cmake_force
@@ -142,7 +156,7 @@ CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.s: cmake_force
 CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.o: /home/jude/EraserStatic/eraser_static/src/construction_environment.cpp
 CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.o -c /home/jude/EraserStatic/eraser_static/src/construction_environment.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.i: cmake_force
@@ -156,7 +170,7 @@ CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.s: c
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/basic_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/basic_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.i: cmake_force
@@ -170,7 +184,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.s: cma
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/break_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/break_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.i: cmake_force
@@ -184,7 +198,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.s: cma
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/continue_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/continue_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.i: cmake_force
@@ -198,7 +212,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.s: 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/continue_return_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/continue_return_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.cpp.i: cmake_force
@@ -212,7 +226,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/endif_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/endif_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.i: cmake_force
@@ -226,7 +240,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.s: cma
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/endwhile_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/endwhile_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.i: cmake_force
@@ -240,7 +254,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.s: 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.i: cmake_force
@@ -254,7 +268,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.i: cmake_force
@@ -268,7 +282,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_nod
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/function_call_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/function_call_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cpp.i: cmake_force
@@ -282,7 +296,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/graph_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/graph_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.i: cmake_force
@@ -296,7 +310,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.s: cma
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/if_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/if_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.i: cmake_force
@@ -310,7 +324,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.s: cmake_
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/lock_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/lock_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.i: cmake_force
@@ -324,7 +338,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.s: cmak
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/read_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/read_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.i: cmake_force
@@ -338,7 +352,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.s: cmak
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/return_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/return_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.i: cmake_force
@@ -352,7 +366,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.s: cm
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/start_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/start_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.i: cmake_force
@@ -366,7 +380,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.s: cma
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/startwhile_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/startwhile_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.i: cmake_force
@@ -380,7 +394,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.s
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/thread_create_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/thread_create_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cpp.i: cmake_force
@@ -394,7 +408,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/thread_join_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/thread_join_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.i: cmake_force
@@ -408,7 +422,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/unlock_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/unlock_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.i: cmake_force
@@ -422,7 +436,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.s: cm
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/while_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/while_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.i: cmake_force
@@ -436,7 +450,7 @@ CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.s: cma
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.o: CMakeFiles/eraser_static.dir/flags.make
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.o: /home/jude/EraserStatic/eraser_static/graph_nodes/src/write_node.cpp
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.o: CMakeFiles/eraser_static.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.o -MF CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.o.d -o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.o -c /home/jude/EraserStatic/eraser_static/graph_nodes/src/write_node.cpp
 
 CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.i: cmake_force
@@ -453,6 +467,7 @@ eraser_static_OBJECTS = \
 "CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o" \
 "CMakeFiles/eraser_static.dir/eraser_static/src/graph_visualizer.cpp.o" \
 "CMakeFiles/eraser_static.dir/eraser_static/src/call_graph.cpp.o" \
+"CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.o" \
 "CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.o" \
 "CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.o" \
 "CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.o" \
@@ -484,6 +499,7 @@ eraser_static: CMakeFiles/eraser_static.dir/eraser_static/src/main.cpp.o
 eraser_static: CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o
 eraser_static: CMakeFiles/eraser_static.dir/eraser_static/src/graph_visualizer.cpp.o
 eraser_static: CMakeFiles/eraser_static.dir/eraser_static/src/call_graph.cpp.o
+eraser_static: CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.o
 eraser_static: CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.o
 eraser_static: CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.o
 eraser_static: CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.o
@@ -510,7 +526,7 @@ eraser_static: CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_
 eraser_static: CMakeFiles/eraser_static.dir/build.make
 eraser_static: /usr/lib/llvm-18/lib/libclang.so
 eraser_static: CMakeFiles/eraser_static.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Linking CXX executable eraser_static"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/jude/EraserStatic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Linking CXX executable eraser_static"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/eraser_static.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

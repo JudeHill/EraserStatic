@@ -17,6 +17,8 @@
 #include <format>
 #include <memory>
 
+
+
 enum VarStatus {
     VIRGIN,
     EXCLUSIVE,
@@ -33,7 +35,7 @@ using LockSet = std::unordered_set<LockName>;
 
 struct Var {
     std::string var_name;
-    u_int32_t init_thread;
+    // u_int32_t init_thread;
     VarStatus status;
     LockSet lockset;
 };
@@ -53,7 +55,7 @@ class Eraser {
         bool handle_write(LockName var_name, const LockSet lockset);
     public:
         Eraser(){};
-        std::vector<DataRace> compute_data_races(FuncNodeMap func_map, FuncName main_name = "main");
+        std::vector<DataRace> compute_data_races(FuncNodeMap func_map, FuncName main_name = "main", bool debug_logging = false);
 
 
 };

@@ -14,8 +14,12 @@ int global = 0;
 pthread_mutex_t global_lock;
 // Function executed by each thread
 void* print_message(void* arg) {
+    pthread_mutex_lock(&global_lock);
     global++;
-    printf("Incremented global to %i\n", global);
+    printf("Incremented global to %d\n", global);
+    pthread_mutex_unlock(&global_lock);
+
+    
 }
 
 
@@ -26,6 +30,7 @@ int main() {
     struct shared_data data = { .value = 0};
     pthread_mutex_init(&data.lock, NULL);
     pthread_mutex_init(&global_lock, NULL);
+    global++;
 
     for (t = 0; t < NUM_THREADS; t++) {
         printf("Creating thread %ld\n", t);

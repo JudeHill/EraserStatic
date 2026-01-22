@@ -7,8 +7,9 @@ public:
 
   explicit BasicNode(NodeType type);
   virtual ~BasicNode();
-
+  GraphNode *getDefaultNextNode();
   GraphNode *getNextNode();
+
   void add(GraphNode *node);
 
   std::vector<GraphNode *> getNextNodes();

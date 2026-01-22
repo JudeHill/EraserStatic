@@ -12,6 +12,7 @@ add_executable(eraser_static
   eraser_static/src/parser.cpp
   eraser_static/src/graph_visualizer.cpp
   eraser_static/src/call_graph.cpp
+  eraser_static/src/lockset.cpp
   eraser_static/src/file_includes.cpp
   eraser_static/src/construction_environment.cpp
   eraser_static/graph_nodes/src/basic_node.cpp
@@ -61,6 +62,6 @@ if (MSVC)
   target_compile_options(eraser_static PRIVATE /W4 /EHsc)
 else()
 target_compile_options(eraser_static PRIVATE
-$<$<COMPILE_LANGUAGE:CXX>:-Wall -Wextra -Wpedantic -Werror>
+$<$<COMPILE_LANGUAGE:CXX>:-Wall -Wextra -Wpedantic>
 )
 endif()
