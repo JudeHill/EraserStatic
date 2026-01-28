@@ -72,26 +72,9 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset){
                     it++;
                 }
             }
-            GraphNode* v = if_node;
-            int count_nested_if = 1;
-            while (count_nested_if > 0){
-                if (v->type == ENDIF){
-                    count_nested_if--;
-                    if (count_nested_if == 0){
-                        break;
-                    }
-                }
-                if (v->type == IF){
-                    count_nested_if++;
-                    IfNode* new_if = static_cast<IfNode*>(v);
-                    v = new_if->ifNode;
-                } else {
-                    v = v->getDefaultNextNode();
-                }
-                
-            }
+            EndifNode* end_if = ifnode->endIf;
             // assert v is now the end_if corresponding to the original if
-            return visit(v->getDefaultNextNode(), if_lockset);
+            return visit(end_if->getDefaultNextNode(), if_lockset);
             
 
             

@@ -51,196 +51,196 @@ build cmake_object_order_depends_target_eraser_static: phony || CMakeFiles/erase
 
 build CMakeFiles/eraser_static.dir/eraser_static/src/main.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/src/main.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/src/main.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/src/parser.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/src/graph_visualizer.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/src/graph_visualizer.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/src/graph_visualizer.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/src/call_graph.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/src/call_graph.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/src/call_graph.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/src/lockset.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/src/file_includes.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/src/construction_environment.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/basic_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/break_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/continue_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/continue_return_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/endif_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/endwhile_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/function_call_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/graph_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/if_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/lock_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/read_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/return_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/start_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/startwhile_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/thread_create_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/thread_join_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/unlock_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/while_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/write_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.o.d
-  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
   INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src

@@ -1,5 +1,5 @@
 #include "parser.h"
-#include <graph_visualizer.h>
+
 
 static std::unordered_map<std::string, bool> funcMap = {};
 static std::vector<std::string> functions = {};
@@ -12,11 +12,22 @@ static int scopeDepth = 0;
 static bool ignoreNextCompound = false;
 static std::string funcName = "";
 static StartNode *startNode = nullptr;
+static std::string startNodeFuncName;
 static ConstructionEnvironment *environment;
 static bool updateCallGraph;
 static bool eraserIgnoreOn = false;
+static std::vector<IfNode*> if_stack;
 
 std::unordered_map<std::string, StartNode *> funcCfgs;
+
+struct ForChildInfo {
+  bool sawBody = false;
+  bool emittedIter = false;
+  // optional: track whether we saw any init/cond already
+};
+
+static std::vector<ForChildInfo> forStack;
+
 
 Parser::Parser(CallGraph *callGraph_, FileIncludes *fileIncludes_):
 callGraph(callGraph_), fileIncludes(fileIncludes_)
@@ -344,6 +355,121 @@ BranchType getBranchType(CXCursor cursor, CXCursor parent,
   return BRANCH_NONE;
 }
 
+static bool isStmtLike(CXCursorKind k) {
+  switch (k) {
+    case CXCursor_CompoundStmt:
+    case CXCursor_IfStmt:
+    case CXCursor_ForStmt:
+    case CXCursor_WhileStmt:
+    case CXCursor_DoStmt:
+    case CXCursor_SwitchStmt:
+    case CXCursor_ReturnStmt:
+    case CXCursor_BreakStmt:
+    case CXCursor_ContinueStmt:
+    case CXCursor_GotoStmt:
+    case CXCursor_LabelStmt:
+    case CXCursor_CaseStmt:
+    case CXCursor_DefaultStmt:
+    case CXCursor_NullStmt:
+      return true;
+    default:
+      return false;
+  }
+}
+
+BranchType getBranchTypeGPT(CXCursor cursor, CXCursor parent,
+  unsigned int childIndex) {
+CXCursorKind cursorKind = clang_getCursorKind(cursor);
+CXCursorKind parentKind = clang_getCursorKind(parent);
+
+if (parentKind == CXCursor_IfStmt ||
+parentKind == CXCursor_ConditionalOperator) {
+if (childIndex == 1) {
+return BRANCH_IF;
+} else if (childIndex == 2 && cursorKind == CXCursor_IfStmt) {
+return BRANCH_ELSE_IF;
+} else if (childIndex == 2) {
+return BRANCH_ELSE;
+}
+} else if (parentKind == CXCursor_WhileStmt) {
+if (childIndex == 0) {
+return BRANCH_STARTWHILE;
+} else if (childIndex == 1) {
+return BRANCH_WHILE;
+}
+} else if (parentKind == CXCursor_DoStmt) {
+if (childIndex == 0) {
+return BRANCH_DO_WHILE_START;
+} else if (childIndex == 1) {
+return BRANCH_DO_WHILE_COND;
+}
+} else if (parentKind == CXCursor_ForStmt) {
+
+ForChildInfo &info = forStack.back();
+unsigned int count_children = getCachedChildCount(parent);
+// BIG assumption: 
+// We assume all for loops are either: for(;;){body}
+// or for(;cond;) {body}, or for(;cond;increment){body}
+// or for(init;cond;inc) {body}
+// This is not necessarily true, but is better than what we had before. 
+if (count_children == 1){
+  // Special case: for(;;).
+  // TODO: figure out how to handle this
+}
+if (childIndex == count_children - 1){
+  return BRANCH_FOR;
+}
+if (count_children == 2){
+  return BRANCH_FOR_START;
+}
+
+if (count_children == 3){
+  if (childIndex == 0){
+    return BRANCH_FOR_START;
+  } else if (childIndex == 1){
+    return BRANCH_FOR_ITERATOR;
+  }
+}
+
+if (count_children == 4){
+  if (childIndex == 1) {
+    return BRANCH_FOR_START;
+  } else if (childIndex == 2) {
+    return BRANCH_FOR_ITERATOR;
+  }
+}
+// If this child is statement-like, it's the body (first stmt-like wins).
+if (isStmtLike(cursorKind)) {
+// mark that we've hit body so later children don't get for-roles
+  if (!info.sawBody) {
+  info.sawBody = true;
+  return BRANCH_FOR;
+  }
+  return BRANCH_NONE;
+}
+
+// Non-stmt-like children before the body are init/cond/inc-ish.
+// We need a heuristic to decide which one is iterator.
+// Common child order (when present): init, cond, inc, body
+//
+// If increment is missing, children are typically: init, cond, body
+// We must NOT mislabel cond as iterator.
+//
+// Heuristic:
+// - childIndex == 0 for ForStmt is often init (or empty)
+// - treat the *first* non-stmt-like child as FOR_START
+// - treat a later non-stmt-like child as ITERATOR only if we have
+//   already seen at least two non-stmt-like children before body.
+static thread_local int nonStmtCountBeforeBody = 0;
+
+// Reset counter when we enter a new ForStmt (best done in visitor push)
+// But since this is thread_local, it’s messy; better store in info.
+// Let's store it properly:
+}
+
+return BRANCH_NONE;
+}
+
 void onNewScope() {
   scopeDepth += 1;
   scopeStack.push_back(std::unordered_map<std::string, VariableInfo>());
@@ -443,7 +569,11 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
   CXCursorKind cursorKind = clang_getCursorKind(cursor);
   VisitorData *visitorData = reinterpret_cast<VisitorData *>(clientData);
   CallGraph *callGraph = visitorData->callGraph;
-
+  
+  if (cursorKind == CXCursor_ForStmt) {
+    forStack.push_back(ForChildInfo{});
+  }
+  
   if (cursorKind == CXCursor_FunctionDecl) {
     ignoreNextCompound = true;
     onNewScope();
@@ -459,6 +589,7 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
   } else if (cursorKind == CXCursor_CompoundStmt) {
     if (ignoreNextCompound) {
       startNode = environment->startNewTree(funcName);
+      startNodeFuncName = funcName;
       if (updateCallGraph) {
         callGraph->addNode(funcName, getCursorFilename(cursor));
       }
@@ -490,11 +621,13 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
     environment->onAdd(new ContinueNode());
   }
 
-  BranchType branchType = getBranchType(cursor, parent, childIndex);
+  BranchType branchType = getBranchTypeGPT(cursor, parent, childIndex);
   WhileNode *forNodeLoop = nullptr;
 
   if (branchType == BRANCH_IF) {
-    environment->onAdd(new IfNode());
+    IfNode* if_node = new IfNode();
+    if_stack.push_back(if_node);
+    environment->onAdd(if_node);
   } else if (branchType == BRANCH_ELSE_IF || branchType == BRANCH_ELSE) {
     environment->onElseAdd();
   } else if (branchType == BRANCH_STARTWHILE) {
@@ -527,13 +660,22 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
   }
   if (cursorKind == CXCursor_IfStmt ||
       cursorKind == CXCursor_ConditionalOperator) {
-    environment->onAdd(new EndifNode());
-  } else if (branchType == BRANCH_WHILE) {
+    EndifNode* end_if = new EndifNode();
+    if (if_stack.empty()){
+      throw new std::logic_error("Tried to add an end_if without a preceding if");
+    }
+    if_stack.back()->endIf = end_if;
+    if_stack.pop_back();
+    environment->onAdd(end_if);
+  }
+  if (branchType == BRANCH_WHILE) {
     environment->onAdd(new ContinueNode());
     environment->onAdd(new EndwhileNode());
-  } else if (cursorKind == CXCursor_ReturnStmt) {
+  }
+  if (cursorKind == CXCursor_ReturnStmt) {
     environment->onAdd(new ReturnNode());
-  } else if (branchType == BRANCH_DO_WHILE_START) {
+  }
+  if (branchType == BRANCH_DO_WHILE_START) {
     environment->onAdd(new ContinueNode());
   } else if (branchType == BRANCH_DO_WHILE_COND) {
     WhileNode *whileNode = new WhileNode();
@@ -559,12 +701,23 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
     ignoreNextCompound = false;
     inFunc = 0;
     if (startNode != nullptr) {
-      environment->onAdd(new ReturnNode());
-      functions.push_back(funcName);
-      funcCfgs.insert({funcName, startNode});
-      startNode = nullptr;
+      if (funcName == startNodeFuncName) {
+        environment->onAdd(new ReturnNode());
+        functions.push_back(funcName);
+        std::cout << "Adding " << funcName << " to the cfg" << std::endl;
+        funcCfgs.insert({funcName, startNode});
+        startNode = nullptr;
+      } else {
+        // declaration of a different function inside a function
+        funcName = startNodeFuncName;
+      }
+      
     }
   }
+  if (cursorKind == CXCursor_ForStmt) {
+  forStack.pop_back();
+}
+
 
   visitorData->childIndex += 1;
   visitorData->lhsType = LHS_NONE;
@@ -665,3 +818,6 @@ void Parser::visualizeCFG(){
   
   delete gv;
 }
+
+
+

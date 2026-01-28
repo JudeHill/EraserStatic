@@ -1,2 +1,5 @@
-int global = 0;
-void print_message();
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+
+void* print_message(void* arg);

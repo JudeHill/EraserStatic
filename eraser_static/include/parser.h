@@ -11,6 +11,7 @@
 #include "function_call_node.h"
 #include "if_node.h"
 #include "lock_node.h"
+#include "parser_helpers.h"
 #include "read_node.h"
 #include "return_node.h"
 #include "start_node.h"
@@ -19,6 +20,7 @@
 #include "thread_join_node.h"
 #include "unlock_node.h"
 #include "write_node.h"
+#include <graph_visualizer.h>
 #include <clang-c/Index.h>
 #include <iostream>
 #include <set>

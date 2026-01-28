@@ -62,6 +62,6 @@ if (MSVC)
   target_compile_options(eraser_static PRIVATE /W4 /EHsc)
 else()
 target_compile_options(eraser_static PRIVATE
-$<$<COMPILE_LANGUAGE:CXX>:-Wall -Wextra -Wpedantic>
+$<$<COMPILE_LANGUAGE:CXX>:-Wall -Wextra -Wpedantic -g>
 )
 endif()

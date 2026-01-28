@@ -1,4 +1,5 @@
 #include "construction_environment.h"
+#include <iostream>
 
 StartNode *ConstructionEnvironment::startNewTree(std::string funcName) {
   currNode = new StartNode(funcName);
@@ -114,12 +115,20 @@ void ConstructionEnvironment::onAdd(EndwhileNode *node) {
 
 void ConstructionEnvironment::onAdd(BreakNode *node) {
   callOnAdd(node);
-  breakListStack.back().push_back(node);
+  if (!breakListStack.empty()){
+      breakListStack.back().push_back(node);
+  } else {
+    std::cout << "Unexpected break node - not in a loop?" << std::endl;
+  }
+
   currNode = nullptr;
 }
 
 void ConstructionEnvironment::onAdd(ContinueNode *node) {
   callOnAdd(node);
+  if (startwhileStack.empty()){
+    throw std::logic_error("Tried to add a continue node with no enclosing while node");
+  }
   GraphNode *continueReturn = startwhileStack.back()->continueReturn;
   if (continueReturn != nullptr) {
     node->next = continueReturn;
