@@ -1,0 +1,13 @@
+digraph G {
+  ishdtnbvkr [label="1 Function main"];
+  yyqdtnbvkr [label="2 start while"];
+  kbrdtnbvkr [label="3 while"];
+  wlvdtnbvkr [label="5 Read atoi"];
+  opndtnbvkr [label="6 Call atoi"];
+  yovdtnbvkr [label="7 return"];
+  ishdtnbvkr -> yyqdtnbvkr;
+  yyqdtnbvkr -> kbrdtnbvkr;
+  kbrdtnbvkr -> wlvdtnbvkr;
+  wlvdtnbvkr -> opndtnbvkr;
+  opndtnbvkr -> yovdtnbvkr;
+}
