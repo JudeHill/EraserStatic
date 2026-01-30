@@ -379,95 +379,67 @@ static bool isStmtLike(CXCursorKind k) {
 
 BranchType getBranchTypeGPT(CXCursor cursor, CXCursor parent,
   unsigned int childIndex) {
-CXCursorKind cursorKind = clang_getCursorKind(cursor);
-CXCursorKind parentKind = clang_getCursorKind(parent);
+  CXCursorKind cursorKind = clang_getCursorKind(cursor);
+  CXCursorKind parentKind = clang_getCursorKind(parent);
 
-if (parentKind == CXCursor_IfStmt ||
-parentKind == CXCursor_ConditionalOperator) {
-if (childIndex == 1) {
-return BRANCH_IF;
-} else if (childIndex == 2 && cursorKind == CXCursor_IfStmt) {
-return BRANCH_ELSE_IF;
-} else if (childIndex == 2) {
-return BRANCH_ELSE;
-}
-} else if (parentKind == CXCursor_WhileStmt) {
-if (childIndex == 0) {
-return BRANCH_STARTWHILE;
-} else if (childIndex == 1) {
-return BRANCH_WHILE;
-}
-} else if (parentKind == CXCursor_DoStmt) {
-if (childIndex == 0) {
-return BRANCH_DO_WHILE_START;
-} else if (childIndex == 1) {
-return BRANCH_DO_WHILE_COND;
-}
-} else if (parentKind == CXCursor_ForStmt) {
-
-ForChildInfo &info = forStack.back();
-unsigned int count_children = getCachedChildCount(parent);
-// BIG assumption: 
-// We assume all for loops are either: for(;;){body}
-// or for(;cond;) {body}, or for(;cond;increment){body}
-// or for(init;cond;inc) {body}
-// This is not necessarily true, but is better than what we had before. 
-if (count_children == 1){
-  // Special case: for(;;).
-  // TODO: figure out how to handle this
-}
-if (childIndex == count_children - 1){
-  return BRANCH_FOR;
-}
-if (count_children == 2){
-  return BRANCH_FOR_START;
-}
-
-if (count_children == 3){
-  if (childIndex == 0){
-    return BRANCH_FOR_START;
-  } else if (childIndex == 1){
-    return BRANCH_FOR_ITERATOR;
+  if (parentKind == CXCursor_IfStmt ||
+    parentKind == CXCursor_ConditionalOperator) {
+    if (childIndex == 1) {
+    return BRANCH_IF;
+    } else if (childIndex == 2 && cursorKind == CXCursor_IfStmt) {
+    return BRANCH_ELSE_IF;
+    } else if (childIndex == 2) {
+    return BRANCH_ELSE;
+    }
+  } else if (parentKind == CXCursor_WhileStmt) {
+  if (childIndex == 0) {
+  return BRANCH_STARTWHILE;
+  } else if (childIndex == 1) {
+  return BRANCH_WHILE;
   }
-}
-
-if (count_children == 4){
-  if (childIndex == 1) {
-    return BRANCH_FOR_START;
-  } else if (childIndex == 2) {
-    return BRANCH_FOR_ITERATOR;
+  } else if (parentKind == CXCursor_DoStmt) {
+  if (childIndex == 0) {
+  return BRANCH_DO_WHILE_START;
+  } else if (childIndex == 1) {
+  return BRANCH_DO_WHILE_COND;
   }
-}
-// If this child is statement-like, it's the body (first stmt-like wins).
-if (isStmtLike(cursorKind)) {
-// mark that we've hit body so later children don't get for-roles
-  if (!info.sawBody) {
-  info.sawBody = true;
-  return BRANCH_FOR;
+  } else if (parentKind == CXCursor_ForStmt) {
+
+    ForChildInfo &info = forStack.back();
+    unsigned int count_children = getCachedChildCount(parent);
+    // BIG assumption: 
+    // We assume all for loops are either: for(;;){body}
+    // or for(;cond;) {body}, or for(;cond;increment){body}
+    // or for(init;cond;inc) {body}
+    // This is not necessarily true, but is better than what we had before. 
+    if (count_children == 1){
+      // Special case: for(;;).
+      // TODO: figure out how to handle this
+      return BRANCH_FOR;
+    }
+    if (childIndex == count_children - 1){
+      return BRANCH_FOR;
+    }
+    if (count_children == 2){
+      return BRANCH_FOR_START;
+    }
+
+    if (count_children == 3){
+      if (childIndex == 1){
+        return BRANCH_FOR_START;
+      }
+    }
+
+
+    if (count_children == 4){
+      if (childIndex == 1) {
+        return BRANCH_FOR_START;
+      } else if (childIndex == 2) {
+        return BRANCH_FOR_ITERATOR;
+      }
+    }
   }
   return BRANCH_NONE;
-}
-
-// Non-stmt-like children before the body are init/cond/inc-ish.
-// We need a heuristic to decide which one is iterator.
-// Common child order (when present): init, cond, inc, body
-//
-// If increment is missing, children are typically: init, cond, body
-// We must NOT mislabel cond as iterator.
-//
-// Heuristic:
-// - childIndex == 0 for ForStmt is often init (or empty)
-// - treat the *first* non-stmt-like child as FOR_START
-// - treat a later non-stmt-like child as ITERATOR only if we have
-//   already seen at least two non-stmt-like children before body.
-static thread_local int nonStmtCountBeforeBody = 0;
-
-// Reset counter when we enter a new ForStmt (best done in visitor push)
-// But since this is thread_local, it’s messy; better store in info.
-// Let's store it properly:
-}
-
-return BRANCH_NONE;
 }
 
 void onNewScope() {
@@ -572,6 +544,8 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
   
   if (cursorKind == CXCursor_ForStmt) {
     forStack.push_back(ForChildInfo{});
+    // STUFF GOES HERE
+    handleForStmt(cursor, environment);
   }
   
   if (cursorKind == CXCursor_FunctionDecl) {
@@ -634,21 +608,22 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
     environment->onAdd(new StartwhileNode());
   } else if (branchType == BRANCH_WHILE) {
     environment->onAdd(new WhileNode());
-  } else if (branchType == BRANCH_DO_WHILE_START ||
-             branchType == BRANCH_FOR_START) {
+  } else if (branchType == BRANCH_DO_WHILE_START) {
     StartwhileNode *startwhileNode = new StartwhileNode();
     startwhileNode->continueReturn = nullptr;
     startwhileNode->isDoWhile = branchType == BRANCH_DO_WHILE_START;
     environment->onAdd(startwhileNode);
+  } else if(branchType == BRANCH_FOR_START) {
+    handleForStmtCond(parent, cursor, environment);
   } else if (branchType == BRANCH_DO_WHILE_COND) {
+    std::cout << "do while" << std::endl;
     environment->onAdd(new ContinueReturnNode());
   } else if (branchType == BRANCH_FOR_ITERATOR) {
-    forNodeLoop = new WhileNode();
-    environment->onAdd(forNodeLoop);
-    environment->onAdd(new ContinueReturnNode());
+    forNodeLoop = handleForStmtIncrement(parent, cursor, environment);
   }
-
+  // RECURSIVE CALL
   clang_visitChildren(cursor, visitor, &childData);
+  // ---------
   if (lhsType == LHS_NONE) {
     for (int i = 0; i < childData.nodesToAdd.size(); i++) {
       environment->onAdd(childData.nodesToAdd[i]);

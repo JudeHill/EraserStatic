@@ -1,8 +1,11 @@
 
 
-int main(){
-    for(;;){
+int main(char* name)
+{
+   char* val;
 
-    }
-    return 0;
+   for (val = ""; *val == '\0';) {
+      val = getparam(name);
+   }
+   return (atoi(val));
 }

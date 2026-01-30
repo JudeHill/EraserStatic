@@ -14,6 +14,7 @@ add_executable(eraser_static
   eraser_static/src/call_graph.cpp
   eraser_static/src/lockset.cpp
   eraser_static/src/file_includes.cpp
+  eraser_static/src/parser_helpers.cpp
   eraser_static/src/construction_environment.cpp
   eraser_static/graph_nodes/src/basic_node.cpp
   eraser_static/graph_nodes/src/break_node.cpp

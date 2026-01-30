@@ -50,7 +50,7 @@ class Eraser {
         FuncNodeMap start_nodes; 
         std::vector<DataRace> data_races; 
         std::unordered_map<std::string, std::unique_ptr<Var>> vars;
-        LockSet visit(GraphNode *node, LockSet lockset);
+        LockSet visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncName> funcs_seen);
         bool handle_read(LockName var_name, const LockSet lockset);
         bool handle_write(LockName var_name, const LockSet lockset);
     public:

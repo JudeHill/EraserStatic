@@ -30,6 +30,9 @@ void ConstructionEnvironment::onAdd(GraphNode *node) {
 }
 
 void ConstructionEnvironment::goBackToStartWhile() {
+  if (startwhileStack.empty()){
+    throw std::logic_error("Tried to pop from back of empty start while stack - goBackToStartWhile()");
+  }
   callOnAdd(startwhileStack.back());
 }
 
@@ -42,6 +45,9 @@ void ConstructionEnvironment::onAdd(IfNode *node) {
 }
 
 void ConstructionEnvironment::onElseAdd() {
+  if (ifStack.empty()){
+    throw std::logic_error("Tried to pop from back of empty if stack - onElseAdd");
+  }
   IfNode *ifNode = ifStack.back();
   ifNode->hasElse = true;
   if (currNode != nullptr && currNode != ifNode) {
@@ -51,6 +57,9 @@ void ConstructionEnvironment::onElseAdd() {
 }
 
 void ConstructionEnvironment::onAdd(EndifNode *node) {
+  if (ifStack.empty()){
+    throw std::logic_error("Tried to pop from back of empty if stack - onAdd(EndIf)");
+  }
   IfNode *ifNode = ifStack.back();
   std::vector<BasicNode *> endifNodes = endifListStack.back();
   for (int i = 0; i < endifNodes.size(); i++) {
@@ -90,6 +99,9 @@ void ConstructionEnvironment::onAdd(WhileNode *node) {
   callOnAdd(node);
   whileStack.push_back(node);
   if (node->isDoWhile) {
+    if (startwhileStack.empty()){
+      throw std::logic_error("Tried to pop from back of empty startWhile stack - onAdd(WhileNode)");
+    }
     node->whileNode = startwhileStack.back();
   } else {
     breakListStack.push_back(std::vector<BreakNode *>(0));
@@ -97,8 +109,17 @@ void ConstructionEnvironment::onAdd(WhileNode *node) {
 }
 
 void ConstructionEnvironment::onAdd(EndwhileNode *node) {
+  if (breakListStack.empty()){
+    throw std::logic_error("Tried to pop from back of empty breakList stack - onAdd(endWhileNode)");
+  }
   std::vector<BreakNode *> breakNodes = breakListStack.back();
+  if (startwhileStack.empty()){
+    throw std::logic_error("Tried to pop from back of empty startWhile stack - onAdd(endWhileNode)");
+  }
   StartwhileNode *startwhileNode = startwhileStack.back();
+  if (whileStack.empty()){
+    throw std::logic_error("Tried to pop from back of empty while stack - onAdd(EndWhileNode)");
+  }
   WhileNode *whileNode = whileStack.back();
   whileNode->endWhile = node;
 
@@ -118,7 +139,7 @@ void ConstructionEnvironment::onAdd(BreakNode *node) {
   if (!breakListStack.empty()){
       breakListStack.back().push_back(node);
   } else {
-    std::cout << "Unexpected break node - not in a loop?" << std::endl;
+    std::cout << "Unexpected break node - not in a loop? - onAdd(BreakNode)" << std::endl;
   }
 
   currNode = nullptr;
@@ -127,7 +148,7 @@ void ConstructionEnvironment::onAdd(BreakNode *node) {
 void ConstructionEnvironment::onAdd(ContinueNode *node) {
   callOnAdd(node);
   if (startwhileStack.empty()){
-    throw std::logic_error("Tried to add a continue node with no enclosing while node");
+    throw std::logic_error("Tried to add a continue node with no enclosing while node - onAdd(ContinueNode)");
   }
   GraphNode *continueReturn = startwhileStack.back()->continueReturn;
   if (continueReturn != nullptr) {
@@ -139,12 +160,18 @@ void ConstructionEnvironment::onAdd(ContinueNode *node) {
 }
 
 void ConstructionEnvironment::onAdd(ContinueReturnNode *node) {
+  if (continueListStack.empty()){
+    throw std::logic_error("Tried to pop from back of empty continue list stack - onAdd(ContinueReturnNode)");
+  }
   std::vector<ContinueNode *> continueNodes = continueListStack.back();
   continueListStack.pop_back();
   for (int i = 0; i < continueNodes.size(); i++) {
     continueNodes[i]->next = node;
   }
   setNodeId(node);
+  if (startwhileStack.empty()){
+    throw std::logic_error("Tried to pop from back of empty start while stack - onAdd(ContinueReturnNode)");
+  }
   StartwhileNode *startwhileNode = startwhileStack.back();
   startwhileNode->continueReturn = node;
   currNode = node;

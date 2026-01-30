@@ -14,6 +14,7 @@ void dump_data_races(std::string filepath, std::vector<DataRace> data_races){
             "failed to open output file: " + filepath
         );
     }
+    out_stream << std::format("Found {} data races", data_races.size()) << std::endl;
     for (const auto& dr : data_races){
         out_stream << dr.var_name << dr.node->getPrintableNameWithId() << "\n";
     }
@@ -21,6 +22,10 @@ void dump_data_races(std::string filepath, std::vector<DataRace> data_races){
 }
 
 int main(int argc, char* argv[]){
+    if (true){
+        std::cout << "Beth is my lovely girlfriend" << std::endl;
+        
+    }
     if (argc < 3){
         std::cerr << "Incorrect number of arguments. Expected usage: eraser-static <in_filename> <out_filename> <options>" << std::endl;
         exit(-1);

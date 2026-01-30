@@ -1,5 +1,6 @@
 #include "parser_helpers.h"
 
+
 static CXChildVisitResult countChildrenVisitor(CXCursor c, CXCursor parent, CXClientData data) {
     auto *n = static_cast<unsigned*>(data);
     (*n)++;
@@ -14,7 +15,7 @@ static CXChildVisitResult countChildrenVisitor(CXCursor c, CXCursor parent, CXCl
 
 
 
-static unsigned getCachedChildCount(CXCursor parent) {
+unsigned getCachedChildCount(CXCursor parent) {
   unsigned h = clang_hashCursor(parent);
   auto it = parentChildCount.find(h);
   if (it != parentChildCount.end()) return it->second;
@@ -211,5 +212,47 @@ static std::vector<ForChild> classifyForStmtChildrenGoodEnough(CXCursor forCurso
   }
 
   return result;
+}
+
+void handleForStmt(CXCursor ForStmt, ConstructionEnvironment *environment){
+  unsigned num_children = getCachedChildCount(ForStmt);
+  std::cout << "Child count: " << num_children << std::endl;
+  if (num_children == 1){
+    // for(;;)
+    // start while
+    StartwhileNode *startwhileNode = new StartwhileNode();
+    startwhileNode->continueReturn = nullptr;
+    startwhileNode->isDoWhile = false;
+    WhileNode* forNodeLoop = new WhileNode();
+    startwhileNode->continueReturn = forNodeLoop;
+    environment->onAdd(startwhileNode);
+    // normal while )
+    
+    environment->onAdd(forNodeLoop);
+  }
+}
+
+void handleForStmtCond(CXCursor ForStmt, CXCursor cond, ConstructionEnvironment *environment){
+   // start while
+   StartwhileNode *startwhileNode = new StartwhileNode();
+   startwhileNode->continueReturn = nullptr;
+   startwhileNode->isDoWhile = false;
+   if (getCachedChildCount(ForStmt) < 4){
+    // assume no increment
+    std::cout << "Handling child count " << getCachedChildCount(ForStmt) << std::endl;
+    WhileNode* forNodeLoop = new WhileNode();
+    startwhileNode->continueReturn = forNodeLoop;
+    environment->onAdd(forNodeLoop);
+   }
+   environment->onAdd(startwhileNode);
+}
+
+
+WhileNode* handleForStmtIncrement(CXCursor ForStmt, CXCursor increment, ConstructionEnvironment *environment){
+    std::cout << "we got here" << std::endl;
+    WhileNode* forNodeLoop = new WhileNode();
+    environment->onAdd(forNodeLoop);
+    environment->onAdd(new ContinueReturnNode());
+    return forNodeLoop;
 }
 

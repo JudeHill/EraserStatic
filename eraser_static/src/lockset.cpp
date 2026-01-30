@@ -3,7 +3,7 @@
 static bool debug = true;
 static int thread_depth = 0;
 
-LockSet Eraser::visit(GraphNode *node, LockSet lockset){
+LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncName> funcs_seen){
     if (node == nullptr){
         if (debug){
             std::cout << "Visited nullptr - returning" << std::endl;
@@ -21,19 +21,25 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset){
             LockNode *lock_node = static_cast<LockNode*>(node);
             LockSet new_lockset = lockset;
             new_lockset.insert(lock_node->varName);
-            return visit(lock_node->next, new_lockset);
+            return visit(lock_node->next, new_lockset, funcs_seen);
         }
         case FUNCTION_CALL: {
             FunctionCallNode *func_call_node = static_cast<FunctionCallNode*>(node);
-            LockSet new_lockset = visit(start_nodes[func_call_node->functionName], lockset);
-            return visit(func_call_node->next, new_lockset);
+            LockSet new_lockset = lockset;
+            if (!funcs_seen.contains(func_call_node->functionName)){
+                // no recursion
+                funcs_seen.insert(func_call_node->functionName);
+                new_lockset = visit(start_nodes[func_call_node->functionName], lockset, funcs_seen);
+                funcs_seen.erase(func_call_node->functionName);
+            }
+            return visit(func_call_node->next, new_lockset, funcs_seen);
             
         }
         case UNLOCK: {
             UnlockNode *unlock_node = static_cast<UnlockNode*>(node);
             LockSet new_lockset = lockset;
             new_lockset.erase(unlock_node->varName);
-            return visit(unlock_node->next, new_lockset);
+            return visit(unlock_node->next, new_lockset, funcs_seen);
         }
 
         case READ: {
@@ -44,7 +50,7 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset){
                     .node = read_node,
                 });
             }
-            return visit(read_node->next, lockset);
+            return visit(read_node->next, lockset, funcs_seen);
         }
 
         case WRITE: {
@@ -55,7 +61,7 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset){
                     .node = write_node,
                 });
             };
-            return visit(write_node->next, lockset);
+            return visit(write_node->next, lockset, funcs_seen);
         }
 
         case IF: {
@@ -63,8 +69,8 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset){
             // figure out what to do here
             GraphNode *else_node = ifnode->elseNode;
             GraphNode *if_node = ifnode->ifNode;
-            LockSet if_lockset = visit(if_node, lockset);
-            LockSet else_lockset = visit(else_node, lockset);
+            LockSet if_lockset = visit(if_node, lockset, funcs_seen);
+            LockSet else_lockset = visit(else_node, lockset, funcs_seen);
             for (auto it = if_lockset.begin();it != if_lockset.end();){
                 if (!else_lockset.contains(*it)){
                     it = if_lockset.erase(it);
@@ -74,7 +80,7 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset){
             }
             EndifNode* end_if = ifnode->endIf;
             // assert v is now the end_if corresponding to the original if
-            return visit(end_if->getDefaultNextNode(), if_lockset);
+            return visit(end_if->getDefaultNextNode(), if_lockset, funcs_seen);
             
 
             
@@ -88,7 +94,7 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset){
 
         case WHILE: {
             WhileNode* while_node = static_cast<WhileNode*>(node);
-            LockSet new_lockset = visit(while_node->whileNode, lockset);
+            LockSet new_lockset = visit(while_node->whileNode, lockset, funcs_seen);
             // new_lockset = new_lockset INTERSECT lockset (worst case lockset)
             for (auto it = new_lockset.begin(); it != new_lockset.end(); ) {
                 if (!lockset.contains(*it)) {
@@ -98,22 +104,22 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset){
                 }
             }
             EndwhileNode* end_while = while_node->endWhile;
-            return visit(end_while->next, new_lockset);
+            return visit(end_while->next, new_lockset, funcs_seen);
         }
         case THREAD_CREATE: {
             ThreadCreateNode* create_node = static_cast<ThreadCreateNode*>(node);
             thread_depth++;
-            LockSet new_lockset = visit(start_nodes[create_node->functionName], lockset);
+            LockSet new_lockset = visit(start_nodes[create_node->functionName], lockset, funcs_seen);
             
-            return visit(create_node->next, new_lockset);
+            return visit(create_node->next, new_lockset, funcs_seen);
         }
         case THREAD_JOIN: {
             thread_depth--;
             ThreadJoinNode* join_node = static_cast<ThreadJoinNode*>(node);
-            return visit(join_node->next, lockset);
+            return visit(join_node->next, lockset, funcs_seen);
         }
         default: {
-            return visit(node->getDefaultNextNode(), lockset);
+            return visit(node->getDefaultNextNode(), lockset, funcs_seen);
 
         }
         
@@ -197,6 +203,6 @@ std::vector<DataRace> Eraser::compute_data_races(FuncNodeMap func_map, FuncName 
         throw std::logic_error(std::format("Function CFG map does not contain main name: {}", main_name));
     }
     StartNode* start_node = func_map[main_name];
-    visit(start_node, LockSet());
+    visit(start_node, LockSet(), {});
     return data_races;
 }
