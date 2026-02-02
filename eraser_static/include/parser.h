@@ -1,5 +1,6 @@
 #pragma once
 #include "break_node.h"
+#include "barrier_node.h"
 #include "call_graph.h"
 #include "construction_environment.h"
 #include "continue_node.h"
@@ -72,7 +73,7 @@ public:
   explicit Parser(CallGraph *callGraph_, FileIncludes *fileIncludes_);
   virtual ~Parser();
 
-  void parseFile(const char *fileName, bool fileChanged = false, bool verbose = false);
+  void parseFile(const char *fileName, bool fileChanged = true, bool verbose = false);
   void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd);
   void visualizeCFG();
   std::vector<std::string> getFunctions();

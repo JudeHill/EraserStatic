@@ -18,6 +18,7 @@ add_executable(eraser_static
   eraser_static/src/construction_environment.cpp
   eraser_static/graph_nodes/src/basic_node.cpp
   eraser_static/graph_nodes/src/break_node.cpp
+  eraser_static/graph_nodes/src/barrier_node.cpp
   eraser_static/graph_nodes/src/continue_node.cpp
   eraser_static/graph_nodes/src/continue_return_node.cpp
   eraser_static/graph_nodes/src/endif_node.cpp

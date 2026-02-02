@@ -1,3 +1,3 @@
 Found dataraces involving 1 unique variables
 array.c 0 0 tids: 1 unprotected accesses
-Write in file array.c at line 10, position 5
+Write in file array.c at line 13, position 5

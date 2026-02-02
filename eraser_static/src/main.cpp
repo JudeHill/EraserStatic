@@ -5,6 +5,10 @@
 #include "lockset.h"
 #include <system_error>
 #include <algorithm>
+#include <filesystem>
+#include <vector>
+
+namespace fs = std::filesystem;
 
 void dump_data_races(std::string filepath, DataRaceMap data_race_map){
     auto out_stream = std::ofstream(filepath);
@@ -43,7 +47,8 @@ int main(int argc, char* argv[]){
     }
 
     std::cout << "Started" << std::endl;
-    std::string filename(argv[1]);
+    std::string filepath(argv[1]);
+    bool directory_mode = !filepath.ends_with(".c");
     std::string out_filename(argv[2]);
     bool debug = false;
     bool show_graph = false;
@@ -56,8 +61,6 @@ int main(int argc, char* argv[]){
             debug = true;
         } else if (option == "--show-graph" || option == "-g"){
             show_graph = true;
-        } else if (option == "-b" || option == "--barnes"){
-            is_barnes = true;
         } else if (option == "-s" || option == "--symmetric-join"){
             symmetric_join = true;
         } else {
@@ -67,19 +70,37 @@ int main(int argc, char* argv[]){
         i++;
 
     }
+    std::vector<fs::path> files;
     auto cg = std::make_unique<CallGraph>();
     auto fi = std::make_unique<FileIncludes>();
     std::cout << "started parsing" << std::endl;
     Parser parser(cg.get(), fi.get());
-    if (is_barnes){
-        std::cout << "Parsing barnes" << std::endl;
-        std::vector<std::string> filenames{"grav.c", "load.c", "util.c", "code.c", "getparam.c"};
-        for (auto& name : filenames){
-            parser.parseFile(name.c_str(), true);
-        }
+   
+    if (!directory_mode){
+        parser.parseFile(filepath.c_str(), true);
     } else {
-         parser.parseFile(filename.c_str(), true);
-    // parser.parseFile("extern.c", true);
+        try {
+            if (fs::exists(filepath) && fs::is_directory(filepath)) {
+                for (const auto& entry : fs::directory_iterator(filepath)) {
+                    // Check if it's a regular file and ends with .c
+                    if (entry.is_regular_file() && entry.path().extension() == ".c") {
+                        files.push_back(entry.path());
+                    }
+                }
+            }
+        } catch (const fs::filesystem_error& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+        }  
+    }
+         
+    for (const auto& filePath : files) {
+        // 2. Convert path to a C-string
+        // .string() creates a std::string; .c_str() gets the const char*
+        std::string pathStr = filePath.string();
+        const char* fileName = pathStr.c_str();
+
+        std::cout << "Parsing: " << fileName << "..." << std::endl;
+        parser.parseFile(fileName);
     }
 
    

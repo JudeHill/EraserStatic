@@ -186,65 +186,6 @@ std::string getFuncName(CXCursor cursor, std::string funcName) {
   return funcName;
 }
 
-void Parser::handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd) {
-  std::string caller = funcName;
-  std::string funcName = clang_getCString(clang_getCursorSpelling(cursor));
-  if (funcName == "EraserIgnoreOff") {
-    eraserIgnoreOn = false;
-    environment->onAdd(new EraserIgnoreOffNode());
-  } else if (funcName == "pthread_mutex_lock" ||
-    funcName == "pthread_mutex_unlock") {
-    std::string spelling = getNthArg(cursor, 1, true);
-    VariableInfo variableInfo = findVariableInfo(spelling);
-    if (isSharedVar(variableInfo)) {
-      std::string varName = getVariableName(spelling, cursor, variableInfo);
-      if (funcName == "pthread_mutex_lock") {
-        environment->onAdd(new LockNode(varName));
-      } else if (funcName == "pthread_mutex_unlock") {
-        environment->onAdd(new UnlockNode(varName));
-      }
-    }
-  } else if (funcName == "pthread_join") {
-    std::string spelling = getNthArg(cursor, 1);
-    VariableInfo variableInfo = findVariableInfo(spelling);
-    std::string varName = getVariableName(spelling, cursor, variableInfo);
-    bool global = isSharedVar(variableInfo);
-    // if (varName != "") {
-    environment->onAdd(new ThreadJoinNode(varName, global));
-    // }
-  } else if (!eraserIgnoreOn) {
-    if (funcName == "pthread_create") {
-      std::cout << "Started to add pthreads_create" << std::endl;
-      std::string called = getStartRoutineName(cursor);
-      if (called != "") {
-        std::cout << "Adding pthreads_create node with function name " << called << std::endl;
-        std::string spelling = getNthArg(cursor, 1, true);
-        VariableInfo variableInfo = findVariableInfo(spelling);
-        std::string varName = getVariableName(spelling, cursor, variableInfo);
-        std::string funcName = getFuncName(cursor, called);
-        bool global = isSharedVar(variableInfo);
-        environment->onAdd(new ThreadCreateNode(funcName, varName, global));
-        if (global && varName != "") {
-          environment->onAdd(new WriteNode(varName, clang_getCursorLocation(cursor)));
-        }
-        if (updateCallGraph) {
-          callGraph->addEdge(caller, funcName, true);
-        }
-      } else {
-        std::cout << "Failed to get pthreads create function name" << std::endl;
-      }
-    } else if (funcName == "EraserIgnoreOn") {
-      eraserIgnoreOn = true;
-      environment->onAdd(new EraserIgnoreOnNode());
-    } else if (funcName != "pthread_cond_wait" && funcName != "pthread_cond_broadcast") {
-      funcName = getFuncName(cursor, funcName);
-      (*nodesToAdd).push_back(new FunctionCallNode(funcName));
-      if (updateCallGraph) {
-        callGraph->addEdge(caller, funcName, false);
-      }
-    }
-  }
-}
 
 void classifyVariable(CXCursor cursor, LhsType lhsType,
                       std::vector<GraphNode *> *nodesToAdd) {
@@ -465,6 +406,13 @@ void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd, C
     // if (varName != "") {
     environment->onAdd(new ThreadJoinNode(varName, global));
     // }
+  } else if (funcName == "pthread_barrier_wait"){
+    std::string spelling = getNthArg(cursor, 1);
+    VariableInfo variableInfo = findVariableInfo(spelling);
+    std::string varName = getVariableName(spelling, cursor, variableInfo);
+    bool global = isSharedVar(variableInfo);
+    environment->onAdd(new BarrierNode(varName, global));
+    
   } else if (!eraserIgnoreOn) {
     if (funcName == "pthread_create") {
       std::cout << "Started pthreads create" << std::endl;
