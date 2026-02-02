@@ -1,9 +1,0 @@
-digraph G {
-  aeubcyhslr [label="1 Function print_message"];
-  qmubcyhslr [label="2 Read global"];
-  chubcyhslr [label="3 Write global"];
-  olzutxijvz [label="4 return"];
-  aeubcyhslr -> qmubcyhslr;
-  qmubcyhslr -> chubcyhslr;
-  chubcyhslr -> olzutxijvz;
-}

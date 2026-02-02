@@ -2,8 +2,9 @@
 
 static bool debug = true;
 static int thread_depth = 0;
+static bool assume_sym_join = false;
 
-LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncName> funcs_seen){
+LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncName> funcs_seen, bool on_main_thread){
     if (node == nullptr){
         if (debug){
             std::cout << "Visited nullptr - returning" << std::endl;
@@ -21,7 +22,7 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
             LockNode *lock_node = static_cast<LockNode*>(node);
             LockSet new_lockset = lockset;
             new_lockset.insert(lock_node->varName);
-            return visit(lock_node->next, new_lockset, funcs_seen);
+            return visit(lock_node->next, new_lockset, funcs_seen, on_main_thread);
         }
         case FUNCTION_CALL: {
             FunctionCallNode *func_call_node = static_cast<FunctionCallNode*>(node);
@@ -29,39 +30,43 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
             if (!funcs_seen.contains(func_call_node->functionName)){
                 // no recursion
                 funcs_seen.insert(func_call_node->functionName);
-                new_lockset = visit(start_nodes[func_call_node->functionName], lockset, funcs_seen);
+                new_lockset = visit(start_nodes[func_call_node->functionName], lockset, funcs_seen, on_main_thread);
                 funcs_seen.erase(func_call_node->functionName);
             }
-            return visit(func_call_node->next, new_lockset, funcs_seen);
+            return visit(func_call_node->next, new_lockset, funcs_seen, on_main_thread);
             
         }
         case UNLOCK: {
             UnlockNode *unlock_node = static_cast<UnlockNode*>(node);
             LockSet new_lockset = lockset;
             new_lockset.erase(unlock_node->varName);
-            return visit(unlock_node->next, new_lockset, funcs_seen);
+            return visit(unlock_node->next, new_lockset, funcs_seen, on_main_thread);
         }
 
         case READ: {
             ReadNode* read_node = static_cast<ReadNode*>(node);
-            if (handle_read(read_node->varName, lockset)){
+            if (handle_read(read_node->varName, lockset, on_main_thread)){
                 data_races.emplace_back(DataRace{
                     .var_name = read_node->varName,
                     .node = read_node,
+                    .race_type = RACE_READ,
+                    .location = read_node->loc,
                 });
             }
-            return visit(read_node->next, lockset, funcs_seen);
+            return visit(read_node->next, lockset, funcs_seen, on_main_thread);
         }
 
         case WRITE: {
             WriteNode* write_node = static_cast<WriteNode*>(node);
-            if (handle_write(write_node->varName, lockset)){
+            if (handle_write(write_node->varName, lockset, on_main_thread)){
                 data_races.emplace_back(DataRace{
                     .var_name = write_node->varName,
                     .node = write_node,
+                    .race_type = RACE_WRITE,
+                    .location = write_node->loc,
                 });
             };
-            return visit(write_node->next, lockset, funcs_seen);
+            return visit(write_node->next, lockset, funcs_seen, on_main_thread);
         }
 
         case IF: {
@@ -69,8 +74,8 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
             // figure out what to do here
             GraphNode *else_node = ifnode->elseNode;
             GraphNode *if_node = ifnode->ifNode;
-            LockSet if_lockset = visit(if_node, lockset, funcs_seen);
-            LockSet else_lockset = visit(else_node, lockset, funcs_seen);
+            LockSet if_lockset = visit(if_node, lockset, funcs_seen, on_main_thread);
+            LockSet else_lockset = visit(else_node, lockset, funcs_seen, on_main_thread);
             for (auto it = if_lockset.begin();it != if_lockset.end();){
                 if (!else_lockset.contains(*it)){
                     it = if_lockset.erase(it);
@@ -80,7 +85,7 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
             }
             EndifNode* end_if = ifnode->endIf;
             // assert v is now the end_if corresponding to the original if
-            return visit(end_if->getDefaultNextNode(), if_lockset, funcs_seen);
+            return visit(end_if->getDefaultNextNode(), if_lockset, funcs_seen, on_main_thread);
             
 
             
@@ -94,7 +99,7 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
 
         case WHILE: {
             WhileNode* while_node = static_cast<WhileNode*>(node);
-            LockSet new_lockset = visit(while_node->whileNode, lockset, funcs_seen);
+            LockSet new_lockset = visit(while_node->whileNode, lockset, funcs_seen, on_main_thread);
             // new_lockset = new_lockset INTERSECT lockset (worst case lockset)
             for (auto it = new_lockset.begin(); it != new_lockset.end(); ) {
                 if (!lockset.contains(*it)) {
@@ -104,22 +109,22 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
                 }
             }
             EndwhileNode* end_while = while_node->endWhile;
-            return visit(end_while->next, new_lockset, funcs_seen);
+            return visit(end_while->next, new_lockset, funcs_seen, on_main_thread);
         }
         case THREAD_CREATE: {
             ThreadCreateNode* create_node = static_cast<ThreadCreateNode*>(node);
             thread_depth++;
-            LockSet new_lockset = visit(start_nodes[create_node->functionName], lockset, funcs_seen);
+            LockSet new_lockset = visit(start_nodes[create_node->functionName], lockset, funcs_seen, false);
             
-            return visit(create_node->next, new_lockset, funcs_seen);
+            return visit(create_node->next, new_lockset, funcs_seen, on_main_thread);
         }
         case THREAD_JOIN: {
             thread_depth--;
             ThreadJoinNode* join_node = static_cast<ThreadJoinNode*>(node);
-            return visit(join_node->next, lockset, funcs_seen);
+            return visit(join_node->next, lockset, funcs_seen, on_main_thread);
         }
         default: {
-            return visit(node->getDefaultNextNode(), lockset, funcs_seen);
+            return visit(node->getDefaultNextNode(), lockset, funcs_seen, on_main_thread);
 
         }
         
@@ -127,11 +132,13 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
 }
 
 
-bool Eraser::handle_read(LockName var_name, const LockSet lockset){
+bool Eraser::handle_read(LockName var_name, const LockSet lockset, bool on_main_thread){
     // handle init
+    std::cout << "Handling read for var " << var_name << " with thread depth " << thread_depth << std::endl;
     if (!vars.contains(var_name)){
         vars[var_name] = std::make_unique<Var>(Var{
             .var_name = var_name,
+            .only_on_main = on_main_thread,
             .status = VIRGIN,
             .lockset = lockset,
         });
@@ -145,12 +152,15 @@ bool Eraser::handle_read(LockName var_name, const LockSet lockset){
     if (var.status == VIRGIN){
         var.lockset = lockset;
     }
-    for (auto lock : var.lockset){
-        if (!lockset.contains(lock)){
-            var.lockset.erase(lock);
+    var.only_on_main = (var.only_on_main && on_main_thread);
+    for (auto it = var.lockset.begin(); it != var.lockset.end(); ) {
+        if (!lockset.contains(*it)) {
+            it = var.lockset.erase(it);
+        } else {
+            ++it;
         }
     }
-    if (var.status == VIRGIN){
+    if (var.status == VIRGIN && !var.only_on_main){
         var.status = SHARED;
     }
     if (var.status == SHARED_MODIFIED && var.lockset.empty()){
@@ -160,15 +170,16 @@ bool Eraser::handle_read(LockName var_name, const LockSet lockset){
 
 }
 
-bool Eraser::handle_write(LockName var_name, const LockSet lockset){
+bool Eraser::handle_write(LockName var_name, const LockSet lockset, bool on_main_thread){
     // handle init
+    std::cout << "Handling write for var " << var_name << " with thread depth: " << thread_depth << std::endl;
     if (!vars.contains(var_name)){
         vars[var_name] = std::make_unique<Var>(Var{
             .var_name = var_name,
+            .only_on_main = on_main_thread,
             .status = VIRGIN,
             .lockset = lockset,
         });
-        return false;
     }
     if (thread_depth == 0){
         return false;
@@ -180,23 +191,27 @@ bool Eraser::handle_write(LockName var_name, const LockSet lockset){
     if (var.status == VIRGIN){
         var.lockset = lockset;
     }
+    var.only_on_main = (var.only_on_main && on_main_thread);
 
-    if (!(var.status == SHARED_MODIFIED)){
+    if (!(var.status == SHARED_MODIFIED) && !var.only_on_main){
         var.status = SHARED_MODIFIED;
     }
-    for (auto lock : var.lockset){
-        if (!lockset.contains(lock)){
-            var.lockset.erase(lock);
+    for (auto it = var.lockset.begin(); it != var.lockset.end(); ) {
+        if (!lockset.contains(*it)) {
+            it = var.lockset.erase(it);
+        } else {
+            ++it;
         }
     }
-    if (var.lockset.empty()){
+    if (var.lockset.empty() && !var.only_on_main){
         return true;
     }
     return false;
 }
 
-std::vector<DataRace> Eraser::compute_data_races(FuncNodeMap func_map, FuncName main_name, bool debug_logging){
+std::unordered_map<std::string, std::vector<DataRace>> Eraser::compute_data_races(FuncNodeMap func_map, FuncName main_name, bool debug_logging, bool symmetric_join){
     data_races.clear();
+    assume_sym_join = symmetric_join;
     debug = debug_logging;
     start_nodes = func_map;
     if (!func_map.contains(main_name)){
@@ -204,5 +219,9 @@ std::vector<DataRace> Eraser::compute_data_races(FuncNodeMap func_map, FuncName 
     }
     StartNode* start_node = func_map[main_name];
     visit(start_node, LockSet(), {});
-    return data_races;
+    std::unordered_map<std::string, std::vector<DataRace>> data_races_map;
+    for (const auto& dr : data_races){
+        data_races_map[dr.var_name].push_back(dr);
+    }
+    return data_races_map;
 }

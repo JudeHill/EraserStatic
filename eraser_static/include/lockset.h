@@ -33,29 +33,40 @@ using LockName = std::string;
 using FuncName = std::string;
 using LockSet = std::unordered_set<LockName>;
 
+
 struct Var {
     std::string var_name;
-    // u_int32_t init_thread;
+    bool only_on_main;
     VarStatus status;
     LockSet lockset;
+};
+
+
+enum RaceType {
+    RACE_READ,
+    RACE_WRITE,
 };
 
 struct DataRace {
     std::string var_name;
     GraphNode* node;
+    RaceType race_type;
+    LocationInfo location;
 };
+
+using DataRaceMap = std::unordered_map<std::string, std::vector<DataRace>>;
 
 class Eraser {
     private:
         FuncNodeMap start_nodes; 
         std::vector<DataRace> data_races; 
         std::unordered_map<std::string, std::unique_ptr<Var>> vars;
-        LockSet visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncName> funcs_seen);
-        bool handle_read(LockName var_name, const LockSet lockset);
-        bool handle_write(LockName var_name, const LockSet lockset);
+        LockSet visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncName> funcs_seen, bool on_main_thread = true);
+        bool handle_read(LockName var_name, const LockSet lockset, bool on_main_thread);
+        bool handle_write(LockName var_name, const LockSet lockset, bool on_main_thread);
     public:
         Eraser(){};
-        std::vector<DataRace> compute_data_races(FuncNodeMap func_map, FuncName main_name = "main", bool debug_logging = false);
+        DataRaceMap compute_data_races(FuncNodeMap func_map, FuncName main_name = "main", bool debug_logging = false, bool symmetric_join = false);
 
 
 };

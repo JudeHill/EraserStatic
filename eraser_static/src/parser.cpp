@@ -130,21 +130,6 @@ std::string getVariableName(std::string varName, CXCursor cursor) {
   return getVariableName(varName, cursor, findVariableInfo(varName));
 }
 
-CXCursor getFirstChild(CXCursor cursor) {
-  CXCursor firstChild = clang_getNullCursor();
-
-  clang_visitChildren(
-      cursor,
-      [](CXCursor c, CXCursor parent, CXClientData clientData) {
-        CXCursor *firstChildPtr = reinterpret_cast<CXCursor *>(clientData);
-
-        *firstChildPtr = c;
-        return CXChildVisit_Break;
-      },
-      &firstChild);
-
-  return firstChild;
-}
 
 std::string getNthArg(CXCursor cursor, int targetArg, bool isPtr = false) {
   struct ArgClientData {
@@ -181,9 +166,7 @@ std::string getNthArg(CXCursor cursor, int targetArg, bool isPtr = false) {
   if (clientData.argNum >= targetArg && !clientData.isPtr) {
     CXCursor argCursor = *clientData.argCursor;
 
-    while (clang_getCursorKind(argCursor) == CXCursor_ParenExpr || clang_getCursorKind(argCursor) == CXCursor_UnexposedExpr) {
-      argCursor = getFirstChild(argCursor);
-    }
+    argCursor = peelExpr(argCursor);
     if (clang_getCursorKind(argCursor) == CXCursor_DeclRefExpr) {
       CXString argSpelling = clang_getCursorSpelling(argCursor);
       std::string result = clang_getCString(argSpelling);
@@ -226,13 +209,15 @@ void Parser::handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodes
     VariableInfo variableInfo = findVariableInfo(spelling);
     std::string varName = getVariableName(spelling, cursor, variableInfo);
     bool global = isSharedVar(variableInfo);
-    if (varName != "") {
-      environment->onAdd(new ThreadJoinNode(varName, global));
-    }
+    // if (varName != "") {
+    environment->onAdd(new ThreadJoinNode(varName, global));
+    // }
   } else if (!eraserIgnoreOn) {
     if (funcName == "pthread_create") {
-      std::string called = getNthArg(cursor, 3);
+      std::cout << "Started to add pthreads_create" << std::endl;
+      std::string called = getStartRoutineName(cursor);
       if (called != "") {
+        std::cout << "Adding pthreads_create node with function name " << called << std::endl;
         std::string spelling = getNthArg(cursor, 1, true);
         VariableInfo variableInfo = findVariableInfo(spelling);
         std::string varName = getVariableName(spelling, cursor, variableInfo);
@@ -240,11 +225,13 @@ void Parser::handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodes
         bool global = isSharedVar(variableInfo);
         environment->onAdd(new ThreadCreateNode(funcName, varName, global));
         if (global && varName != "") {
-          environment->onAdd(new WriteNode(varName));
+          environment->onAdd(new WriteNode(varName, clang_getCursorLocation(cursor)));
         }
         if (updateCallGraph) {
           callGraph->addEdge(caller, funcName, true);
         }
+      } else {
+        std::cout << "Failed to get pthreads create function name" << std::endl;
       }
     } else if (funcName == "EraserIgnoreOn") {
       eraserIgnoreOn = true;
@@ -308,12 +295,12 @@ void classifyVariable(CXCursor cursor, LhsType lhsType,
 
   if (functionDeclarations.find(varName) == functionDeclarations.end()) {
     if (lhsType == LHS_WRITE) {
-      (*nodesToAdd).push_back(new WriteNode(varName));
+      (*nodesToAdd).push_back(new WriteNode(varName, clang_getCursorLocation(cursor)));
     } else if (lhsType == LHS_READ_AND_WRITE) {
-      (*nodesToAdd).push_back(new ReadNode(varName));
-      (*nodesToAdd).push_back(new WriteNode(varName));
+      (*nodesToAdd).push_back(new ReadNode(varName,clang_getCursorLocation(cursor)));
+      (*nodesToAdd).push_back(new WriteNode(varName, clang_getCursorLocation(cursor)));
     } else {
-      environment->onAdd(new ReadNode(varName));
+      environment->onAdd(new ReadNode(varName, clang_getCursorLocation(cursor)));
     }
   }
 }
@@ -475,12 +462,14 @@ void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd, C
     VariableInfo variableInfo = findVariableInfo(spelling);
     std::string varName = getVariableName(spelling, cursor, variableInfo);
     bool global = isSharedVar(variableInfo);
-    if (varName != "") {
-      environment->onAdd(new ThreadJoinNode(varName, global));
-    }
+    // if (varName != "") {
+    environment->onAdd(new ThreadJoinNode(varName, global));
+    // }
   } else if (!eraserIgnoreOn) {
     if (funcName == "pthread_create") {
-      std::string called = getNthArg(cursor, 3);
+      std::cout << "Started pthreads create" << std::endl;
+      std::string called = getStartRoutineName(cursor);
+      std::cout << "calculated name" << std::endl;
       if (called != "") {
         std::string spelling = getNthArg(cursor, 1, true);
         VariableInfo variableInfo = findVariableInfo(spelling);
@@ -489,11 +478,13 @@ void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd, C
         bool global = isSharedVar(variableInfo);
         environment->onAdd(new ThreadCreateNode(funcName, varName, global));
         if (global && varName != "") {
-          environment->onAdd(new WriteNode(varName));
+          environment->onAdd(new WriteNode(varName, clang_getCursorLocation(cursor)));
         }
         if (updateCallGraph) {
           callGraph->addEdge(caller, funcName, true);
         }
+      } else {
+        std::cout << "Unable to get pthread_create name" << std::endl;
       }
     } else if (funcName == "EraserIgnoreOn") {
       eraserIgnoreOn = true;

@@ -256,3 +256,117 @@ WhileNode* handleForStmtIncrement(CXCursor ForStmt, CXCursor increment, Construc
     return forNodeLoop;
 }
 
+CXCursor getFirstChild(CXCursor cursor) {
+  CXCursor firstChild = clang_getNullCursor();
+
+  clang_visitChildren(
+      cursor,
+      [](CXCursor c, CXCursor parent, CXClientData clientData) {
+        CXCursor *firstChildPtr = reinterpret_cast<CXCursor *>(clientData);
+
+        *firstChildPtr = c;
+        return CXChildVisit_Break;
+      },
+      &firstChild);
+
+  return firstChild;
+}
+
+static bool isExprLike(CXCursorKind k) {
+  // Keep this permissive; you mainly want to avoid TypeRef/TemplateRef/etc.
+  switch (k) {
+    case CXCursor_TypeRef:
+    case CXCursor_TemplateRef:
+    case CXCursor_NamespaceRef:
+    case CXCursor_MemberRef:
+    case CXCursor_LabelRef:
+    case CXCursor_OverloadedDeclRef:
+      return false;
+    default:
+      return true;
+  }
+}
+
+static CXCursor getFirstExprChild(CXCursor c) {
+  struct Data { CXCursor out; };
+  Data d{ clang_getNullCursor() };
+
+  clang_visitChildren(
+    c,
+    [](CXCursor ch, CXCursor, CXClientData data) {
+      auto *d = reinterpret_cast<Data*>(data);
+      if (clang_Cursor_isNull(d->out) && isExprLike(clang_getCursorKind(ch))) {
+        d->out = ch;
+        return CXChildVisit_Break;
+      }
+      return CXChildVisit_Continue;
+    },
+    &d
+  );
+
+  return d.out;
+}
+
+
+CXCursor peelExpr(CXCursor c) {
+  while (true) {
+    CXCursorKind k = clang_getCursorKind(c);
+    if (k == CXCursor_ParenExpr ||
+        k == CXCursor_UnaryOperator || 
+        k == CXCursor_UnexposedExpr ||
+        k == CXCursor_CStyleCastExpr ||
+        k == CXCursor_CXXFunctionalCastExpr ||
+        k == CXCursor_CXXStaticCastExpr ||
+        k == CXCursor_CXXReinterpretCastExpr ||
+        k == CXCursor_CXXConstCastExpr) {
+      CXCursor child = getFirstExprChild(c);
+      if (clang_Cursor_isNull(child)) break;
+      c = child;
+      continue;
+    }
+    break;
+  }
+  return c;
+}
+
+// search for the function term within the mess of cursor casts
+CXCursor findFunctionDeclRef(CXCursor root) {
+  struct Data { CXCursor out; };
+  Data d{ clang_getNullCursor() };
+
+  clang_visitChildren(
+    root,
+    [](CXCursor ch, CXCursor, CXClientData data) {
+      auto *d = reinterpret_cast<Data*>(data);
+
+      if (clang_getCursorKind(ch) == CXCursor_DeclRefExpr) {
+        CXCursor ref = clang_getCursorReferenced(ch);
+        if (!clang_Cursor_isNull(ref) &&
+            clang_getCursorKind(ref) == CXCursor_FunctionDecl) {
+          d->out = ch;
+          return CXChildVisit_Break;
+        }
+      }
+      return CXChildVisit_Recurse;
+    },
+    &d
+  );
+
+  return d.out;
+}
+
+std::string getStartRoutineName(CXCursor call) {
+  if (clang_Cursor_getNumArguments(call) < 3) return "";
+  CXCursor arg2 = clang_Cursor_getArgument(call, 2);
+
+  CXCursor declRef = findFunctionDeclRef(arg2);
+  if (clang_Cursor_isNull(declRef)) return "";
+
+  CXString s = clang_getCursorSpelling(declRef);
+  std::string name = clang_getCString(s);
+  clang_disposeString(s);
+  return name;
+}
+
+
+
