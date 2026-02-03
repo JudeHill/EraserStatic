@@ -134,10 +134,14 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
 
 bool Eraser::handle_read(LockName var_name, const LockSet lockset, bool on_main_thread, int epoch) {
   // handle init
+  if (thread_depth == 0) {
+    return false;
+  }
+  
   std::cout << "Handling read for var " << var_name << " with thread depth " << thread_depth
             << std::endl;
   if (!vars.contains(var_name)) {
-    vars[var_name] = std::make_unique<VarInfo>(VarInfo{
+    vars[var_name][epoch] = std::make_unique<VarInfo>(VarInfo{
         .var_name = var_name,
         .only_on_main = on_main_thread,
         .status = VIRGIN,
@@ -145,15 +149,18 @@ bool Eraser::handle_read(LockName var_name, const LockSet lockset, bool on_main_
     });
     return false;
   }
+  VarInfos &var_infos = vars[var_name];
+  if (!var_infos.contains(epoch)){
+    var_infos[epoch] = std::make_unique<VarInfo>(VarInfo{
+      .var_name = var_name,
+      .only_on_main = on_main_thread,
+      .status = VIRGIN,
+      .lockset = lockset,
+  });
+  }
 
-  VarInfo &var = *vars[var_name];
+  VarInfo &var = *var_infos[epoch];
   LockSet old_lockset = var.lockset;
-  if (thread_depth == 0) {
-    return false;
-  }
-  if (var.status == VIRGIN) {
-    var.lockset = lockset;
-  }
   var.only_on_main = (var.only_on_main && on_main_thread);
   for (auto it = var.lockset.begin(); it != var.lockset.end();) {
     if (!lockset.contains(*it)) {
@@ -176,6 +183,10 @@ bool Eraser::handle_read(LockName var_name, const LockSet lockset, bool on_main_
 bool Eraser::handle_write(LockName var_name, const LockSet lockset, bool on_main_thread,
                           int epoch) {
   // handle init
+  if (thread_depth == 0) {
+    return false;
+  }
+
   std::cout << "Handling write for var " << var_name << " with thread depth: " << thread_depth
             << std::endl;
   if (!vars.contains(var_name)) {
@@ -185,9 +196,6 @@ bool Eraser::handle_write(LockName var_name, const LockSet lockset, bool on_main
         .status = VIRGIN,
         .lockset = lockset,
     });
-  }
-  if (thread_depth == 0) {
-    return false;
   }
 
   VarInfos &var_infos = vars[var_name];
@@ -199,10 +207,8 @@ bool Eraser::handle_write(LockName var_name, const LockSet lockset, bool on_main
       .lockset = lockset,
   });
   }
+  VarInfo &var = *var_infos[epoch];
   LockSet old_lockset = var.lockset;
-  if (var.status == VIRGIN) {
-    var.lockset = lockset;
-  }
   var.only_on_main = (var.only_on_main && on_main_thread);
 
   if (!(var.status == SHARED_MODIFIED) && !var.only_on_main) {

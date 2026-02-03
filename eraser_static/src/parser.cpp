@@ -163,7 +163,8 @@ std::string getNthArg(CXCursor cursor, int targetArg, bool isPtr = false) {
       },
       &clientData);
 
-  if (clientData.argNum >= targetArg && !clientData.isPtr) {
+  // if (clientData.argNum >= targetArg && !clientData.isPtr) {
+  if (clientData.argNum >= targetArg) {
     CXCursor argCursor = *clientData.argCursor;
 
     argCursor = peelExpr(argCursor);
