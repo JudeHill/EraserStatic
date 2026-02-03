@@ -10,6 +10,7 @@ static std::vector<unsigned int> scopeNums = {0};
 static int inFunc = 0;
 static int scopeDepth = 0;
 static bool ignoreNextCompound = false;
+static bool ignoreBarriers = false;
 static std::string funcName = "";
 static StartNode *startNode = nullptr;
 static std::string startNodeFuncName;
@@ -407,7 +408,7 @@ void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd, C
     // if (varName != "") {
     environment->onAdd(new ThreadJoinNode(varName, global));
     // }
-  } else if (funcName == "pthread_barrier_wait"){
+  } else if (funcName == "pthread_barrier_wait" && !ignoreBarriers){
     std::string spelling = getNthArg(cursor, 1);
     VariableInfo variableInfo = findVariableInfo(spelling);
     std::string varName = getVariableName(spelling, cursor, variableInfo);
@@ -639,7 +640,7 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
   return CXChildVisit_Continue;
 }
 
-void Parser::parseFile(const char *fileName, bool fileChanged, bool verbose) {
+void Parser::parseFile(const char *fileName, bool ignore_barriers, bool verbose, bool fileChanged) {
   funcMap = {};
   functionDeclarations = {};
   scopeStack.clear();
@@ -649,6 +650,7 @@ void Parser::parseFile(const char *fileName, bool fileChanged, bool verbose) {
   ignoreNextCompound = false;
   funcName = "";
   startNode = nullptr;
+  ignoreBarriers = ignore_barriers;
   updateCallGraph = fileChanged;
 
   scopeStack.push_back(std::unordered_map<std::string, VariableInfo>());

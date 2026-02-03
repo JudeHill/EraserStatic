@@ -73,7 +73,7 @@ public:
   explicit Parser(CallGraph *callGraph_, FileIncludes *fileIncludes_);
   virtual ~Parser();
 
-  void parseFile(const char *fileName, bool fileChanged = true, bool verbose = false);
+  void parseFile(const char *fileName, bool ignore_barriers = false, bool verbose = false, bool fileChanged = true);
   void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd);
   void visualizeCFG();
   std::vector<std::string> getFunctions();

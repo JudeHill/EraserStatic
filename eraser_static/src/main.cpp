@@ -54,6 +54,7 @@ int main(int argc, char* argv[]){
     bool show_graph = false;
     bool is_barnes = false;
     bool symmetric_join = false;
+    bool ignore_barriers = false;
     int i = 3;
     while (i < argc){
         std::string option = std::string(argv[i]);
@@ -63,9 +64,10 @@ int main(int argc, char* argv[]){
             show_graph = true;
         } else if (option == "-s" || option == "--symmetric-join"){
             symmetric_join = true;
+        } else if (option == "-b" || option == "--no-barrier"){
+            ignore_barriers = true;
         } else {
             std::cerr << "Unknown option: " << option << "\n";
-
         }
         i++;
 
@@ -77,7 +79,7 @@ int main(int argc, char* argv[]){
     Parser parser(cg.get(), fi.get());
    
     if (!directory_mode){
-        parser.parseFile(filepath.c_str(), true);
+        parser.parseFile(filepath.c_str(), ignore_barriers);
     } else {
         try {
             if (fs::exists(filepath) && fs::is_directory(filepath)) {
@@ -100,7 +102,7 @@ int main(int argc, char* argv[]){
         const char* fileName = pathStr.c_str();
 
         std::cout << "Parsing: " << fileName << "..." << std::endl;
-        parser.parseFile(fileName);
+        parser.parseFile(fileName, ignore_barriers);
     }
 
    
