@@ -16,6 +16,7 @@ add_executable(eraser_static
   eraser_static/src/file_includes.cpp
   eraser_static/src/parser_helpers.cpp
   eraser_static/src/construction_environment.cpp
+  eraser_static/src/llm_handler.cpp
   eraser_static/graph_nodes/src/basic_node.cpp
   eraser_static/graph_nodes/src/break_node.cpp
   eraser_static/graph_nodes/src/barrier_node.cpp
@@ -53,6 +54,14 @@ target_include_directories(eraser_static PRIVATE
 
 target_include_directories(eraser_static PRIVATE /usr/lib/llvm-18/include)
 target_link_libraries(eraser_static PRIVATE /usr/lib/llvm-18/lib/libclang.so)
+
+find_package(nlohmann_json REQUIRED)
+target_link_libraries(eraser_static PRIVATE nlohmann_json::nlohmann_json)
+
+find_package(CURL REQUIRED)
+
+target_link_libraries(eraser_static PRIVATE CURL::libcurl)
+
 
 # Make sure the runtime loader can find libclang when you run the binary
 set_target_properties(eraser_static PROPERTIES

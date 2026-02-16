@@ -1,0 +1,6 @@
+Found dataraces involving 2 unique variables
+init_then_write.c 0 0 DATA: 1 unprotected accesses
+Write in file init_then_write.c at line 23, position 21
+init_then_write.c 0 0 CONFIG: 2 unprotected accesses
+Write in file init_then_write.c at line 18, position 3
+Read in file init_then_write.c at line 23, position 7

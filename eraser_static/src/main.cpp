@@ -1,7 +1,9 @@
 // to be implemented
 #include <iostream>
 #include "parser.h"
+#include "llm_handler.h"
 #include "graph_visualizer.h"
+
 #include "lockset.h"
 #include <system_error>
 #include <algorithm>
@@ -39,6 +41,16 @@ void dump_data_races(std::string filepath, DataRaceMap data_race_map){
 
 }
 
+void test_llms(){
+    LLMHandler handler;
+    std::string prompt = "Confirm what LLM you are, and what version I am talking to";
+    std::vector llms{LLM::CLAUDE, LLM::GEMINI, LLM::GPT};
+    for (auto llm : llms){
+        json j = handler.Prompt(prompt, llm);
+        std::cout << j.dump(4) << std::endl;
+    }
+}
+
 int main(int argc, char* argv[]){
     
     if (argc < 3){
@@ -66,6 +78,9 @@ int main(int argc, char* argv[]){
             symmetric_join = true;
         } else if (option == "-b" || option == "--no-barrier"){
             ignore_barriers = true;
+        } else if (option == "--test-llms") {
+            test_llms();
+            return 0;
         } else {
             std::cerr << "Unknown option: " << option << "\n";
         }
@@ -85,7 +100,7 @@ int main(int argc, char* argv[]){
             if (fs::exists(filepath) && fs::is_directory(filepath)) {
                 for (const auto& entry : fs::directory_iterator(filepath)) {
                     // Check if it's a regular file and ends with .c
-                    if (entry.is_regular_file() && entry.path().extension() == ".c") {
+                    if (entry.is_regular_file() && (entry.path().extension() == ".c" || entry.path().extension() == ".C")) {
                         files.push_back(entry.path());
                     }
                 }
@@ -123,4 +138,6 @@ int main(int argc, char* argv[]){
     return 0;
 
 }
+
+
 
