@@ -1,0 +1,3 @@
+/home/jude/EraserStatic/build/_deps/json-schema-validator-subbuild/CMakeFiles/json-schema-validator-populate.dir
+/home/jude/EraserStatic/build/_deps/json-schema-validator-subbuild/CMakeFiles/edit_cache.dir
+/home/jude/EraserStatic/build/_deps/json-schema-validator-subbuild/CMakeFiles/rebuild_cache.dir

@@ -1,3 +1,11 @@
 Found dataraces involving 1 unique variables
 array.c 0 0 tids: 1 unprotected accesses
-Write in file array.c at line 13, position 5
+Write in file array.c at line 13, position 3
+
+LLM analysis of shared variables:
+ChatGPT
+TP: 4   FP: 0   FN: 0
+Gemini
+TP: 4   FP: 0   FN: 0
+Claude
+TP: 4   FP: 0   FN: 0

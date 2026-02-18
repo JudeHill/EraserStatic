@@ -1,0 +1,539 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "_deps/json-schema-validator-build",
+					"childIndexes" : 
+					[
+						2,
+						3,
+						18
+					],
+					"jsonFile" : "directory-_deps.json-schema-validator-build-Debug-875a04e9a1d7ffbc986b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src",
+					"targetIndexes" : 
+					[
+						20
+					]
+				},
+				{
+					"build" : "_deps/json-schema-validator-build/src",
+					"jsonFile" : "directory-_deps.json-schema-validator-build.src-Debug-ff272b51593c451da68f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src/src"
+				},
+				{
+					"build" : "_deps/json-schema-validator-build/test",
+					"childIndexes" : 
+					[
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17
+					],
+					"jsonFile" : "directory-_deps.json-schema-validator-build.test-Debug-f54912ba9dbda42421d6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src/test",
+					"targetIndexes" : 
+					[
+						0,
+						2,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						16,
+						17,
+						19,
+						22,
+						23
+					]
+				},
+				{
+					"build" : "_deps/json-schema-validator-build/test/JSON-Schema-Test-Suite",
+					"jsonFile" : "directory-_deps.json-schema-validator-build.test.JSON-Schema-Test-Suite-Debug-be7085670ebaa5aeefe3.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src/test/JSON-Schema-Test-Suite",
+					"targetIndexes" : 
+					[
+						18
+					]
+				},
+				{
+					"build" : "_deps/json-schema-validator-build/test/issue-100",
+					"jsonFile" : "directory-_deps.json-schema-validator-build.test.issue-100-Debug-7af8d2e75360c994336d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src/test/issue-100"
+				},
+				{
+					"build" : "_deps/json-schema-validator-build/test/issue-101",
+					"jsonFile" : "directory-_deps.json-schema-validator-build.test.issue-101-Debug-183dd02d69681fd94b96.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src/test/issue-101"
+				},
+				{
+					"build" : "_deps/json-schema-validator-build/test/issue-12",
+					"jsonFile" : "directory-_deps.json-schema-validator-build.test.issue-12-Debug-a87737eb065135801d30.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src/test/issue-12"
+				},
+				{
+					"build" : "_deps/json-schema-validator-build/test/issue-143",
+					"jsonFile" : "directory-_deps.json-schema-validator-build.test.issue-143-Debug-8c101a56c018aa47ba42.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src/test/issue-143"
+				},
+				{
+					"build" : "_deps/json-schema-validator-build/test/issue-209",
+					"jsonFile" : "directory-_deps.json-schema-validator-build.test.issue-209-Debug-5f34fd023cf97e6230ef.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src/test/issue-209"
+				},
+				{
+					"build" : "_deps/json-schema-validator-build/test/issue-27",
+					"jsonFile" : "directory-_deps.json-schema-validator-build.test.issue-27-Debug-04393437383177ec8450.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src/test/issue-27"
+				},
+				{
+					"build" : "_deps/json-schema-validator-build/test/issue-311",
+					"jsonFile" : "directory-_deps.json-schema-validator-build.test.issue-311-Debug-e5271a161f76b71f9caa.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src/test/issue-311"
+				},
+				{
+					"build" : "_deps/json-schema-validator-build/test/issue-48",
+					"jsonFile" : "directory-_deps.json-schema-validator-build.test.issue-48-Debug-8f13a520895659de59c0.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src/test/issue-48"
+				},
+				{
+					"build" : "_deps/json-schema-validator-build/test/issue-54",
+					"jsonFile" : "directory-_deps.json-schema-validator-build.test.issue-54-Debug-c2027be85bcbbea2efda.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src/test/issue-54"
+				},
+				{
+					"build" : "_deps/json-schema-validator-build/test/issue-75",
+					"jsonFile" : "directory-_deps.json-schema-validator-build.test.issue-75-Debug-b9df1b0e8c9e8eab2253.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src/test/issue-75"
+				},
+				{
+					"build" : "_deps/json-schema-validator-build/test/issue-9",
+					"jsonFile" : "directory-_deps.json-schema-validator-build.test.issue-9-Debug-38c0a7c9079585ed470d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src/test/issue-9"
+				},
+				{
+					"build" : "_deps/json-schema-validator-build/test/issue-93",
+					"jsonFile" : "directory-_deps.json-schema-validator-build.test.issue-93-Debug-1e696d00d4306e16797a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src/test/issue-93",
+					"targetIndexes" : 
+					[
+						15
+					]
+				},
+				{
+					"build" : "_deps/json-schema-validator-build/test/issue-96",
+					"jsonFile" : "directory-_deps.json-schema-validator-build.test.issue-96-Debug-720e78e46c13297ac82b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src/test/issue-96"
+				},
+				{
+					"build" : "_deps/json-schema-validator-build/example",
+					"jsonFile" : "directory-_deps.json-schema-validator-build.example-Debug-b0a455c40fb2b308aa0b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src/example",
+					"targetIndexes" : 
+					[
+						3,
+						21
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "EraserStatic",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18
+					],
+					"name" : "nlohmann_json_schema_validator",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 3,
+					"id" : "binary-validation::@bad0e06703bee21378d1",
+					"jsonFile" : "target-binary-validation-Debug-771a5c2a6f766c17ee5c.json",
+					"name" : "binary-validation",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "eraser_static::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-eraser_static-Debug-c458adab67f6de5e607e.json",
+					"name" : "eraser_static",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "errors::@bad0e06703bee21378d1",
+					"jsonFile" : "target-errors-Debug-fdffe77cb572caf8c610.json",
+					"name" : "errors",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 18,
+					"id" : "format-json-schema::@5b4648c433bbcc37001e",
+					"jsonFile" : "target-format-json-schema-Debug-aceb91bee70c3adf5617.json",
+					"name" : "format-json-schema",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "issue-105-verbose-combination-errors::@bad0e06703bee21378d1",
+					"jsonFile" : "target-issue-105-verbose-combination-errors-Debug-3f6f2fe9463a42be10e0.json",
+					"name" : "issue-105-verbose-combination-errors",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "issue-117-format-error::@bad0e06703bee21378d1",
+					"jsonFile" : "target-issue-117-format-error-Debug-4539efc0eca79d7b1c0c.json",
+					"name" : "issue-117-format-error",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "issue-149-entry-selection::@bad0e06703bee21378d1",
+					"jsonFile" : "target-issue-149-entry-selection-Debug-bac260f9ef6f40860d8f.json",
+					"name" : "issue-149-entry-selection",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "issue-189-default-values::@bad0e06703bee21378d1",
+					"jsonFile" : "target-issue-189-default-values-Debug-70506bf950375de02930.json",
+					"name" : "issue-189-default-values",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "issue-229-oneof-default-values::@bad0e06703bee21378d1",
+					"jsonFile" : "target-issue-229-oneof-default-values-Debug-9ff48d30172435f3b23e.json",
+					"name" : "issue-229-oneof-default-values",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "issue-243-root-default-values::@bad0e06703bee21378d1",
+					"jsonFile" : "target-issue-243-root-default-values-Debug-22fb1cf4cca195407ecf.json",
+					"name" : "issue-243-root-default-values",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "issue-25-default-values::@bad0e06703bee21378d1",
+					"jsonFile" : "target-issue-25-default-values-Debug-180f36563ff3fc28a8ff.json",
+					"name" : "issue-25-default-values",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "issue-255-error-message-limit-precision::@bad0e06703bee21378d1",
+					"jsonFile" : "target-issue-255-error-message-limit-precision-Debug-7ff59676d17c4284b79d.json",
+					"name" : "issue-255-error-message-limit-precision",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "issue-293::@bad0e06703bee21378d1",
+					"jsonFile" : "target-issue-293-Debug-40244ebc6b7f8995ac17.json",
+					"name" : "issue-293",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "issue-70::@bad0e06703bee21378d1",
+					"jsonFile" : "target-issue-70-Debug-2b0975d32001b88d4085.json",
+					"name" : "issue-70",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "issue-70-root-schema-constructor::@bad0e06703bee21378d1",
+					"jsonFile" : "target-issue-70-root-schema-constructor-Debug-2edac9a7c1dc685a7a24.json",
+					"name" : "issue-70-root-schema-constructor",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 16,
+					"id" : "issue-93::@b1ec5015367a7568923f",
+					"jsonFile" : "target-issue-93-Debug-3e926a8572930f71bc23.json",
+					"name" : "issue-93",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "issue-98::@bad0e06703bee21378d1",
+					"jsonFile" : "target-issue-98-Debug-4e381ad847da3b954a54.json",
+					"name" : "issue-98",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "json-patch::@bad0e06703bee21378d1",
+					"jsonFile" : "target-json-patch-Debug-bbefcbfdff7820612b9b.json",
+					"name" : "json-patch",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "json-schema-test::@ee1da3247e02bb5120c8",
+					"jsonFile" : "target-json-schema-test-Debug-55a6dc1984c2a43b0d3c.json",
+					"name" : "json-schema-test",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "json-schema-validate::@bad0e06703bee21378d1",
+					"jsonFile" : "target-json-schema-validate-Debug-ac3f0fe70d9856e816cd.json",
+					"name" : "json-schema-validate",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "nlohmann_json_schema_validator::@47a726f30b74c0f99e78",
+					"jsonFile" : "target-nlohmann_json_schema_validator-Debug-94b42ffc8cc8c2e18063.json",
+					"name" : "nlohmann_json_schema_validator",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 18,
+					"id" : "readme-json-schema::@5b4648c433bbcc37001e",
+					"jsonFile" : "target-readme-json-schema-Debug-ccec1542a4be90f7f20f.json",
+					"name" : "readme-json-schema",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "string-format-check-test::@bad0e06703bee21378d1",
+					"jsonFile" : "target-string-format-check-test-Debug-976aecd0cc68e8de87de.json",
+					"name" : "string-format-check-test",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "uri::@bad0e06703bee21378d1",
+					"jsonFile" : "target-uri-Debug-be8c4a87da14ab8230fe.json",
+					"name" : "uri",
+					"projectIndex" : 1
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/jude/EraserStatic/build",
+		"source" : "/home/jude/EraserStatic"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

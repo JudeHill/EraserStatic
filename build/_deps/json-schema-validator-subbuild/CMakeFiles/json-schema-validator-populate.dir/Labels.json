@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/jude/EraserStatic/build/_deps/json-schema-validator-subbuild/CMakeFiles/json-schema-validator-populate"
+		},
+		{
+			"file" : "/home/jude/EraserStatic/build/_deps/json-schema-validator-subbuild/CMakeFiles/json-schema-validator-populate.rule"
+		},
+		{
+			"file" : "/home/jude/EraserStatic/build/_deps/json-schema-validator-subbuild/CMakeFiles/json-schema-validator-populate-complete.rule"
+		},
+		{
+			"file" : "/home/jude/EraserStatic/build/_deps/json-schema-validator-subbuild/json-schema-validator-populate-prefix/src/json-schema-validator-populate-stamp/json-schema-validator-populate-build.rule"
+		},
+		{
+			"file" : "/home/jude/EraserStatic/build/_deps/json-schema-validator-subbuild/json-schema-validator-populate-prefix/src/json-schema-validator-populate-stamp/json-schema-validator-populate-configure.rule"
+		},
+		{
+			"file" : "/home/jude/EraserStatic/build/_deps/json-schema-validator-subbuild/json-schema-validator-populate-prefix/src/json-schema-validator-populate-stamp/json-schema-validator-populate-download.rule"
+		},
+		{
+			"file" : "/home/jude/EraserStatic/build/_deps/json-schema-validator-subbuild/json-schema-validator-populate-prefix/src/json-schema-validator-populate-stamp/json-schema-validator-populate-install.rule"
+		},
+		{
+			"file" : "/home/jude/EraserStatic/build/_deps/json-schema-validator-subbuild/json-schema-validator-populate-prefix/src/json-schema-validator-populate-stamp/json-schema-validator-populate-mkdir.rule"
+		},
+		{
+			"file" : "/home/jude/EraserStatic/build/_deps/json-schema-validator-subbuild/json-schema-validator-populate-prefix/src/json-schema-validator-populate-stamp/json-schema-validator-populate-patch.rule"
+		},
+		{
+			"file" : "/home/jude/EraserStatic/build/_deps/json-schema-validator-subbuild/json-schema-validator-populate-prefix/src/json-schema-validator-populate-stamp/json-schema-validator-populate-test.rule"
+		},
+		{
+			"file" : "/home/jude/EraserStatic/build/_deps/json-schema-validator-subbuild/json-schema-validator-populate-prefix/src/json-schema-validator-populate-stamp/json-schema-validator-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"json-schema-validator-populate"
+		],
+		"name" : "json-schema-validator-populate"
+	}
+}

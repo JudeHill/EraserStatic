@@ -47,222 +47,229 @@ cmake_ninja_workdir = /home/jude/EraserStatic/build/
 #############################################
 # Order-only phony target for eraser_static
 
-build cmake_object_order_depends_target_eraser_static: phony || CMakeFiles/eraser_static.dir
+build cmake_object_order_depends_target_eraser_static: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
 
 build CMakeFiles/eraser_static.dir/eraser_static/src/main.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/src/main.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/src/main.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/src/parser.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/src/graph_visualizer.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/src/graph_visualizer.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/src/graph_visualizer.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/src/call_graph.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/src/call_graph.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/src/call_graph.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/src/lockset.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/src/file_includes.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/src/parser_helpers.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/src/parser_helpers.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/src/parser_helpers.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/src/construction_environment.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/src/llm_handler.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/src/llm_handler.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/src/llm_handler.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = CMakeFiles/eraser_static.dir
+  OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/src
+
+build CMakeFiles/eraser_static.dir/eraser_static/src/shared_var_identifier.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/src/shared_var_identifier.cpp || cmake_object_order_depends_target_eraser_static
+  DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/src/shared_var_identifier.cpp.o.d
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/basic_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/break_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/barrier_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/barrier_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/barrier_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/continue_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/continue_return_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/endif_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/endwhile_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/function_call_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/graph_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/if_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/lock_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/read_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/return_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/start_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/startwhile_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/thread_create_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/thread_join_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/unlock_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/while_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
 build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.o: CXX_COMPILER__eraser_static_unscanned_Debug /home/jude/EraserStatic/eraser_static/graph_nodes/src/write_node.cpp || cmake_object_order_depends_target_eraser_static
   DEP_FILE = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.o.d
   FLAGS = -g -std=gnu++20 -Wall -Wextra -Wpedantic -g
-  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include
+  INCLUDES = -I/home/jude/EraserStatic/eraser_static/include -I/home/jude/EraserStatic/eraser_static/graph_nodes/include -I/usr/lib/llvm-18/include -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   OBJECT_FILE_DIR = CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src
 
@@ -274,9 +281,9 @@ build CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.
 #############################################
 # Link the executable eraser_static
 
-build eraser_static: CXX_EXECUTABLE_LINKER__eraser_static_Debug CMakeFiles/eraser_static.dir/eraser_static/src/main.cpp.o CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o CMakeFiles/eraser_static.dir/eraser_static/src/graph_visualizer.cpp.o CMakeFiles/eraser_static.dir/eraser_static/src/call_graph.cpp.o CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.o CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.o CMakeFiles/eraser_static.dir/eraser_static/src/parser_helpers.cpp.o CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.o CMakeFiles/eraser_static.dir/eraser_static/src/llm_handler.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/barrier_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.o | /usr/lib/llvm-18/lib/libclang.so /usr/lib/x86_64-linux-gnu/libcurl.so
+build eraser_static: CXX_EXECUTABLE_LINKER__eraser_static_Debug CMakeFiles/eraser_static.dir/eraser_static/src/main.cpp.o CMakeFiles/eraser_static.dir/eraser_static/src/parser.cpp.o CMakeFiles/eraser_static.dir/eraser_static/src/graph_visualizer.cpp.o CMakeFiles/eraser_static.dir/eraser_static/src/call_graph.cpp.o CMakeFiles/eraser_static.dir/eraser_static/src/lockset.cpp.o CMakeFiles/eraser_static.dir/eraser_static/src/file_includes.cpp.o CMakeFiles/eraser_static.dir/eraser_static/src/parser_helpers.cpp.o CMakeFiles/eraser_static.dir/eraser_static/src/construction_environment.cpp.o CMakeFiles/eraser_static.dir/eraser_static/src/llm_handler.cpp.o CMakeFiles/eraser_static.dir/eraser_static/src/shared_var_identifier.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/basic_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/break_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/barrier_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/continue_return_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endif_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/endwhile_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_on_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/eraser_ignore_off_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/function_call_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/graph_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/if_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/lock_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/read_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/return_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/start_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/startwhile_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_create_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/thread_join_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/unlock_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/while_node.cpp.o CMakeFiles/eraser_static.dir/eraser_static/graph_nodes/src/write_node.cpp.o | /usr/lib/llvm-18/lib/libclang.so /usr/lib/x86_64-linux-gnu/libcurl.so _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
   FLAGS = -g
-  LINK_LIBRARIES = -Wl,-rpath,/lib:/usr/lib/llvm-18/lib  /usr/lib/llvm-18/lib/libclang.so  /usr/lib/x86_64-linux-gnu/libcurl.so
+  LINK_LIBRARIES = -Wl,-rpath,/lib:/usr/lib/llvm-18/lib  /usr/lib/llvm-18/lib/libclang.so  /usr/lib/x86_64-linux-gnu/libcurl.so  _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
   OBJECT_DIR = CMakeFiles/eraser_static.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -307,7 +314,1353 @@ build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
 build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 
 # =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/jude/EraserStatic/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target nlohmann_json_schema_validator
+
+
+#############################################
+# Order-only phony target for nlohmann_json_schema_validator
+
+build cmake_object_order_depends_target_nlohmann_json_schema_validator: phony || _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir
+
+build _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src/smtp-address-validator.cpp.o: CXX_COMPILER__nlohmann_json_schema_validator_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/src/smtp-address-validator.cpp || cmake_object_order_depends_target_nlohmann_json_schema_validator
+  DEP_FILE = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src/smtp-address-validator.cpp.o.d
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wshadow
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src
+
+build _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src/json-schema-draft7.json.cpp.o: CXX_COMPILER__nlohmann_json_schema_validator_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/src/json-schema-draft7.json.cpp || cmake_object_order_depends_target_nlohmann_json_schema_validator
+  DEP_FILE = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src/json-schema-draft7.json.cpp.o.d
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wshadow
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src
+
+build _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src/json-uri.cpp.o: CXX_COMPILER__nlohmann_json_schema_validator_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/src/json-uri.cpp || cmake_object_order_depends_target_nlohmann_json_schema_validator
+  DEP_FILE = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src/json-uri.cpp.o.d
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wshadow
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src
+
+build _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src/json-validator.cpp.o: CXX_COMPILER__nlohmann_json_schema_validator_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/src/json-validator.cpp || cmake_object_order_depends_target_nlohmann_json_schema_validator
+  DEP_FILE = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src/json-validator.cpp.o.d
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wshadow
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src
+
+build _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src/json-patch.cpp.o: CXX_COMPILER__nlohmann_json_schema_validator_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/src/json-patch.cpp || cmake_object_order_depends_target_nlohmann_json_schema_validator
+  DEP_FILE = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src/json-patch.cpp.o.d
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wshadow
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src
+
+build _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src/string-format-check.cpp.o: CXX_COMPILER__nlohmann_json_schema_validator_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/src/string-format-check.cpp || cmake_object_order_depends_target_nlohmann_json_schema_validator
+  DEP_FILE = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src/string-format-check.cpp.o.d
+  FLAGS = -g -std=gnu++20 -Wall -Wextra -Wshadow
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target nlohmann_json_schema_validator
+
+
+#############################################
+# Link the static library _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+
+build _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a: CXX_STATIC_LIBRARY_LINKER__nlohmann_json_schema_validator_Debug _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src/smtp-address-validator.cpp.o _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src/json-schema-draft7.json.cpp.o _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src/json-uri.cpp.o _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src/json-validator.cpp.o _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src/json-patch.cpp.o _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir/src/string-format-check.cpp.o
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = _deps/json-schema-validator-build/CMakeFiles/nlohmann_json_schema_validator.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  TARGET_PDB = nlohmann_json_schema_validator.a.dbg
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/json-schema-validator-build/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps/json-schema-validator-build/edit_cache: phony _deps/json-schema-validator-build/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/json-schema-validator-build/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build && /usr/bin/cmake --regenerate-during-build -S/home/jude/EraserStatic -B/home/jude/EraserStatic/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/json-schema-validator-build/rebuild_cache: phony _deps/json-schema-validator-build/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/jude/EraserStatic/build/_deps/json-schema-validator-src/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/json-schema-validator-build/src/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/src && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps/json-schema-validator-build/src/edit_cache: phony _deps/json-schema-validator-build/src/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/json-schema-validator-build/src/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/src && /usr/bin/cmake --regenerate-during-build -S/home/jude/EraserStatic -B/home/jude/EraserStatic/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/json-schema-validator-build/src/rebuild_cache: phony _deps/json-schema-validator-build/src/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/jude/EraserStatic/build/_deps/json-schema-validator-src/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for EXECUTABLE target json-schema-validate
+
+
+#############################################
+# Order-only phony target for json-schema-validate
+
+build cmake_object_order_depends_target_json-schema-validate: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/CMakeFiles/json-schema-validate.dir/json-schema-validate.cpp.o: CXX_COMPILER__json-schema-validate_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/json-schema-validate.cpp || cmake_object_order_depends_target_json-schema-validate
+  DEP_FILE = _deps/json-schema-validator-build/test/CMakeFiles/json-schema-validate.dir/json-schema-validate.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/json-schema-validate.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/CMakeFiles/json-schema-validate.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target json-schema-validate
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/json-schema-validate
+
+build _deps/json-schema-validator-build/test/json-schema-validate: CXX_EXECUTABLE_LINKER__json-schema-validate_Debug _deps/json-schema-validator-build/test/CMakeFiles/json-schema-validate.dir/json-schema-validate.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/json-schema-validate.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/json-schema-validate
+  TARGET_PDB = json-schema-validate.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target uri
+
+
+#############################################
+# Order-only phony target for uri
+
+build cmake_object_order_depends_target_uri: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/CMakeFiles/uri.dir/uri.cpp.o: CXX_COMPILER__uri_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/uri.cpp || cmake_object_order_depends_target_uri
+  DEP_FILE = _deps/json-schema-validator-build/test/CMakeFiles/uri.dir/uri.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/uri.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/CMakeFiles/uri.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target uri
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/uri
+
+build _deps/json-schema-validator-build/test/uri: CXX_EXECUTABLE_LINKER__uri_Debug _deps/json-schema-validator-build/test/CMakeFiles/uri.dir/uri.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/uri.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/uri
+  TARGET_PDB = uri.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target errors
+
+
+#############################################
+# Order-only phony target for errors
+
+build cmake_object_order_depends_target_errors: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/CMakeFiles/errors.dir/errors.cpp.o: CXX_COMPILER__errors_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/errors.cpp || cmake_object_order_depends_target_errors
+  DEP_FILE = _deps/json-schema-validator-build/test/CMakeFiles/errors.dir/errors.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/errors.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/CMakeFiles/errors.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target errors
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/errors
+
+build _deps/json-schema-validator-build/test/errors: CXX_EXECUTABLE_LINKER__errors_Debug _deps/json-schema-validator-build/test/CMakeFiles/errors.dir/errors.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/errors.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/errors
+  TARGET_PDB = errors.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target issue-70
+
+
+#############################################
+# Order-only phony target for issue-70
+
+build cmake_object_order_depends_target_issue-70: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/CMakeFiles/issue-70.dir/issue-70.cpp.o: CXX_COMPILER__issue-70_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/issue-70.cpp || cmake_object_order_depends_target_issue-70
+  DEP_FILE = _deps/json-schema-validator-build/test/CMakeFiles/issue-70.dir/issue-70.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-70.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-70.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target issue-70
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/issue-70
+
+build _deps/json-schema-validator-build/test/issue-70: CXX_EXECUTABLE_LINKER__issue-70_Debug _deps/json-schema-validator-build/test/CMakeFiles/issue-70.dir/issue-70.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-70.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/issue-70
+  TARGET_PDB = issue-70.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target issue-70-root-schema-constructor
+
+
+#############################################
+# Order-only phony target for issue-70-root-schema-constructor
+
+build cmake_object_order_depends_target_issue-70-root-schema-constructor: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/CMakeFiles/issue-70-root-schema-constructor.dir/issue-70-root-schema-constructor.cpp.o: CXX_COMPILER__issue-70-root-schema-constructor_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/issue-70-root-schema-constructor.cpp || cmake_object_order_depends_target_issue-70-root-schema-constructor
+  DEP_FILE = _deps/json-schema-validator-build/test/CMakeFiles/issue-70-root-schema-constructor.dir/issue-70-root-schema-constructor.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-70-root-schema-constructor.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-70-root-schema-constructor.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target issue-70-root-schema-constructor
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/issue-70-root-schema-constructor
+
+build _deps/json-schema-validator-build/test/issue-70-root-schema-constructor: CXX_EXECUTABLE_LINKER__issue-70-root-schema-constructor_Debug _deps/json-schema-validator-build/test/CMakeFiles/issue-70-root-schema-constructor.dir/issue-70-root-schema-constructor.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-70-root-schema-constructor.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/issue-70-root-schema-constructor
+  TARGET_PDB = issue-70-root-schema-constructor.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target issue-25-default-values
+
+
+#############################################
+# Order-only phony target for issue-25-default-values
+
+build cmake_object_order_depends_target_issue-25-default-values: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/CMakeFiles/issue-25-default-values.dir/issue-25-default-values.cpp.o: CXX_COMPILER__issue-25-default-values_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/issue-25-default-values.cpp || cmake_object_order_depends_target_issue-25-default-values
+  DEP_FILE = _deps/json-schema-validator-build/test/CMakeFiles/issue-25-default-values.dir/issue-25-default-values.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-25-default-values.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-25-default-values.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target issue-25-default-values
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/issue-25-default-values
+
+build _deps/json-schema-validator-build/test/issue-25-default-values: CXX_EXECUTABLE_LINKER__issue-25-default-values_Debug _deps/json-schema-validator-build/test/CMakeFiles/issue-25-default-values.dir/issue-25-default-values.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-25-default-values.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/issue-25-default-values
+  TARGET_PDB = issue-25-default-values.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target issue-98
+
+
+#############################################
+# Order-only phony target for issue-98
+
+build cmake_object_order_depends_target_issue-98: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/CMakeFiles/issue-98.dir/issue-98.cpp.o: CXX_COMPILER__issue-98_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/issue-98.cpp || cmake_object_order_depends_target_issue-98
+  DEP_FILE = _deps/json-schema-validator-build/test/CMakeFiles/issue-98.dir/issue-98.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-98.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-98.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target issue-98
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/issue-98
+
+build _deps/json-schema-validator-build/test/issue-98: CXX_EXECUTABLE_LINKER__issue-98_Debug _deps/json-schema-validator-build/test/CMakeFiles/issue-98.dir/issue-98.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-98.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/issue-98
+  TARGET_PDB = issue-98.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target issue-293
+
+
+#############################################
+# Order-only phony target for issue-293
+
+build cmake_object_order_depends_target_issue-293: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/CMakeFiles/issue-293.dir/issue-293.cpp.o: CXX_COMPILER__issue-293_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/issue-293.cpp || cmake_object_order_depends_target_issue-293
+  DEP_FILE = _deps/json-schema-validator-build/test/CMakeFiles/issue-293.dir/issue-293.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-293.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-293.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target issue-293
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/issue-293
+
+build _deps/json-schema-validator-build/test/issue-293: CXX_EXECUTABLE_LINKER__issue-293_Debug _deps/json-schema-validator-build/test/CMakeFiles/issue-293.dir/issue-293.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-293.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/issue-293
+  TARGET_PDB = issue-293.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target string-format-check-test
+
+
+#############################################
+# Order-only phony target for string-format-check-test
+
+build cmake_object_order_depends_target_string-format-check-test: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/CMakeFiles/string-format-check-test.dir/string-format-check-test.cpp.o: CXX_COMPILER__string-format-check-test_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/string-format-check-test.cpp || cmake_object_order_depends_target_string-format-check-test
+  DEP_FILE = _deps/json-schema-validator-build/test/CMakeFiles/string-format-check-test.dir/string-format-check-test.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/string-format-check-test.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/CMakeFiles/string-format-check-test.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target string-format-check-test
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/string-format-check-test
+
+build _deps/json-schema-validator-build/test/string-format-check-test: CXX_EXECUTABLE_LINKER__string-format-check-test_Debug _deps/json-schema-validator-build/test/CMakeFiles/string-format-check-test.dir/string-format-check-test.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/string-format-check-test.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/string-format-check-test
+  TARGET_PDB = string-format-check-test.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target json-patch
+
+
+#############################################
+# Order-only phony target for json-patch
+
+build cmake_object_order_depends_target_json-patch: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/CMakeFiles/json-patch.dir/json-patch.cpp.o: CXX_COMPILER__json-patch_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/json-patch.cpp || cmake_object_order_depends_target_json-patch
+  DEP_FILE = _deps/json-schema-validator-build/test/CMakeFiles/json-patch.dir/json-patch.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/json-patch.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/CMakeFiles/json-patch.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target json-patch
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/json-patch
+
+build _deps/json-schema-validator-build/test/json-patch: CXX_EXECUTABLE_LINKER__json-patch_Debug _deps/json-schema-validator-build/test/CMakeFiles/json-patch.dir/json-patch.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/json-patch.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/json-patch
+  TARGET_PDB = json-patch.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target issue-117-format-error
+
+
+#############################################
+# Order-only phony target for issue-117-format-error
+
+build cmake_object_order_depends_target_issue-117-format-error: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/CMakeFiles/issue-117-format-error.dir/issue-117-format-error.cpp.o: CXX_COMPILER__issue-117-format-error_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/issue-117-format-error.cpp || cmake_object_order_depends_target_issue-117-format-error
+  DEP_FILE = _deps/json-schema-validator-build/test/CMakeFiles/issue-117-format-error.dir/issue-117-format-error.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-117-format-error.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-117-format-error.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target issue-117-format-error
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/issue-117-format-error
+
+build _deps/json-schema-validator-build/test/issue-117-format-error: CXX_EXECUTABLE_LINKER__issue-117-format-error_Debug _deps/json-schema-validator-build/test/CMakeFiles/issue-117-format-error.dir/issue-117-format-error.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-117-format-error.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/issue-117-format-error
+  TARGET_PDB = issue-117-format-error.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target binary-validation
+
+
+#############################################
+# Order-only phony target for binary-validation
+
+build cmake_object_order_depends_target_binary-validation: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/CMakeFiles/binary-validation.dir/binary-validation.cpp.o: CXX_COMPILER__binary-validation_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/binary-validation.cpp || cmake_object_order_depends_target_binary-validation
+  DEP_FILE = _deps/json-schema-validator-build/test/CMakeFiles/binary-validation.dir/binary-validation.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/binary-validation.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/CMakeFiles/binary-validation.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target binary-validation
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/binary-validation
+
+build _deps/json-schema-validator-build/test/binary-validation: CXX_EXECUTABLE_LINKER__binary-validation_Debug _deps/json-schema-validator-build/test/CMakeFiles/binary-validation.dir/binary-validation.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/binary-validation.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/binary-validation
+  TARGET_PDB = binary-validation.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target issue-149-entry-selection
+
+
+#############################################
+# Order-only phony target for issue-149-entry-selection
+
+build cmake_object_order_depends_target_issue-149-entry-selection: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/CMakeFiles/issue-149-entry-selection.dir/issue-149-entry-selection.cpp.o: CXX_COMPILER__issue-149-entry-selection_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/issue-149-entry-selection.cpp || cmake_object_order_depends_target_issue-149-entry-selection
+  DEP_FILE = _deps/json-schema-validator-build/test/CMakeFiles/issue-149-entry-selection.dir/issue-149-entry-selection.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-149-entry-selection.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-149-entry-selection.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target issue-149-entry-selection
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/issue-149-entry-selection
+
+build _deps/json-schema-validator-build/test/issue-149-entry-selection: CXX_EXECUTABLE_LINKER__issue-149-entry-selection_Debug _deps/json-schema-validator-build/test/CMakeFiles/issue-149-entry-selection.dir/issue-149-entry-selection.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-149-entry-selection.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/issue-149-entry-selection
+  TARGET_PDB = issue-149-entry-selection.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target issue-189-default-values
+
+
+#############################################
+# Order-only phony target for issue-189-default-values
+
+build cmake_object_order_depends_target_issue-189-default-values: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/CMakeFiles/issue-189-default-values.dir/issue-189-default-values.cpp.o: CXX_COMPILER__issue-189-default-values_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/issue-189-default-values.cpp || cmake_object_order_depends_target_issue-189-default-values
+  DEP_FILE = _deps/json-schema-validator-build/test/CMakeFiles/issue-189-default-values.dir/issue-189-default-values.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-189-default-values.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-189-default-values.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target issue-189-default-values
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/issue-189-default-values
+
+build _deps/json-schema-validator-build/test/issue-189-default-values: CXX_EXECUTABLE_LINKER__issue-189-default-values_Debug _deps/json-schema-validator-build/test/CMakeFiles/issue-189-default-values.dir/issue-189-default-values.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-189-default-values.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/issue-189-default-values
+  TARGET_PDB = issue-189-default-values.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target issue-229-oneof-default-values
+
+
+#############################################
+# Order-only phony target for issue-229-oneof-default-values
+
+build cmake_object_order_depends_target_issue-229-oneof-default-values: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/CMakeFiles/issue-229-oneof-default-values.dir/issue-229-oneof-default-values.cpp.o: CXX_COMPILER__issue-229-oneof-default-values_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/issue-229-oneof-default-values.cpp || cmake_object_order_depends_target_issue-229-oneof-default-values
+  DEP_FILE = _deps/json-schema-validator-build/test/CMakeFiles/issue-229-oneof-default-values.dir/issue-229-oneof-default-values.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-229-oneof-default-values.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-229-oneof-default-values.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target issue-229-oneof-default-values
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/issue-229-oneof-default-values
+
+build _deps/json-schema-validator-build/test/issue-229-oneof-default-values: CXX_EXECUTABLE_LINKER__issue-229-oneof-default-values_Debug _deps/json-schema-validator-build/test/CMakeFiles/issue-229-oneof-default-values.dir/issue-229-oneof-default-values.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-229-oneof-default-values.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/issue-229-oneof-default-values
+  TARGET_PDB = issue-229-oneof-default-values.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target issue-243-root-default-values
+
+
+#############################################
+# Order-only phony target for issue-243-root-default-values
+
+build cmake_object_order_depends_target_issue-243-root-default-values: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/CMakeFiles/issue-243-root-default-values.dir/issue-243-root-default-values.cpp.o: CXX_COMPILER__issue-243-root-default-values_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/issue-243-root-default-values.cpp || cmake_object_order_depends_target_issue-243-root-default-values
+  DEP_FILE = _deps/json-schema-validator-build/test/CMakeFiles/issue-243-root-default-values.dir/issue-243-root-default-values.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-243-root-default-values.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-243-root-default-values.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target issue-243-root-default-values
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/issue-243-root-default-values
+
+build _deps/json-schema-validator-build/test/issue-243-root-default-values: CXX_EXECUTABLE_LINKER__issue-243-root-default-values_Debug _deps/json-schema-validator-build/test/CMakeFiles/issue-243-root-default-values.dir/issue-243-root-default-values.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-243-root-default-values.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/issue-243-root-default-values
+  TARGET_PDB = issue-243-root-default-values.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target issue-255-error-message-limit-precision
+
+
+#############################################
+# Order-only phony target for issue-255-error-message-limit-precision
+
+build cmake_object_order_depends_target_issue-255-error-message-limit-precision: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/CMakeFiles/issue-255-error-message-limit-precision.dir/issue-255-error-message-limit-precision.cpp.o: CXX_COMPILER__issue-255-error-message-limit-precision_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/issue-255-error-message-limit-precision.cpp || cmake_object_order_depends_target_issue-255-error-message-limit-precision
+  DEP_FILE = _deps/json-schema-validator-build/test/CMakeFiles/issue-255-error-message-limit-precision.dir/issue-255-error-message-limit-precision.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-255-error-message-limit-precision.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-255-error-message-limit-precision.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target issue-255-error-message-limit-precision
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/issue-255-error-message-limit-precision
+
+build _deps/json-schema-validator-build/test/issue-255-error-message-limit-precision: CXX_EXECUTABLE_LINKER__issue-255-error-message-limit-precision_Debug _deps/json-schema-validator-build/test/CMakeFiles/issue-255-error-message-limit-precision.dir/issue-255-error-message-limit-precision.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-255-error-message-limit-precision.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/issue-255-error-message-limit-precision
+  TARGET_PDB = issue-255-error-message-limit-precision.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target issue-105-verbose-combination-errors
+
+
+#############################################
+# Order-only phony target for issue-105-verbose-combination-errors
+
+build cmake_object_order_depends_target_issue-105-verbose-combination-errors: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/CMakeFiles/issue-105-verbose-combination-errors.dir/issue-105-verbose-combination-errors.cpp.o: CXX_COMPILER__issue-105-verbose-combination-errors_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/issue-105-verbose-combination-errors.cpp || cmake_object_order_depends_target_issue-105-verbose-combination-errors
+  DEP_FILE = _deps/json-schema-validator-build/test/CMakeFiles/issue-105-verbose-combination-errors.dir/issue-105-verbose-combination-errors.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-105-verbose-combination-errors.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-105-verbose-combination-errors.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target issue-105-verbose-combination-errors
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/issue-105-verbose-combination-errors
+
+build _deps/json-schema-validator-build/test/issue-105-verbose-combination-errors: CXX_EXECUTABLE_LINKER__issue-105-verbose-combination-errors_Debug _deps/json-schema-validator-build/test/CMakeFiles/issue-105-verbose-combination-errors.dir/issue-105-verbose-combination-errors.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/CMakeFiles/issue-105-verbose-combination-errors.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/issue-105-verbose-combination-errors
+  TARGET_PDB = issue-105-verbose-combination-errors.dbg
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/json-schema-validator-build/test/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps/json-schema-validator-build/test/edit_cache: phony _deps/json-schema-validator-build/test/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/json-schema-validator-build/test/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test && /usr/bin/cmake --regenerate-during-build -S/home/jude/EraserStatic -B/home/jude/EraserStatic/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/json-schema-validator-build/test/rebuild_cache: phony _deps/json-schema-validator-build/test/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for EXECUTABLE target json-schema-test
+
+
+#############################################
+# Order-only phony target for json-schema-test
+
+build cmake_object_order_depends_target_json-schema-test: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/CMakeFiles/json-schema-test.dir/json-schema-test.cpp.o: CXX_COMPILER__json-schema-test_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/JSON-Schema-Test-Suite/json-schema-test.cpp || cmake_object_order_depends_target_json-schema-test
+  DEFINES = -DJSON_SCHEMA_TEST_SUITE_PATH=\"/home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/JSON-Schema-Test-Suite\"
+  DEP_FILE = _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/CMakeFiles/json-schema-test.dir/json-schema-test.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/CMakeFiles/json-schema-test.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/CMakeFiles/json-schema-test.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target json-schema-test
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/json-schema-test
+
+build _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/json-schema-test: CXX_EXECUTABLE_LINKER__json-schema-test_Debug _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/CMakeFiles/json-schema-test.dir/json-schema-test.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/CMakeFiles/json-schema-test.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/json-schema-test
+  TARGET_PDB = json-schema-test.dbg
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/JSON-Schema-Test-Suite && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/edit_cache: phony _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/JSON-Schema-Test-Suite && /usr/bin/cmake --regenerate-during-build -S/home/jude/EraserStatic -B/home/jude/EraserStatic/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/rebuild_cache: phony _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/json-schema-validator-build/test/issue-100/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-100 && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-100/edit_cache: phony _deps/json-schema-validator-build/test/issue-100/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/json-schema-validator-build/test/issue-100/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-100 && /usr/bin/cmake --regenerate-during-build -S/home/jude/EraserStatic -B/home/jude/EraserStatic/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-100/rebuild_cache: phony _deps/json-schema-validator-build/test/issue-100/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/json-schema-validator-build/test/issue-101/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-101 && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-101/edit_cache: phony _deps/json-schema-validator-build/test/issue-101/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/json-schema-validator-build/test/issue-101/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-101 && /usr/bin/cmake --regenerate-during-build -S/home/jude/EraserStatic -B/home/jude/EraserStatic/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-101/rebuild_cache: phony _deps/json-schema-validator-build/test/issue-101/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/json-schema-validator-build/test/issue-12/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-12 && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-12/edit_cache: phony _deps/json-schema-validator-build/test/issue-12/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/json-schema-validator-build/test/issue-12/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-12 && /usr/bin/cmake --regenerate-during-build -S/home/jude/EraserStatic -B/home/jude/EraserStatic/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-12/rebuild_cache: phony _deps/json-schema-validator-build/test/issue-12/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/json-schema-validator-build/test/issue-143/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-143 && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-143/edit_cache: phony _deps/json-schema-validator-build/test/issue-143/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/json-schema-validator-build/test/issue-143/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-143 && /usr/bin/cmake --regenerate-during-build -S/home/jude/EraserStatic -B/home/jude/EraserStatic/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-143/rebuild_cache: phony _deps/json-schema-validator-build/test/issue-143/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/json-schema-validator-build/test/issue-209/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-209 && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-209/edit_cache: phony _deps/json-schema-validator-build/test/issue-209/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/json-schema-validator-build/test/issue-209/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-209 && /usr/bin/cmake --regenerate-during-build -S/home/jude/EraserStatic -B/home/jude/EraserStatic/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-209/rebuild_cache: phony _deps/json-schema-validator-build/test/issue-209/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/json-schema-validator-build/test/issue-27/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-27 && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-27/edit_cache: phony _deps/json-schema-validator-build/test/issue-27/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/json-schema-validator-build/test/issue-27/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-27 && /usr/bin/cmake --regenerate-during-build -S/home/jude/EraserStatic -B/home/jude/EraserStatic/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-27/rebuild_cache: phony _deps/json-schema-validator-build/test/issue-27/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/json-schema-validator-build/test/issue-311/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-311 && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-311/edit_cache: phony _deps/json-schema-validator-build/test/issue-311/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/json-schema-validator-build/test/issue-311/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-311 && /usr/bin/cmake --regenerate-during-build -S/home/jude/EraserStatic -B/home/jude/EraserStatic/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-311/rebuild_cache: phony _deps/json-schema-validator-build/test/issue-311/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/json-schema-validator-build/test/issue-48/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-48 && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-48/edit_cache: phony _deps/json-schema-validator-build/test/issue-48/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/json-schema-validator-build/test/issue-48/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-48 && /usr/bin/cmake --regenerate-during-build -S/home/jude/EraserStatic -B/home/jude/EraserStatic/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-48/rebuild_cache: phony _deps/json-schema-validator-build/test/issue-48/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/json-schema-validator-build/test/issue-54/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-54 && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-54/edit_cache: phony _deps/json-schema-validator-build/test/issue-54/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/json-schema-validator-build/test/issue-54/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-54 && /usr/bin/cmake --regenerate-during-build -S/home/jude/EraserStatic -B/home/jude/EraserStatic/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-54/rebuild_cache: phony _deps/json-schema-validator-build/test/issue-54/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/json-schema-validator-build/test/issue-75/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-75 && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-75/edit_cache: phony _deps/json-schema-validator-build/test/issue-75/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/json-schema-validator-build/test/issue-75/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-75 && /usr/bin/cmake --regenerate-during-build -S/home/jude/EraserStatic -B/home/jude/EraserStatic/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-75/rebuild_cache: phony _deps/json-schema-validator-build/test/issue-75/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/json-schema-validator-build/test/issue-9/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-9 && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-9/edit_cache: phony _deps/json-schema-validator-build/test/issue-9/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/json-schema-validator-build/test/issue-9/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-9 && /usr/bin/cmake --regenerate-during-build -S/home/jude/EraserStatic -B/home/jude/EraserStatic/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-9/rebuild_cache: phony _deps/json-schema-validator-build/test/issue-9/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for EXECUTABLE target issue-93
+
+
+#############################################
+# Order-only phony target for issue-93
+
+build cmake_object_order_depends_target_issue-93: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/test/issue-93/CMakeFiles/issue-93.dir/issue-93.cpp.o: CXX_COMPILER__issue-93_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/issue-93/issue-93.cpp || cmake_object_order_depends_target_issue-93
+  DEP_FILE = _deps/json-schema-validator-build/test/issue-93/CMakeFiles/issue-93.dir/issue-93.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/test/issue-93/CMakeFiles/issue-93.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/test/issue-93/CMakeFiles/issue-93.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target issue-93
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/test/issue-93/issue-93
+
+build _deps/json-schema-validator-build/test/issue-93/issue-93: CXX_EXECUTABLE_LINKER__issue-93_Debug _deps/json-schema-validator-build/test/issue-93/CMakeFiles/issue-93.dir/issue-93.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/test/issue-93/CMakeFiles/issue-93.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/test/issue-93/issue-93
+  TARGET_PDB = issue-93.dbg
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/json-schema-validator-build/test/issue-93/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-93 && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-93/edit_cache: phony _deps/json-schema-validator-build/test/issue-93/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/json-schema-validator-build/test/issue-93/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-93 && /usr/bin/cmake --regenerate-during-build -S/home/jude/EraserStatic -B/home/jude/EraserStatic/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-93/rebuild_cache: phony _deps/json-schema-validator-build/test/issue-93/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/jude/EraserStatic/build/_deps/json-schema-validator-src/test/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/json-schema-validator-build/test/issue-96/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-96 && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-96/edit_cache: phony _deps/json-schema-validator-build/test/issue-96/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/json-schema-validator-build/test/issue-96/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-96 && /usr/bin/cmake --regenerate-during-build -S/home/jude/EraserStatic -B/home/jude/EraserStatic/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/json-schema-validator-build/test/issue-96/rebuild_cache: phony _deps/json-schema-validator-build/test/issue-96/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/jude/EraserStatic/build/_deps/json-schema-validator-src/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for EXECUTABLE target readme-json-schema
+
+
+#############################################
+# Order-only phony target for readme-json-schema
+
+build cmake_object_order_depends_target_readme-json-schema: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/example/CMakeFiles/readme-json-schema.dir/readme.cpp.o: CXX_COMPILER__readme-json-schema_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/example/readme.cpp || cmake_object_order_depends_target_readme-json-schema
+  DEP_FILE = _deps/json-schema-validator-build/example/CMakeFiles/readme-json-schema.dir/readme.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/example/CMakeFiles/readme-json-schema.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/example/CMakeFiles/readme-json-schema.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target readme-json-schema
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/example/readme-json-schema
+
+build _deps/json-schema-validator-build/example/readme-json-schema: CXX_EXECUTABLE_LINKER__readme-json-schema_Debug _deps/json-schema-validator-build/example/CMakeFiles/readme-json-schema.dir/readme.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/example/CMakeFiles/readme-json-schema.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/example/readme-json-schema
+  TARGET_PDB = readme-json-schema.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target format-json-schema
+
+
+#############################################
+# Order-only phony target for format-json-schema
+
+build cmake_object_order_depends_target_format-json-schema: phony || cmake_object_order_depends_target_nlohmann_json_schema_validator
+
+build _deps/json-schema-validator-build/example/CMakeFiles/format-json-schema.dir/format.cpp.o: CXX_COMPILER__format-json-schema_unscanned_Debug /home/jude/EraserStatic/build/_deps/json-schema-validator-src/example/format.cpp || cmake_object_order_depends_target_format-json-schema
+  DEP_FILE = _deps/json-schema-validator-build/example/CMakeFiles/format-json-schema.dir/format.cpp.o.d
+  FLAGS = -g -std=gnu++20
+  INCLUDES = -I/home/jude/EraserStatic/build/_deps/json-schema-validator-src/src
+  OBJECT_DIR = _deps/json-schema-validator-build/example/CMakeFiles/format-json-schema.dir
+  OBJECT_FILE_DIR = _deps/json-schema-validator-build/example/CMakeFiles/format-json-schema.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target format-json-schema
+
+
+#############################################
+# Link the executable _deps/json-schema-validator-build/example/format-json-schema
+
+build _deps/json-schema-validator-build/example/format-json-schema: CXX_EXECUTABLE_LINKER__format-json-schema_Debug _deps/json-schema-validator-build/example/CMakeFiles/format-json-schema.dir/format.cpp.o | _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a || _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  FLAGS = -g
+  LINK_LIBRARIES = _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+  OBJECT_DIR = _deps/json-schema-validator-build/example/CMakeFiles/format-json-schema.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/json-schema-validator-build/example/format-json-schema
+  TARGET_PDB = format-json-schema.dbg
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/json-schema-validator-build/example/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/example && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build _deps/json-schema-validator-build/example/edit_cache: phony _deps/json-schema-validator-build/example/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/json-schema-validator-build/example/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jude/EraserStatic/build/_deps/json-schema-validator-build/example && /usr/bin/cmake --regenerate-during-build -S/home/jude/EraserStatic -B/home/jude/EraserStatic/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/json-schema-validator-build/example/rebuild_cache: phony _deps/json-schema-validator-build/example/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
 # Target aliases.
+
+build binary-validation: phony _deps/json-schema-validator-build/test/binary-validation
+
+build errors: phony _deps/json-schema-validator-build/test/errors
+
+build format-json-schema: phony _deps/json-schema-validator-build/example/format-json-schema
+
+build issue-105-verbose-combination-errors: phony _deps/json-schema-validator-build/test/issue-105-verbose-combination-errors
+
+build issue-117-format-error: phony _deps/json-schema-validator-build/test/issue-117-format-error
+
+build issue-149-entry-selection: phony _deps/json-schema-validator-build/test/issue-149-entry-selection
+
+build issue-189-default-values: phony _deps/json-schema-validator-build/test/issue-189-default-values
+
+build issue-229-oneof-default-values: phony _deps/json-schema-validator-build/test/issue-229-oneof-default-values
+
+build issue-243-root-default-values: phony _deps/json-schema-validator-build/test/issue-243-root-default-values
+
+build issue-25-default-values: phony _deps/json-schema-validator-build/test/issue-25-default-values
+
+build issue-255-error-message-limit-precision: phony _deps/json-schema-validator-build/test/issue-255-error-message-limit-precision
+
+build issue-293: phony _deps/json-schema-validator-build/test/issue-293
+
+build issue-70: phony _deps/json-schema-validator-build/test/issue-70
+
+build issue-70-root-schema-constructor: phony _deps/json-schema-validator-build/test/issue-70-root-schema-constructor
+
+build issue-93: phony _deps/json-schema-validator-build/test/issue-93/issue-93
+
+build issue-98: phony _deps/json-schema-validator-build/test/issue-98
+
+build json-patch: phony _deps/json-schema-validator-build/test/json-patch
+
+build json-schema-test: phony _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/json-schema-test
+
+build json-schema-validate: phony _deps/json-schema-validator-build/test/json-schema-validate
+
+build libnlohmann_json_schema_validator.a: phony _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+
+build nlohmann_json_schema_validator: phony _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a
+
+build readme-json-schema: phony _deps/json-schema-validator-build/example/readme-json-schema
+
+build string-format-check-test: phony _deps/json-schema-validator-build/test/string-format-check-test
+
+build uri: phony _deps/json-schema-validator-build/test/uri
 
 # =============================================================================
 # Folder targets.
@@ -317,7 +1670,133 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: /home/jude/EraserStatic/build
 
-build all: phony eraser_static
+build all: phony eraser_static _deps/json-schema-validator-build/all
+
+# =============================================================================
+
+#############################################
+# Folder: /home/jude/EraserStatic/build/_deps/json-schema-validator-build
+
+build _deps/json-schema-validator-build/all: phony _deps/json-schema-validator-build/libnlohmann_json_schema_validator.a _deps/json-schema-validator-build/src/all _deps/json-schema-validator-build/test/all _deps/json-schema-validator-build/example/all
+
+# =============================================================================
+
+#############################################
+# Folder: /home/jude/EraserStatic/build/_deps/json-schema-validator-build/example
+
+build _deps/json-schema-validator-build/example/all: phony _deps/json-schema-validator-build/example/readme-json-schema _deps/json-schema-validator-build/example/format-json-schema
+
+# =============================================================================
+
+#############################################
+# Folder: /home/jude/EraserStatic/build/_deps/json-schema-validator-build/src
+
+build _deps/json-schema-validator-build/src/all: phony
+
+# =============================================================================
+
+#############################################
+# Folder: /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test
+
+build _deps/json-schema-validator-build/test/all: phony _deps/json-schema-validator-build/test/json-schema-validate _deps/json-schema-validator-build/test/uri _deps/json-schema-validator-build/test/errors _deps/json-schema-validator-build/test/issue-70 _deps/json-schema-validator-build/test/issue-70-root-schema-constructor _deps/json-schema-validator-build/test/issue-25-default-values _deps/json-schema-validator-build/test/issue-98 _deps/json-schema-validator-build/test/issue-293 _deps/json-schema-validator-build/test/string-format-check-test _deps/json-schema-validator-build/test/json-patch _deps/json-schema-validator-build/test/issue-117-format-error _deps/json-schema-validator-build/test/binary-validation _deps/json-schema-validator-build/test/issue-149-entry-selection _deps/json-schema-validator-build/test/issue-189-default-values _deps/json-schema-validator-build/test/issue-229-oneof-default-values _deps/json-schema-validator-build/test/issue-243-root-default-values _deps/json-schema-validator-build/test/issue-255-error-message-limit-precision _deps/json-schema-validator-build/test/issue-105-verbose-combination-errors _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/all _deps/json-schema-validator-build/test/issue-100/all _deps/json-schema-validator-build/test/issue-101/all _deps/json-schema-validator-build/test/issue-12/all _deps/json-schema-validator-build/test/issue-143/all _deps/json-schema-validator-build/test/issue-209/all _deps/json-schema-validator-build/test/issue-27/all _deps/json-schema-validator-build/test/issue-311/all _deps/json-schema-validator-build/test/issue-48/all _deps/json-schema-validator-build/test/issue-54/all _deps/json-schema-validator-build/test/issue-75/all _deps/json-schema-validator-build/test/issue-9/all _deps/json-schema-validator-build/test/issue-93/all _deps/json-schema-validator-build/test/issue-96/all
+
+# =============================================================================
+
+#############################################
+# Folder: /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/JSON-Schema-Test-Suite
+
+build _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/all: phony _deps/json-schema-validator-build/test/JSON-Schema-Test-Suite/json-schema-test
+
+# =============================================================================
+
+#############################################
+# Folder: /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-100
+
+build _deps/json-schema-validator-build/test/issue-100/all: phony
+
+# =============================================================================
+
+#############################################
+# Folder: /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-101
+
+build _deps/json-schema-validator-build/test/issue-101/all: phony
+
+# =============================================================================
+
+#############################################
+# Folder: /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-12
+
+build _deps/json-schema-validator-build/test/issue-12/all: phony
+
+# =============================================================================
+
+#############################################
+# Folder: /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-143
+
+build _deps/json-schema-validator-build/test/issue-143/all: phony
+
+# =============================================================================
+
+#############################################
+# Folder: /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-209
+
+build _deps/json-schema-validator-build/test/issue-209/all: phony
+
+# =============================================================================
+
+#############################################
+# Folder: /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-27
+
+build _deps/json-schema-validator-build/test/issue-27/all: phony
+
+# =============================================================================
+
+#############################################
+# Folder: /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-311
+
+build _deps/json-schema-validator-build/test/issue-311/all: phony
+
+# =============================================================================
+
+#############################################
+# Folder: /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-48
+
+build _deps/json-schema-validator-build/test/issue-48/all: phony
+
+# =============================================================================
+
+#############################################
+# Folder: /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-54
+
+build _deps/json-schema-validator-build/test/issue-54/all: phony
+
+# =============================================================================
+
+#############################################
+# Folder: /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-75
+
+build _deps/json-schema-validator-build/test/issue-75/all: phony
+
+# =============================================================================
+
+#############################################
+# Folder: /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-9
+
+build _deps/json-schema-validator-build/test/issue-9/all: phony
+
+# =============================================================================
+
+#############################################
+# Folder: /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-93
+
+build _deps/json-schema-validator-build/test/issue-93/all: phony _deps/json-schema-validator-build/test/issue-93/issue-93
+
+# =============================================================================
+
+#############################################
+# Folder: /home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/issue-96
+
+build _deps/json-schema-validator-build/test/issue-96/all: phony
 
 # =============================================================================
 # Built-in targets
@@ -326,14 +1805,14 @@ build all: phony eraser_static
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | /home/jude/EraserStatic/CMakeLists.txt /usr/share/cmake-3.28/Modules/CMakeCInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.28/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU.cmake /usr/share/cmake-3.28/Modules/FindCURL.cmake /usr/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.28/Modules/FindPackageMessage.cmake /usr/share/cmake-3.28/Modules/FindPkgConfig.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake-3.28/Modules/Platform/Linux.cmake /usr/share/cmake-3.28/Modules/Platform/UnixPaths.cmake /usr/share/cmake-3.28/Modules/SelectLibraryConfigurations.cmake /usr/share/cmake/nlohmann_json/nlohmann_jsonConfig.cmake /usr/share/cmake/nlohmann_json/nlohmann_jsonConfigVersion.cmake /usr/share/cmake/nlohmann_json/nlohmann_jsonTargets.cmake CMakeCache.txt CMakeFiles/3.28.3/CMakeCCompiler.cmake CMakeFiles/3.28.3/CMakeCXXCompiler.cmake CMakeFiles/3.28.3/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | /home/jude/EraserStatic/CMakeLists.txt /usr/share/cmake-3.28/Modules/CMakeCInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.28/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU.cmake /usr/share/cmake-3.28/Modules/ExternalProject/shared_internal_commands.cmake /usr/share/cmake-3.28/Modules/FetchContent.cmake /usr/share/cmake-3.28/Modules/FetchContent/CMakeLists.cmake.in /usr/share/cmake-3.28/Modules/FindCURL.cmake /usr/share/cmake-3.28/Modules/FindGit.cmake /usr/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.28/Modules/FindPackageMessage.cmake /usr/share/cmake-3.28/Modules/FindPkgConfig.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake-3.28/Modules/Platform/Linux.cmake /usr/share/cmake-3.28/Modules/Platform/UnixPaths.cmake /usr/share/cmake-3.28/Modules/SelectLibraryConfigurations.cmake /usr/share/cmake/nlohmann_json/nlohmann_jsonConfig.cmake /usr/share/cmake/nlohmann_json/nlohmann_jsonConfigVersion.cmake /usr/share/cmake/nlohmann_json/nlohmann_jsonTargets.cmake CMakeCache.txt CMakeFiles/3.28.3/CMakeCCompiler.cmake CMakeFiles/3.28.3/CMakeCXXCompiler.cmake CMakeFiles/3.28.3/CMakeSystem.cmake _deps/json-schema-validator-src/CMakeLists.txt _deps/json-schema-validator-src/example/CMakeLists.txt _deps/json-schema-validator-src/src/CMakeLists.txt _deps/json-schema-validator-src/test/CMakeLists.txt _deps/json-schema-validator-src/test/JSON-Schema-Test-Suite/CMakeLists.txt _deps/json-schema-validator-src/test/issue-100/CMakeLists.txt _deps/json-schema-validator-src/test/issue-101/CMakeLists.txt _deps/json-schema-validator-src/test/issue-12/CMakeLists.txt _deps/json-schema-validator-src/test/issue-143/CMakeLists.txt _deps/json-schema-validator-src/test/issue-209/CMakeLists.txt _deps/json-schema-validator-src/test/issue-27/CMakeLists.txt _deps/json-schema-validator-src/test/issue-311/CMakeLists.txt _deps/json-schema-validator-src/test/issue-48/CMakeLists.txt _deps/json-schema-validator-src/test/issue-54/CMakeLists.txt _deps/json-schema-validator-src/test/issue-75/CMakeLists.txt _deps/json-schema-validator-src/test/issue-9/CMakeLists.txt _deps/json-schema-validator-src/test/issue-93/CMakeLists.txt _deps/json-schema-validator-src/test/issue-96/CMakeLists.txt
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build /home/jude/EraserStatic/CMakeLists.txt /usr/share/cmake-3.28/Modules/CMakeCInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.28/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU.cmake /usr/share/cmake-3.28/Modules/FindCURL.cmake /usr/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.28/Modules/FindPackageMessage.cmake /usr/share/cmake-3.28/Modules/FindPkgConfig.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake-3.28/Modules/Platform/Linux.cmake /usr/share/cmake-3.28/Modules/Platform/UnixPaths.cmake /usr/share/cmake-3.28/Modules/SelectLibraryConfigurations.cmake /usr/share/cmake/nlohmann_json/nlohmann_jsonConfig.cmake /usr/share/cmake/nlohmann_json/nlohmann_jsonConfigVersion.cmake /usr/share/cmake/nlohmann_json/nlohmann_jsonTargets.cmake CMakeCache.txt CMakeFiles/3.28.3/CMakeCCompiler.cmake CMakeFiles/3.28.3/CMakeCXXCompiler.cmake CMakeFiles/3.28.3/CMakeSystem.cmake: phony
+build /home/jude/EraserStatic/CMakeLists.txt /usr/share/cmake-3.28/Modules/CMakeCInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.28/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU-C.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Compiler/GNU.cmake /usr/share/cmake-3.28/Modules/ExternalProject/shared_internal_commands.cmake /usr/share/cmake-3.28/Modules/FetchContent.cmake /usr/share/cmake-3.28/Modules/FetchContent/CMakeLists.cmake.in /usr/share/cmake-3.28/Modules/FindCURL.cmake /usr/share/cmake-3.28/Modules/FindGit.cmake /usr/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.28/Modules/FindPackageMessage.cmake /usr/share/cmake-3.28/Modules/FindPkgConfig.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-C.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.28/Modules/Platform/Linux-Initialize.cmake /usr/share/cmake-3.28/Modules/Platform/Linux.cmake /usr/share/cmake-3.28/Modules/Platform/UnixPaths.cmake /usr/share/cmake-3.28/Modules/SelectLibraryConfigurations.cmake /usr/share/cmake/nlohmann_json/nlohmann_jsonConfig.cmake /usr/share/cmake/nlohmann_json/nlohmann_jsonConfigVersion.cmake /usr/share/cmake/nlohmann_json/nlohmann_jsonTargets.cmake CMakeCache.txt CMakeFiles/3.28.3/CMakeCCompiler.cmake CMakeFiles/3.28.3/CMakeCXXCompiler.cmake CMakeFiles/3.28.3/CMakeSystem.cmake _deps/json-schema-validator-src/CMakeLists.txt _deps/json-schema-validator-src/example/CMakeLists.txt _deps/json-schema-validator-src/src/CMakeLists.txt _deps/json-schema-validator-src/test/CMakeLists.txt _deps/json-schema-validator-src/test/JSON-Schema-Test-Suite/CMakeLists.txt _deps/json-schema-validator-src/test/issue-100/CMakeLists.txt _deps/json-schema-validator-src/test/issue-101/CMakeLists.txt _deps/json-schema-validator-src/test/issue-12/CMakeLists.txt _deps/json-schema-validator-src/test/issue-143/CMakeLists.txt _deps/json-schema-validator-src/test/issue-209/CMakeLists.txt _deps/json-schema-validator-src/test/issue-27/CMakeLists.txt _deps/json-schema-validator-src/test/issue-311/CMakeLists.txt _deps/json-schema-validator-src/test/issue-48/CMakeLists.txt _deps/json-schema-validator-src/test/issue-54/CMakeLists.txt _deps/json-schema-validator-src/test/issue-75/CMakeLists.txt _deps/json-schema-validator-src/test/issue-9/CMakeLists.txt _deps/json-schema-validator-src/test/issue-93/CMakeLists.txt _deps/json-schema-validator-src/test/issue-96/CMakeLists.txt: phony
 
 
 #############################################

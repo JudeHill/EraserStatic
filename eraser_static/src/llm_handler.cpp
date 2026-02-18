@@ -1,42 +1,103 @@
 #include "llm_handler.h"
 #define GPT_VERSION "gpt-5.2"
-#define GEMINI_VERSION "gemini-2.5-pro"
-
+#define GEMINI_VERSION "gemini-3-flash-preview"
+#define CLAUDE_VERSION "claude-sonnet-4-5"
+#define BACKOFF 2000
+#define MAX_TOKENS 1024
+#define TIMEOUT_SECONDS 120L
 static size_t write_cb(char* ptr, size_t size, size_t nmemb, void* userdata) {
     auto* out = static_cast<std::string*>(userdata);
     out->append(ptr, size * nmemb);
     return size * nmemb;
 }
 
-
-json LLMHandler::PromptGPT(std::string prompt){
-    const char* api_key = std::getenv("OPENAI_API_KEY");
-    if (!api_key) {
-        std::cerr << "Set OPENAI_API_KEY in your environment.\n";
-        return 1;
+std::string_view get_llm_name(LLM llm){
+    switch (llm){
+        case LLM::GPT:
+            return "ChatGPT";
+        case LLM::CLAUDE:
+            return "Claude";
+        case LLM::GEMINI:
+            return "Gemini";
+        default:
+            throw std::logic_error("Unknown LLM");
     }
+}
+
+std::string get_first_line(const std::string& s) {
+    size_t pos = s.find('\n');
+    if (pos == std::string::npos) {
+        return s; // No newline found, return the whole thing
+    }
+    return s.substr(0, pos);
+}
+
+static void validate_json_schema(const json& instance, const json& schema) {
+    try {
+        nlohmann::json_schema::json_validator validator;
+        validator.set_root_schema(schema);   // may throw if schema invalid
+        validator.validate(instance);        // throws on validation failure
+    } catch (const std::exception& e) {
+        throw std::runtime_error(std::string("Schema validation failed: ") + e.what());
+    }
+}
+
+// Parse a model-produced JSON string and validate it.
+static json parse_and_validate_json_text(const std::string& text, const json& schema) {
+    json instance;
+    try {
+        instance = json::parse(text);
+    } catch (const std::exception& e) {
+        throw std::runtime_error(std::string("Model output was not valid JSON: ") + e.what() +
+                                 "\nRaw text:\n" + text);
+    }
+    validate_json_schema(instance, schema);
+    return instance;
+}
+
+// Utility: return env var or throw
+static std::string must_getenv(const char* name) {
+    const char* v = std::getenv(name);
+    if (!v || !*v) throw std::runtime_error(std::string("Missing environment variable: ") + name);
+    return v;
+}
+
+
+json LLMHandler::PromptGPT(const std::string_view prompt, const json& schema) {
+    std::string api_key = must_getenv("OPENAI_API_KEY");
 
     json body = {
-        {"model", GPT_VERSION},          // or "gpt-5.2", "gpt-4o mini", etc.
-        {"input", prompt},
-        {"store", false}              // optional: disable storage
+        {"model", GPT_VERSION},
+        {"input", json::array({ {{"role","user"},{"content", prompt}} })},
+        {"store", false},
+        {"text", {
+            {"format", {
+                {"type", "json_schema"},
+                {"name", "structured_response"},
+                {"strict", true},
+                {"schema", schema}
+            }}
+        }}
     };
 
     CURL* curl = curl_easy_init();
     if (!curl) throw std::runtime_error("curl_easy_init failed");
 
     std::string response;
-
     struct curl_slist* headers = nullptr;
     headers = curl_slist_append(headers, "Content-Type: application/json");
     headers = curl_slist_append(headers, (std::string("Authorization: Bearer ") + api_key).c_str());
 
+    std::string payload = body.dump();
+
     curl_easy_setopt(curl, CURLOPT_URL, "https://api.openai.com/v1/responses");
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.dump().c_str());
+    curl_easy_setopt(curl, CURLOPT_POST, 1L);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.c_str());
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, payload.size());
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_cb);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT, 60L);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, TIMEOUT_SECONDS);
 
     CURLcode rc = curl_easy_perform(curl);
 
@@ -46,39 +107,53 @@ json LLMHandler::PromptGPT(std::string prompt){
     curl_slist_free_all(headers);
     curl_easy_cleanup(curl);
 
-    if (rc != CURLE_OK) {
-        std::cerr << "curl error: " << curl_easy_strerror(rc) << "\n";
-        return 1;
-    }
+    if (rc != CURLE_OK) throw std::runtime_error(std::string("curl error: ") + curl_easy_strerror(rc));
     if (http_code < 200 || http_code >= 300) {
-        std::cerr << "HTTP " << http_code << "\n" << response << "\n";
-        return 1;
+        throw std::runtime_error("OpenAI HTTP " + std::to_string(http_code) + "\n" + response);
     }
 
-    // The Responses API includes a convenient top-level "output_text" field.
-    // (It also includes a richer "output" array of items.)
-    return json::parse(response);
+    json j = json::parse(response);
+
+    std::string out;
+    if (j.contains("output") && j["output"].is_array()) {
+        for (const auto& item : j["output"]) {
+            if (!item.is_object()) continue;
+            if (!item.contains("content") || !item["content"].is_array()) continue;
+
+            for (const auto& c : item["content"]) {
+                if (!c.is_object()) continue;
+
+                // Responses API uses content blocks like {type:"output_text", text:"..."}
+                if (c.value("type", "") == "output_text" && c.contains("text") && c["text"].is_string()) {
+                    out = c["text"].get<std::string>();
+                    break;
+                }
+            }
+            if (!out.empty()) break;
+        }
+    }
+
+    if (out.empty()) {
+        throw std::runtime_error("OpenAI response had no output_text block.\nRaw:\n" + response);
+    }
+
+    return parse_and_validate_json_text(out, schema);
 }
 
-json LLMHandler::PromptGemini(std::string prompt) {
-    const char* api_key = std::getenv("GEMINI_API_KEY");
-    if (!api_key) {
-        std::cerr << "Set GEMINI_API_KEY in your environment.\n";
-        return 1;
-    }
-
-    // Model name example: "gemini-1.5-flash" or "gemini-1.5-pro"
+json LLMHandler::PromptGemini(const std::string_view prompt, const json& schema) {
+    std::string api_key = must_getenv("GEMINI_API_KEY");
     std::string model = GEMINI_VERSION;
 
-    // Gemini request format
     json body = {
-        {"contents", {
+        {"contents", json::array({
             {
                 {"role", "user"},
-                {"parts", {
-                    { {"text", prompt} }
-                }}
+                {"parts", json::array({ {{"text", prompt}} })}
             }
+        })},
+        {"generationConfig", {
+            {"responseMimeType", "application/json"},
+            {"responseJsonSchema", schema}
         }}
     };
 
@@ -90,18 +165,20 @@ json LLMHandler::PromptGemini(std::string prompt) {
     if (!curl) throw std::runtime_error("curl_easy_init failed");
 
     std::string response;
-
     struct curl_slist* headers = nullptr;
     headers = curl_slist_append(headers, "Content-Type: application/json");
-    headers = curl_slist_append(headers,
-        (std::string("x-goog-api-key: ") + api_key).c_str());
+    headers = curl_slist_append(headers, (std::string("x-goog-api-key: ") + api_key).c_str());
+
+    std::string payload = body.dump();
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.dump().c_str());
+    curl_easy_setopt(curl, CURLOPT_POST, 1L);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.c_str());
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, payload.size());
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_cb);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT, 60L);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, TIMEOUT_SECONDS);
 
     CURLcode rc = curl_easy_perform(curl);
 
@@ -111,60 +188,62 @@ json LLMHandler::PromptGemini(std::string prompt) {
     curl_slist_free_all(headers);
     curl_easy_cleanup(curl);
 
-    if (rc != CURLE_OK) {
-        std::cerr << "curl error: " << curl_easy_strerror(rc) << "\n";
-        return 1;
-    }
-
+    if (rc != CURLE_OK) throw std::runtime_error(std::string("curl error: ") + curl_easy_strerror(rc));
     if (http_code < 200 || http_code >= 300) {
-        std::cerr << "HTTP " << http_code << "\n" << response << "\n";
-        return 1;
+        throw std::runtime_error("Gemini HTTP " + std::to_string(http_code) + "\n" + response);
     }
 
-    // Parse Gemini response
-    auto j = json::parse(response);
+    json j = json::parse(response);
 
-    return j;
+    // Typical: candidates[0].content.parts[0].text is JSON text.
+    std::string text;
+    try {
+        text = j.at("candidates").at(0).at("content").at("parts").at(0).at("text").get<std::string>();
+    } catch (...) {
+        throw std::runtime_error("Unexpected Gemini response format.\nRaw:\n" + response);
+    }
+
+    return parse_and_validate_json_text(text, schema);
 }
 
-json LLMHandler::PromptClaude(std::string prompt) {
-    const char* api_key = std::getenv("ANTHROPIC_API_KEY");
-    if (!api_key) {
-        std::cerr << "Set ANTHROPIC_API_KEY in your environment.\n";
-        return 1;
-    }
+json LLMHandler::PromptClaude(const std::string_view prompt, const json& schema) {
+    std::string api_key = must_getenv("ANTHROPIC_API_KEY");
 
-    // Example model (pick one you have access to)
-    std::string model = "claude-opus-4-6";
+    std::string model = CLAUDE_VERSION;
 
-    // Claude Messages API request body
     json body = {
         {"model", model},
-        {"max_tokens", 512},
+        {"max_tokens", MAX_TOKENS},
         {"messages", json::array({
-            {
-                {"role", "user"},
-                {"content", prompt}
-            }
-        })}
+            {{"role", "user"}, {"content", prompt}}
+        })},
+        {"output_config", {
+            {"format", {
+                {"type", "json_schema"},
+                {"schema", schema}
+            }}
+        }}
     };
 
     CURL* curl = curl_easy_init();
     if (!curl) throw std::runtime_error("curl_easy_init failed");
 
     std::string response;
-
     struct curl_slist* headers = nullptr;
     headers = curl_slist_append(headers, "Content-Type: application/json");
     headers = curl_slist_append(headers, (std::string("x-api-key: ") + api_key).c_str());
-    headers = curl_slist_append(headers, "anthropic-version: 2023-06-01"); // required :contentReference[oaicite:1]{index=1}
+    headers = curl_slist_append(headers, "anthropic-version: 2023-06-01");
+
+    std::string payload = body.dump();
 
     curl_easy_setopt(curl, CURLOPT_URL, "https://api.anthropic.com/v1/messages");
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.dump().c_str());
+    curl_easy_setopt(curl, CURLOPT_POST, 1L);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.c_str());
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, payload.size());
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_cb);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT, 60L);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, TIMEOUT_SECONDS);
 
     CURLcode rc = curl_easy_perform(curl);
 
@@ -174,33 +253,61 @@ json LLMHandler::PromptClaude(std::string prompt) {
     curl_slist_free_all(headers);
     curl_easy_cleanup(curl);
 
-    if (rc != CURLE_OK) {
-        std::cerr << "curl error: " << curl_easy_strerror(rc) << "\n";
-        return 1;
-    }
+    if (rc != CURLE_OK) throw std::runtime_error(std::string("curl error: ") + curl_easy_strerror(rc));
     if (http_code < 200 || http_code >= 300) {
-        std::cerr << "HTTP " << http_code << "\n" << response << "\n";
-        return 1;
+        throw std::runtime_error("Claude HTTP " + std::to_string(http_code) + "\n" + response);
     }
 
-    // Parse Claude response:
-    // content is an array of blocks like: [{ "type": "text", "text": "..." }]
-    auto j = json::parse(response);
-    return j;
+    json j = json::parse(response);
+
+    // Typical: content[0].text is JSON text.
+    std::string text;
+    try {
+        text = j.at("content").at(0).at("text").get<std::string>();
+    } catch (...) {
+        throw std::runtime_error("Unexpected Claude response format.\nRaw:\n" + response);
+    }
+
+    return parse_and_validate_json_text(text, schema);
 }
 
-json LLMHandler::Prompt(std::string prompt, LLM llm){
+json LLMHandler::Prompt(const std::string_view prompt, const json& schema, const LLM& llm){
     switch (llm)
     {
     case LLM::GPT:
-        return PromptGPT(prompt);
+        return PromptGPT(prompt, schema);
     case LLM::CLAUDE:
-        return PromptClaude(prompt);
+        return PromptClaude(prompt, schema);
     case LLM::GEMINI:
-        return PromptGemini(prompt);
+        return PromptGemini(prompt, schema);
     default:
         throw std::logic_error("Unknown LLM type");
     }
+}
+
+// default retries = 3
+
+static std::unordered_set<std::string> overloaded_errors{"Claude HTTP 529", "Gemini HTTP 503", "GPT HTTP 503"};
+json LLMHandler::PromptWithRetries(const std::string_view prompt, const json& schema, const LLM& llm, unsigned int retries){
+    std::cout << "Prompting " << get_llm_name(llm) << std::endl;
+    unsigned int remaining_retries = retries;
+    while (remaining_retries > 0){
+        try {
+            json rsp = Prompt(prompt, schema, llm);
+            return rsp;
+        } catch (std::runtime_error& e) {
+            // if e is not an overloaded error, re-throw
+            if (!overloaded_errors.contains(get_first_line(e.what()))){
+                throw e;
+            }
+        }
+        // exponential backoff: wait for 2 * (attempts) s
+        int backoff = 1000 << (retries - remaining_retries);
+        std::cout << "Encountered an error, retrying in " << backoff << " milliseconds" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(backoff));
+        remaining_retries--;
+    }
+    throw std::runtime_error(std::format("Attempted to call {} {} times, but was overloaded each time", get_llm_name(llm), retries));
 }
 
 LLMHandler::LLMHandler(){};

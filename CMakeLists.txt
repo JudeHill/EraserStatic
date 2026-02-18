@@ -1,6 +1,7 @@
 # COMMANDS:
 # cmake --build .
 # cmake
+include(FetchContent)
 
 cmake_minimum_required(VERSION 3.15)
 project(EraserStatic)
@@ -17,6 +18,7 @@ add_executable(eraser_static
   eraser_static/src/parser_helpers.cpp
   eraser_static/src/construction_environment.cpp
   eraser_static/src/llm_handler.cpp
+  eraser_static/src/shared_var_identifier.cpp
   eraser_static/graph_nodes/src/basic_node.cpp
   eraser_static/graph_nodes/src/break_node.cpp
   eraser_static/graph_nodes/src/barrier_node.cpp
@@ -61,6 +63,17 @@ target_link_libraries(eraser_static PRIVATE nlohmann_json::nlohmann_json)
 find_package(CURL REQUIRED)
 
 target_link_libraries(eraser_static PRIVATE CURL::libcurl)
+
+FetchContent_Declare(
+    json-schema-validator
+    GIT_REPOSITORY https://github.com/pboettch/json-schema-validator.git
+    GIT_TAG 2.4.0
+)
+
+FetchContent_MakeAvailable(json-schema-validator)
+
+# Link to your executable
+target_link_libraries(eraser_static PRIVATE nlohmann_json_schema_validator)
 
 
 # Make sure the runtime loader can find libclang when you run the binary
