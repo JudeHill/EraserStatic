@@ -47,13 +47,3 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/jude/EraserStatic/build/_deps/json-schema-validator-build/src/cmake_install.cmake")
 endif()
 
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/home/jude/EraserStatic/build/_deps/json-schema-validator-build/test/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/home/jude/EraserStatic/build/_deps/json-schema-validator-build/example/cmake_install.cmake")
-endif()
-

@@ -4,8 +4,10 @@
 #include "utils.h"
 #include <algorithm>
 #include <filesystem>
+#include <thread>
 #include <format>
 #include <fstream>
+#include <future>
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <string>
@@ -24,18 +26,20 @@ struct LLM_result {
 
 struct LLM_SummaryResult {
     double jacquard_score;
-    unsigned int avg_tp, avg_fp, avg_fn;
+    double avg_tp, avg_fp, avg_fn;
     std::vector<LLM_result> results;
+    std::unordered_map<std::string, unsigned int> var_vote_counts;
 };
 using SummaryResults = std::unordered_map<LLM, LLM_SummaryResult>;
 using SharedVarResults = std::unordered_map<LLM, LLM_result>;
+std::string_view create_prompt(const Filepath& filepath, const std::string& prompt);
 
 class SharedVarIdentifier {
 public:
   SharedVarIdentifier();
   SharedVarInfos findSharedVariables(const Filepath &filepath);
   SharedVarResults EvaluateLLMs(const SharedVarInfos &infos);
-  SummaryResults EvaluateLLMConsistency(const SharedVarInfos &infos, unsigned int repeats = 5);
+  SummaryResults EvaluateLLMConsistency(const Filepath &filepath, unsigned int repeats = 5);
 
 private: 
     LLMHandler llm_handler;

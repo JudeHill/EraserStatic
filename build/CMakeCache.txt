@@ -14,12 +14,6 @@
 # EXTERNAL cache entries
 ########################
 
-//Build examples
-BUILD_EXAMPLES:BOOL=ON
-
-//Build tests
-BUILD_TESTS:BOOL=ON
-
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
 
@@ -280,23 +274,11 @@ GIT_EXECUTABLE:FILEPATH=/usr/bin/git
 //Fetch nlohmann::json version
 JSON_FETCH_VERSION:STRING=v3.12.0
 
-//Enable optional tests of the JSONSchema Test Suite
-JSON_SCHEMA_ENABLE_OPTIONAL_TESTS:BOOL=ON
-
-//prefix for JSON-tests added to ctest
-JSON_SCHEMA_TEST_PREFIX:STRING=JSON-Suite
-
-//Path to a file.
-JSON_SCHEMA_TEST_SUITE_PATH:PATH=JSON_SCHEMA_TEST_SUITE_PATH-NOTFOUND
-
 //JsonValidator: Build examples
-JSON_VALIDATOR_BUILD_EXAMPLES:BOOL=ON
+JSON_VALIDATOR_BUILD_EXAMPLES:BOOL=OFF
 
 //JsonValidator: Build tests
-JSON_VALIDATOR_BUILD_TESTS:BOOL=ON
-
-//Enable Hunter package manager support
-JSON_VALIDATOR_HUNTER:BOOL=OFF
+JSON_VALIDATOR_BUILD_TESTS:BOOL=OFF
 
 //JsonValidator: Install targets
 JSON_VALIDATOR_INSTALL:BOOL=OFF
@@ -431,7 +413,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=19
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=3
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

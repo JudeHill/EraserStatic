@@ -12,6 +12,36 @@ std::string parse_c_file(const std::string &path) {
   return buffer.str();
 }
 
+std::string_view create_prompt(const Filepath& filepath, const std::string& prompt){
+  bool directory_mode = !filepath.ends_with(".c");
+  std::ostringstream oss;
+  oss << prompt << "\n";
+  if (!directory_mode) {
+    oss << "\n";
+    oss << parse_c_file(filepath);
+  } else {
+    std::vector<fs::path> files;
+    try {
+      if (fs::exists(filepath) && fs::is_directory(filepath)) {
+        for (const auto &entry : fs::directory_iterator(filepath)) {
+          // Check if it's a regular file and ends with .c
+          if (entry.is_regular_file() &&
+              (entry.path().extension() == ".c" || entry.path().extension() == ".C")) {
+            files.push_back(entry.path());
+          }
+        }
+      }
+    } catch (const fs::filesystem_error &e) {
+      std::cerr << "Error: " << e.what() << std::endl;
+    }
+    for (const auto &file : files) {
+      oss << "\n";
+      oss << parse_c_file(file.string());
+    }
+  }
+  return oss.view();
+}
+
 static const std::string shared_var_prompt = R"(### Role
 You are a static analysis tool specializing in C concurrency. Your task is to identify shared variables in a given code snippet.
 
@@ -48,34 +78,7 @@ A variable is "SHARED" if:
 )";
 
 SharedVarInfos SharedVarIdentifier::findSharedVariables(const Filepath &filepath) {
-  bool directory_mode = !filepath.ends_with(".c");
-  std::string_view prompt;
-  std::ostringstream oss;
-  oss << shared_var_prompt << "\n";
-  if (!directory_mode) {
-    oss << "\n";
-    oss << parse_c_file(filepath);
-  } else {
-    std::vector<fs::path> files;
-    try {
-      if (fs::exists(filepath) && fs::is_directory(filepath)) {
-        for (const auto &entry : fs::directory_iterator(filepath)) {
-          // Check if it's a regular file and ends with .c
-          if (entry.is_regular_file() &&
-              (entry.path().extension() == ".c" || entry.path().extension() == ".C")) {
-            files.push_back(entry.path());
-          }
-        }
-      }
-    } catch (const fs::filesystem_error &e) {
-      std::cerr << "Error: " << e.what() << std::endl;
-    }
-    for (const auto &file : files) {
-      oss << "\n";
-      oss << parse_c_file(file.string());
-    }
-  }
-  prompt = oss.view();
+  std::string_view prompt = create_prompt(filepath, shared_var_prompt);
   json schema = {
       {"type", "object"},
       {"properties",
@@ -90,9 +93,14 @@ SharedVarInfos SharedVarIdentifier::findSharedVariables(const Filepath &filepath
       {"required", {"variables", "comments"}},
       {"additionalProperties", false}};
   SharedVarInfos shvar_infos;
-  shvar_infos[LLM::GPT] = llm_handler.PromptWithRetries(prompt, schema, LLM::GPT);
-  shvar_infos[LLM::CLAUDE] = llm_handler.PromptWithRetries(prompt, schema, LLM::CLAUDE);
-  shvar_infos[LLM::GEMINI] = llm_handler.PromptWithRetries(prompt, schema, LLM::GEMINI);
+  std::unordered_map<LLM, std::future<json>> futures;
+  for (const LLM& llm : all_llms){
+    auto task = std::async(std::launch::async, &LLMHandler::PromptWithRetries, &llm_handler, prompt, schema, llm, 3);
+    futures[llm] = std::move(task);
+  }
+  for (const LLM& llm : all_llms){
+    shvar_infos[llm] = futures[llm].get();
+  }
 
   return shvar_infos;
 }
@@ -161,27 +169,58 @@ SharedVarResults SharedVarIdentifier::EvaluateLLMs(const SharedVarInfos &infos) 
   return results;
 }
 
-SummaryResults SharedVarIdentifier::EvaluateLLMConsistency(const SharedVarInfos& infos, unsigned int repeats){
+void worker(int tid, std::vector<SharedVarResults> results, SharedVarIdentifier &id, const Filepath& filepath) {
+    SharedVarInfos infos = id.findSharedVariables(filepath);
+    results[tid] = id.EvaluateLLMs(infos);
+}
+
+SummaryResults SharedVarIdentifier::EvaluateLLMConsistency(const Filepath &filepath, unsigned int repeats){
     std::vector<SharedVarResults> results;
+    SummaryResults summary_results;
+    std::vector<std::future<SharedVarResults>> futures;
+    
     for (unsigned int i=0;i<repeats;i++){
-        results.push_back(EvaluateLLMs(infos));
+        futures.push_back(std::async(std::launch::async, [this, &filepath](){
+            return EvaluateLLMs(findSharedVariables(filepath));
+        }));
     }
+
+    for (auto& f : futures){
+        results.push_back(f.get());
+    }
+
     
     for (const LLM& llm : all_llms){
         double jacquard_score = 0.0;
+        unsigned int num_jacq_sets = 0;
         int total_tp = 0, total_fp = 0, total_fn = 0;
+        std::vector<LLM_result> individual_results_list;
+        std::unordered_map<std::string, unsigned int> var_vote_counts;
         for (int i=0;i<repeats;i++){
             for (int j=i+1;j<repeats;j++){
                 VoteSet s1_union_s2 = set_union(results[i][llm].votes, results[j][llm].votes);
                 VoteSet s1_intersect_s2 = intersect(results[i][llm].votes, results[j][llm].votes);
-                jacquard_score += (static_cast<double>(s1_union_s2.size()) / s1_intersect_s2.size());
+                jacquard_score += (static_cast<double>(s1_intersect_s2.size()) / s1_union_s2.size());
+                num_jacq_sets++;
+            }
+            for (const auto& var : results[i][llm].votes) {
+                var_vote_counts[var]++;
             }
             total_tp += results[i][llm].true_pos;
             total_fp += results[i][llm].false_pos;
             total_fn += results[i][llm].false_neg;
+            individual_results_list.push_back(results[i][llm]);
         }
-        
+        summary_results[llm] = LLM_SummaryResult{
+            .jacquard_score = (jacquard_score / num_jacq_sets),
+            .avg_tp = (static_cast<double>(total_tp) / repeats),
+            .avg_fp = (static_cast<double>(total_fp) / repeats),
+            .avg_fn = (static_cast<double>(total_fn) / repeats),
+            .results = individual_results_list,
+            .var_vote_counts = var_vote_counts,
+        };
     }
+    return summary_results;
     
 
 }

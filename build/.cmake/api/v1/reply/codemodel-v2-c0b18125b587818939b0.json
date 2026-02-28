@@ -1,0 +1,118 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "_deps/json-schema-validator-build",
+					"childIndexes" : 
+					[
+						2
+					],
+					"jsonFile" : "directory-_deps.json-schema-validator-build-Debug-875a04e9a1d7ffbc986b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "_deps/json-schema-validator-build/src",
+					"jsonFile" : "directory-_deps.json-schema-validator-build.src-Debug-ff272b51593c451da68f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "build/_deps/json-schema-validator-src/src"
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "EraserStatic",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1,
+						2
+					],
+					"name" : "nlohmann_json_schema_validator",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "eraser_static::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-eraser_static-Debug-bfb7e8c5fd85ec21363b.json",
+					"name" : "eraser_static",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "nlohmann_json_schema_validator::@47a726f30b74c0f99e78",
+					"jsonFile" : "target-nlohmann_json_schema_validator-Debug-94b42ffc8cc8c2e18063.json",
+					"name" : "nlohmann_json_schema_validator",
+					"projectIndex" : 1
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/jude/EraserStatic/build",
+		"source" : "/home/jude/EraserStatic"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

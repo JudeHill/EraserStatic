@@ -1,6 +1,7 @@
 // to be implemented
 #include "graph_visualizer.h"
 #include "llm_handler.h"
+#include "eval_llms.h"
 #include "parser.h"
 #include "shared_var_identifier.h"
 #include <iostream>
@@ -47,20 +48,6 @@ void write_output(std::string filepath, DataRaceMap data_race_map, SharedVarResu
   }
 }
 
-void test_llms() {
-  LLMHandler handler;
-  std::string prompt = "Confirm what LLM you are, and what version I am talking to";
-  std::vector llms{LLM::CLAUDE, LLM::GEMINI, LLM::GPT};
-  json schema = {{"type", "object"},
-                 {"properties", {{"response", {{"type", "string"}}}}},
-                 {"required", {"response"}},
-                 {"additionalProperties", false}};
-  for (auto llm : llms) {
-    json j = handler.Prompt(prompt, schema, llm);
-    std::cout << j.dump(4) << std::endl;
-  }
-}
-
 int main(int argc, char *argv[]) {
 
   if (argc < 3) {
@@ -91,8 +78,11 @@ int main(int argc, char *argv[]) {
     } else if (option == "-b" || option == "--no-barrier") {
       ignore_barriers = true;
     } else if (option == "--test-llms") {
-      test_llms();
+      test_llms_alive();
       return 0;
+    } else if (option == "--eval-llms") {
+        eval_shared_variable_llm_consistency(filepath);
+        return 0;
     } else {
       std::cerr << "Unknown option: " << option << "\n";
     }

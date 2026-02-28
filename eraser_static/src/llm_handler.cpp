@@ -1,10 +1,10 @@
 #include "llm_handler.h"
 #define GPT_VERSION "gpt-5.2"
-#define GEMINI_VERSION "gemini-3-flash-preview"
+#define GEMINI_VERSION "gemini-2.5-flash"
 #define CLAUDE_VERSION "claude-sonnet-4-5"
 #define BACKOFF 2000
 #define MAX_TOKENS 1024
-#define TIMEOUT_SECONDS 120L
+#define TIMEOUT_SECONDS 60L
 static size_t write_cb(char* ptr, size_t size, size_t nmemb, void* userdata) {
     auto* out = static_cast<std::string*>(userdata);
     out->append(ptr, size * nmemb);
@@ -107,7 +107,7 @@ json LLMHandler::PromptGPT(const std::string_view prompt, const json& schema) {
     curl_slist_free_all(headers);
     curl_easy_cleanup(curl);
 
-    if (rc != CURLE_OK) throw std::runtime_error(std::string("curl error: ") + curl_easy_strerror(rc));
+    if (rc != CURLE_OK) throw std::runtime_error(std::string("curl error (GPT): ") + curl_easy_strerror(rc));
     if (http_code < 200 || http_code >= 300) {
         throw std::runtime_error("OpenAI HTTP " + std::to_string(http_code) + "\n" + response);
     }
@@ -188,7 +188,7 @@ json LLMHandler::PromptGemini(const std::string_view prompt, const json& schema)
     curl_slist_free_all(headers);
     curl_easy_cleanup(curl);
 
-    if (rc != CURLE_OK) throw std::runtime_error(std::string("curl error: ") + curl_easy_strerror(rc));
+    if (rc != CURLE_OK) throw std::runtime_error(std::string("curl error (Gemini): ") + curl_easy_strerror(rc));
     if (http_code < 200 || http_code >= 300) {
         throw std::runtime_error("Gemini HTTP " + std::to_string(http_code) + "\n" + response);
     }
@@ -253,7 +253,7 @@ json LLMHandler::PromptClaude(const std::string_view prompt, const json& schema)
     curl_slist_free_all(headers);
     curl_easy_cleanup(curl);
 
-    if (rc != CURLE_OK) throw std::runtime_error(std::string("curl error: ") + curl_easy_strerror(rc));
+    if (rc != CURLE_OK) throw std::runtime_error(std::string("curl error (Claude): ") + curl_easy_strerror(rc));
     if (http_code < 200 || http_code >= 300) {
         throw std::runtime_error("Claude HTTP " + std::to_string(http_code) + "\n" + response);
     }
@@ -288,6 +288,11 @@ json LLMHandler::Prompt(const std::string_view prompt, const json& schema, const
 // default retries = 3
 
 static std::unordered_set<std::string> overloaded_errors{"Claude HTTP 529", "Gemini HTTP 503", "GPT HTTP 503"};
+static std::unordered_set<std::string> timeout_errors{
+    "curl error (Gemini): Timeout was reached",
+    "curl error (GPT): Timeout was reached",
+    "curl error (Claude): Timeout was reached",
+};
 json LLMHandler::PromptWithRetries(const std::string_view prompt, const json& schema, const LLM& llm, unsigned int retries){
     std::cout << "Prompting " << get_llm_name(llm) << std::endl;
     unsigned int remaining_retries = retries;
@@ -297,17 +302,21 @@ json LLMHandler::PromptWithRetries(const std::string_view prompt, const json& sc
             return rsp;
         } catch (std::runtime_error& e) {
             // if e is not an overloaded error, re-throw
-            if (!overloaded_errors.contains(get_first_line(e.what()))){
+            if (!overloaded_errors.contains(get_first_line(e.what())) && !timeout_errors.contains(get_first_line(e.what()))){
                 throw e;
+            } else {
+                std::cout << "Caught " << std::string(get_first_line(e.what())) << std::endl;
             }
         }
         // exponential backoff: wait for 2 * (attempts) s
         int backoff = 1000 << (retries - remaining_retries);
-        std::cout << "Encountered an error, retrying in " << backoff << " milliseconds" << std::endl;
+        std::cout << "Encountered an error with " << get_llm_name(llm) << ", retrying in " << backoff << " milliseconds" << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(backoff));
         remaining_retries--;
     }
     throw std::runtime_error(std::format("Attempted to call {} {} times, but was overloaded each time", get_llm_name(llm), retries));
 }
 
-LLMHandler::LLMHandler(){};
+LLMHandler::LLMHandler(){
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+};

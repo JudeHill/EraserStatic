@@ -18,6 +18,7 @@ add_executable(eraser_static
   eraser_static/src/parser_helpers.cpp
   eraser_static/src/construction_environment.cpp
   eraser_static/src/llm_handler.cpp
+  eraser_static/src/eval_llms.cpp
   eraser_static/src/shared_var_identifier.cpp
   eraser_static/graph_nodes/src/basic_node.cpp
   eraser_static/graph_nodes/src/break_node.cpp
