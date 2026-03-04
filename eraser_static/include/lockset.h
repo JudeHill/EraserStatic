@@ -47,6 +47,7 @@ struct DataRace {
   GraphNode *node;
   RaceType race_type;
   LocationInfo location;
+  unsigned int id;
 };
 
 using DataRaceMap = std::unordered_map<std::string, std::vector<DataRace>>;

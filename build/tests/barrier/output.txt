@@ -1,13 +1,9 @@
-Found dataraces involving 2 unique variables
-wait_for_main_complex.c 0 0 x: 1 unprotected accesses
-Write in file wait_for_main_complex.c at line 74, position 7
-wait_for_main_complex.c 0 0 y: 1 unprotected accesses
-Write in file wait_for_main_complex.c at line 47, position 7
+Found dataraces involving 0 unique variables
 
 LLM analysis of shared variables:
-ChatGPT
-TP: 9   FP: 0   FN: 0
-Gemini
-TP: 9   FP: 0   FN: 0
 Claude
-TP: 9   FP: 0   FN: 0
+TP: 7   FP: 0   FN: 0
+Gemini
+TP: 7   FP: 0   FN: 0
+ChatGPT
+TP: 7   FP: 0   FN: 0

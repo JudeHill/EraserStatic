@@ -1,60 +1,229 @@
 #include "llm_analyser.h"
 
-static const std::string prompt_1 = R"(Given the following source code, the following (LLM-generated) list of shared variables and 
-the following report detailing data races on certain variables please identify which are false positives. The source code will be in C, 
-using pthreads. The report will be in the following format:
+static const std::string prompt_1 = R"(### ROLE
+You are an expert C Concurrency Analyst. Your task is to perform a high-fidelity audit of reported data races in C pthreads code to distinguish between True Positives and False Positives.
 
-Found dataraces involving 1 unique variables
-array.c 0 0 tids: 1 unprotected accesses
-Write in file array.c at line 13, position 3
+### TASK DESCRIPTION
+Analyze the provided Source Code, Shared Variables list, and Race Report. For each reported race, determine if the logic of the program (e.g., mutexes, semaphores, barriers, or memory offsets) effectively prevents a data race, even if the static analysis tool flagged it.
 
-please respond in JSON schema
+### DEFINITIONS
+- A "Data Race" is defined as when one thread reads a shared variable x, and another writes to x. If these two accesses occur without a happens-before relation
+between them (e.g. commonly held lock, barrier between accesses, condition variable, etc.) then this is a data race.
+- For this task, you will identify locations in source code where data races **COULD** occur. For the purposes of this tool, we consider any 
+case where it is theoretically possible for a data race to occur to be a data race
 
-[{"name": str, "data_race": bool, "accesses": [{"access_type": str, line": int, "column": int, "unprotected": bool}]}]
+### CRITERIA FOR EVALUATION
+When determining if a race is a False Positive, consider:
+1. Mutual Exclusion: Are the accesses protected by the same pthread_mutex?
+2. Logical Partitioning: Are threads accessing disjoint memory locations (e.g., different array indices `arr[tid]`)?
+3. Barriers/Ordering: Is there an explicit synchronization barrier or signaling mechanism (e.g., `pthread_cond_wait`) ensuring sequential access?
 
-)"
+### CONSTRAINTS
+- In the output, ONLY include shared variables which have at least one unprotected access according to the data race report given. 
+- If an access is "unprotected", this means there is a possibility for this access to be part of a data race (e.g. due to not holding a common lock / not
+having a barrier between accesses. An unprotected access on a variable x implies that x has at least one data race, hence the "data_race" field
+of x should be set to true if one of x's accesses is unprotected
+- False positives are accesses that are not actually unprotected as defined above, but are part of the input.
+- All accesses included in the Data Race Report should be included in the output, categorised as either true or false.
+- There is a space for reasoning / justification. This is a complex problem, so take time to think. Put any justification in this box, but keep it 
+**CONCISE**.
+- Each access has an id, which is a non-negative integer. This is used to identify which accesses you are marking as unprotected. When you respond, for each access you should repeat its original ID, as well as
+line, column and filename.
+- The "name" field in variables should contain **ONLY** the name given to the variable in the Data Race Report and NOTHING ELSE. Anything else should be left for the reasoning section.
 
-LLMAnalyser::LLMAnalyser(const Filepath& filepath) : filepath(filepath){
+### OUTPUT FORMAT
+You must respond strictly in the following JSON schema:
+{"variables": [
+  {
+    "name": "string",
+    "data_race": "boolean",
+    "accesses": [
+      {
+        "access_type": "string", 
+        "line": "integer", 
+        "column": "integer", 
+        "filename": "string",
+        "id": "integer",
+        "unprotected": "boolean",
+        "reasoning": string
+      }
+    ]
+  }
+]}
+
+### INPUT DATA
+---
+)";
+
+RaceType convert_access_type(std::string access_type){
+  if (access_type == "Write" || access_type == "write"){
+    return RaceType::RACE_WRITE;
+  }
+  if (access_type == "Read" || access_type == "read"){
+    return RaceType::RACE_READ;
+  }
+  throw std::logic_error("Unrecognised access type string");
+}
+
+LLMAnalyser::LLMAnalyser(Filepath fp) : filepath(fp){
 
 }
 
-LLMAnalyser::FilterFalsePositives(){
-    SharedVarInfos shared_vars = shared_var_identifier.findSharedVariables(filepath);
+JsonResults LLMAnalyser::FilterFalsePositives(DataRaceMap data_race_map){
+    SharedVarInfos shvar_infos = shared_var_identifier.findSharedVariables(filepath);
     json schema = {
-        {"$schema", "http://json-schema.org/draft-07/schema#"},
-        {"type", "array"},
-        {"items",
-          {
+      {"$schema", "http://json-schema.org/draft-07/schema#"},
+      {"type", "object"},
+      {"properties", {
+        {"variables", {
+          {"type", "array"},
+          {"items", {
             {"type", "object"},
-            {"properties",
-              {
-                {"name", {{"type", "string"}}},
-                {"data_race", {{"type", "boolean"}}},
-                {"accesses",
-                  {
-                    {"type", "array"},
-                    {"items",
-                      {
-                        {"type", "object"},
-                        {"properties",
-                          {
-                            {"access_type", {{"type", "string"}}},
-                            {"line", {{"type", "integer"}, {"minimum", 0}}},
-                            {"column", {{"type", "integer"}, {"minimum", 0}}},
-                            {"unprotected", {{"type", "boolean"}}}
-                          }
-                        },
-                        {"required", {"access_type", "line", "column", "unprotected"}},
-                        {"additionalProperties", false}
-                      }
-                    }
-                  }
-                }
-              }
-            },
+            {"properties", {
+              {"name", {{"type", "string"}}},
+              {"data_race", {{"type", "boolean"}}},
+              {"accesses", {
+                {"type", "array"},
+                {"items", {
+                  {"type", "object"},
+                  {"properties", {
+                    {"access_type", {{"type", "string"}}},
+                    {"line", {{"type", "integer"}}},
+                    {"column", {{"type", "integer"}}},
+                    {"filename", {{"type", "string"}}},
+                    {"id", {{"type", "integer"}}},
+                    {"unprotected", {{"type", "boolean"}}},
+                    {"reasoning", {{"type", "string"}}}
+                  }},
+                  {"required", {"access_type", "line", "column", "filename", "id", "unprotected", "reasoning"}},
+                  {"additionalProperties", false}
+                }}
+              }}
+            }},
             {"required", {"name", "data_race", "accesses"}},
             {"additionalProperties", false}
-          }
+          }}
+        }}
+      }},
+      {"required", {"variables"}},
+      {"additionalProperties", false}
+    };
+      std::ostringstream oss;
+      create_prompt(oss, filepath, prompt_1);
+      oss << "\n" << "SHARED VARIABLES:" << "\n" << "---" << "\n";
+      SharedVarResults results = shared_var_identifier.EvaluateLLMs(shvar_infos);
+      std::unordered_map<std::string, unsigned int> votes;
+      for (const auto& [llm, llm_result] : results){
+        for (const auto& var : llm_result.votes){
+          votes[var]++;
         }
-      };
+      }
+      for (const auto& [var, count] : votes){
+        if (count > 1){
+          oss << var << "\n";
+        }
+      }
+      oss << "\n" << "RACE REPORT:" << "\n";
+      for (const auto &[var_name, data_races] : data_race_map) {
+        oss << var_name << ": " << data_races.size() << " unprotected accesses" << "\n";
+        for (int i = 0; i <data_races.size(); i++) {
+          DataRace dr = data_races[i];
+          if (dr.race_type == RACE_READ) {
+            oss << "Read";
+          } else {
+            oss << "Write";
+          }
+          oss << " in file " << dr.location.file_name << " at line " << dr.location.line
+                     << ", position " << dr.location.column << " with id " << dr.id << "\n";
+        }
+      }
+      std::string_view prompt = oss.view();
+      JsonResults responses;
+      for (const auto& llm : all_llms){
+        responses[llm] = llm_handler.PromptWithRetries(prompt, schema, llm).at("variables").get<std::vector<json>>();
+      }
+      return responses;
+}
+
+void LLMAnalyser::TestFilterFalsePositives(DataRaceMap data_race_map){
+  JsonResults results = FilterFalsePositives(data_race_map);
+  for (const auto& [llm, result] : results){
+     std::cout << get_llm_name(llm) << std::endl;
+     for (const auto& var_result : result){
+        std::cout << var_result.dump(4) << std::endl;
+     }
+  }
+}
+
+FalsePosResults LLMAnalyser::ParseResults(JsonResults json_results){
+  FalsePosResults results;
+  for (const auto& llm : all_llms){
+    FalsePosResult result;
+    for (const auto& var_result_json : json_results[llm]){
+      VarResult var_result;
+      var_result.has_data_race = var_result_json.at("data_race").get<bool>();
+      var_result.var_name = var_result_json.at("name").get<std::string>();
+      for (const json& access_json : var_result_json.at("accesses").get<std::vector<json>>()){
+        unsigned int line = access_json.at("line").get<unsigned int>();
+        unsigned int col = access_json.at("column").get<unsigned int>();
+        std::string filename = access_json.at("filename").get<std::string>();
+        std::string reasoning = access_json.at("reasoning").get<std::string>();
+        std::string access_type_str = access_json.at("access_type").get<std::string>();
+        RaceType access_type = convert_access_type(access_type_str);
+        bool is_data_race = access_json.at("unprotected").get<bool>();
+        unsigned int id = access_json.at("id").get<unsigned int>();
+
+        DataRace data_race = {
+          .var_name = var_result.var_name,
+          .node = nullptr,
+          .race_type = access_type,
+          .location = LocationInfo{
+            .file_name = filename,
+            .line = line,
+            .column = col,  
+          },
+          .id = id,
+        };
+        LLM_DataRace llm_data_race = {
+          .data_race = data_race,
+          .true_pos = is_data_race,
+          .reasoning = reasoning,
+        };
+        if (is_data_race){
+          var_result.true_pos_accesses[id] = llm_data_race;
+        } else {
+          var_result.false_pos_accesses[id] = llm_data_race;
+        }
+      } 
+      result.push_back(var_result);  
+    }
+    results[llm] = result;
+  }
+  return results;
+}
+
+SummaryFalsePosResults LLMAnalyser::EvalFalsePosLLMConsistency(DataRaceMap data_race_map, bool slow_llms, unsigned int repeats){
+  std::vector<std::future<FalsePosResults>> futures;
+  std::vector<FalsePosResults> results;
+  for (int i=0;i<repeats;i++){
+    futures.push_back(std::async(std::launch::async, [this, &data_race_map](){
+      return ParseResults(FilterFalsePositives(data_race_map));
+    }));
+    if (slow_llms) {
+      results.push_back(futures.back().get());
+      std::this_thread::sleep_for(std::chrono::seconds(LLM_API_DELAY_SECONDS));
+    } 
+  }
+  if (!slow_llms){
+    for (auto& task : futures){
+      results.push_back(task.get());
+    }
+  }
+  
+
+
+}
+
+void LLMAnalyser::HintsToProgrammer(){
+
 }

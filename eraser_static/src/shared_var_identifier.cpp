@@ -12,10 +12,11 @@ std::string parse_c_file(const std::string &path) {
   return buffer.str();
 }
 
-std::string_view create_prompt(const Filepath& filepath, const std::string& prompt){
+void create_prompt(std::ostringstream& oss, const Filepath& filepath, const std::string& prompt){
   bool directory_mode = !filepath.ends_with(".c");
-  std::ostringstream oss;
   oss << prompt << "\n";
+  oss << "SOURCE CODE:" << "\n";
+  oss << "---" << "\n";
   if (!directory_mode) {
     oss << "\n";
     oss << parse_c_file(filepath);
@@ -39,7 +40,6 @@ std::string_view create_prompt(const Filepath& filepath, const std::string& prom
       oss << parse_c_file(file.string());
     }
   }
-  return oss.view();
 }
 
 static const std::string shared_var_prompt = R"(### Role
@@ -78,7 +78,9 @@ A variable is "SHARED" if:
 )";
 
 SharedVarInfos SharedVarIdentifier::findSharedVariables(const Filepath &filepath) {
-  std::string_view prompt = create_prompt(filepath, shared_var_prompt);
+  std::ostringstream oss;
+  create_prompt(oss, filepath, shared_var_prompt);
+  std::string_view prompt = oss.view();
   json schema = {
       {"type", "object"},
       {"properties",
@@ -117,15 +119,15 @@ SharedVarResults SharedVarIdentifier::EvaluateLLMs(const SharedVarInfos &infos) 
   for (const auto &[llm, response] : infos) {
     // variables are stored as json with "name" and "type" fields. We
     // only care here about names
-    for (const auto &var : response["variables"].get<std::vector<json>>()) {
-      if (!votes.contains(var["name"])) {
-        votes[var["name"]] = VoteInfo{
-            .var_name = var["name"],
+    for (const auto &var : response.at("variables").get<std::vector<json>>()) {
+      if (!votes.contains(var.at("name"))) {
+        votes[var.at("name")] = VoteInfo{
+            .var_name = var.at("name"),
             .votes = {},
         };
       }
-      votes[var["name"]].votes.insert(llm);
-      results[llm].votes.insert(var["name"]);
+      votes[var.at("name")].votes.insert(llm);
+      results[llm].votes.insert(var.at("name"));
     }
   }
   for (const auto &[name, vote_info] : votes) {
@@ -174,7 +176,7 @@ void worker(int tid, std::vector<SharedVarResults> results, SharedVarIdentifier 
     results[tid] = id.EvaluateLLMs(infos);
 }
 
-SummaryResults SharedVarIdentifier::EvaluateLLMConsistency(const Filepath &filepath, unsigned int repeats){
+SummaryResults SharedVarIdentifier::EvaluateLLMConsistency(const Filepath &filepath, bool slow_llm_requests, unsigned int repeats){
     std::vector<SharedVarResults> results;
     SummaryResults summary_results;
     std::vector<std::future<SharedVarResults>> futures;
@@ -183,12 +185,19 @@ SummaryResults SharedVarIdentifier::EvaluateLLMConsistency(const Filepath &filep
         futures.push_back(std::async(std::launch::async, [this, &filepath](){
             return EvaluateLLMs(findSharedVariables(filepath));
         }));
+        // do requests one at a time to avoid rate limiting
+        if (slow_llm_requests){
+          results.push_back(futures.back().get());
+          std::this_thread::sleep_for(std::chrono::seconds(LLM_API_DELAY_SECONDS));
+        } 
     }
-
-    for (auto& f : futures){
+    // collect results if we have not already done so
+    if (!slow_llm_requests){
+      for (auto& f : futures){
         results.push_back(f.get());
+      }
     }
-
+  
     
     for (const LLM& llm : all_llms){
         double jacquard_score = 0.0;

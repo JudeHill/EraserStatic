@@ -1,5 +1,3 @@
-#pragma once
-
 #include "call_graph.h"
 
 CallGraph::CallGraph(){};

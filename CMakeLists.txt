@@ -18,6 +18,7 @@ add_executable(eraser_static
   eraser_static/src/parser_helpers.cpp
   eraser_static/src/construction_environment.cpp
   eraser_static/src/llm_handler.cpp
+  eraser_static/src/llm_analyser.cpp
   eraser_static/src/eval_llms.cpp
   eraser_static/src/shared_var_identifier.cpp
   eraser_static/graph_nodes/src/basic_node.cpp
@@ -73,8 +74,17 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(json-schema-validator)
 
+FetchContent_Declare(
+  CLI11
+  GIT_REPOSITORY https://github.com/CLIUtils/CLI11.git
+  GIT_TAG v2.4.2  
+)
+
+FetchContent_MakeAvailable(CLI11)
+
 # Link to your executable
 target_link_libraries(eraser_static PRIVATE nlohmann_json_schema_validator)
+target_link_libraries(eraser_static PRIVATE CLI11::CLI11)
 
 
 # Make sure the runtime loader can find libclang when you run the binary

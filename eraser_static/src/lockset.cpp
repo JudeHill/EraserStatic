@@ -3,6 +3,7 @@
 static bool debug = true;
 static int thread_depth = 0;
 static bool assume_sym_join = false;
+static unsigned int next_race_id = 0;
 
 LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncName> funcs_seen,
                       bool on_main_thread, int epoch) {
@@ -53,7 +54,9 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
           .node = read_node,
           .race_type = RACE_READ,
           .location = read_node->loc,
+          .id = next_race_id,
       });
+      next_race_id++;
     }
     return visit(read_node->next, lockset, funcs_seen, on_main_thread, epoch);
   }
@@ -66,7 +69,9 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
           .node = write_node,
           .race_type = RACE_WRITE,
           .location = write_node->loc,
+          .id = next_race_id,
       });
+      next_race_id++;
     };
     return visit(write_node->next, lockset, funcs_seen, on_main_thread, epoch);
   }

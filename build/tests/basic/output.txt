@@ -1,11 +1,59 @@
-Found dataraces involving 1 unique variables
-array.c 0 0 tids: 1 unprotected accesses
-Write in file array.c at line 13, position 3
+Found dataraces involving 2 unique variables
+array.c 0 0 count: 1 unprotected accesses
+Write in file array.c at line 16, position 3
+array.c 0 0 output: 1 unprotected accesses
+Write in file array.c at line 14, position 3
 
 LLM analysis of shared variables:
-ChatGPT
-TP: 4   FP: 0   FN: 0
-Gemini
-TP: 4   FP: 0   FN: 0
 Claude
-TP: 4   FP: 0   FN: 0
+TP: 5   FP: 0   FN: 0
+Gemini
+TP: 5   FP: 1   FN: 0
+ChatGPT
+TP: 5   FP: 0   FN: 0
+LLM analysis of false positives of data races: 
+Claude
+Variable count
+Has a data race
+1 true unprotected accesses, 0false positives
+False positives: 
+True positives: 
+Write in file array.c, on line 16 at position 3
+Reasoning: Unprotected increment of shared variable 'count' in thread function. Multiple threads execute this concurrently without mutex protection (mutex lock/unlock are commented out). This is a true data race.
+Variable output
+No data race
+0 true unprotected accesses, 1false positives
+False positives: 
+Write in file array.c, on line 14 at position 3
+Reasoning: Each thread writes to output[tid] where tid is unique per thread (0 to NUM_THREADS-1). Threads access disjoint array indices, providing logical partitioning. No data race occurs as no two threads write to the same memory location.
+True positives: 
+Gemini
+Variable count
+Has a data race
+1 true unprotected accesses, 0false positives
+False positives: 
+True positives: 
+Write in file array.c, on line 16 at position 3
+Reasoning: The increment operation on 'count' is not protected by any mutual exclusion mechanism, allowing concurrent modification by multiple threads.
+Variable output
+No data race
+0 true unprotected accesses, 1false positives
+False positives: 
+Write in file array.c, on line 14 at position 3
+Reasoning: Accesses to 'output' are logically partitioned. Each thread 'tid' writes to a unique array index 'output[tid]', preventing concurrent writes to the same memory location.
+True positives: 
+ChatGPT
+Variable count
+Has a data race
+1 true unprotected accesses, 0false positives
+False positives: 
+True positives: 
+Write in file array.c, on line 16 at position 3
+Reasoning: In print_tid, count++ is not protected by mutex_1 (locks are commented out) and can run concurrently in multiple threads. main also does count++ after joins; those increments are ordered w.r.t. each joined thread, but that does not protect concurrent increments among worker threads themselves.
+Variable output
+No data race
+0 true unprotected accesses, 1false positives
+False positives: 
+Write in file array.c, on line 14 at position 3
+Reasoning: Each thread writes output[tid] where tid is a unique value (0..NUM_THREADS-1) passed at creation. Thus threads write to disjoint array elements; no two threads access the same memory location here.
+True positives: 

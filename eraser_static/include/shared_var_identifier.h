@@ -13,6 +13,7 @@
 #include <string>
 #include <unordered_set>
 #include <vector>
+#define LLM_API_DELAY_SECONDS 20
 
 using nlohmann::json;
 namespace fs = std::filesystem;
@@ -32,14 +33,14 @@ struct LLM_SummaryResult {
 };
 using SummaryResults = std::unordered_map<LLM, LLM_SummaryResult>;
 using SharedVarResults = std::unordered_map<LLM, LLM_result>;
-std::string_view create_prompt(const Filepath& filepath, const std::string& prompt);
+void create_prompt(std::ostringstream& oss, const Filepath& filepath, const std::string& prompt);
 
 class SharedVarIdentifier {
 public:
   SharedVarIdentifier();
   SharedVarInfos findSharedVariables(const Filepath &filepath);
   SharedVarResults EvaluateLLMs(const SharedVarInfos &infos);
-  SummaryResults EvaluateLLMConsistency(const Filepath &filepath, unsigned int repeats = 5);
+  SummaryResults EvaluateLLMConsistency(const Filepath &filepath, bool slow_llm_requests, unsigned int repeats = 5);
 
 private: 
     LLMHandler llm_handler;

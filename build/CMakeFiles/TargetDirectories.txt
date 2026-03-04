@@ -6,3 +6,12 @@
 /home/jude/EraserStatic/build/_deps/json-schema-validator-build/CMakeFiles/rebuild_cache.dir
 /home/jude/EraserStatic/build/_deps/json-schema-validator-build/src/CMakeFiles/edit_cache.dir
 /home/jude/EraserStatic/build/_deps/json-schema-validator-build/src/CMakeFiles/rebuild_cache.dir
+/home/jude/EraserStatic/build/_deps/cli11-build/CMakeFiles/edit_cache.dir
+/home/jude/EraserStatic/build/_deps/cli11-build/CMakeFiles/rebuild_cache.dir
+/home/jude/EraserStatic/build/_deps/cli11-build/fuzz/CMakeFiles/edit_cache.dir
+/home/jude/EraserStatic/build/_deps/cli11-build/fuzz/CMakeFiles/rebuild_cache.dir
+/home/jude/EraserStatic/build/_deps/cli11-build/src/CMakeFiles/CLI11.dir
+/home/jude/EraserStatic/build/_deps/cli11-build/src/CMakeFiles/edit_cache.dir
+/home/jude/EraserStatic/build/_deps/cli11-build/src/CMakeFiles/rebuild_cache.dir
+/home/jude/EraserStatic/build/_deps/cli11-build/single-include/CMakeFiles/edit_cache.dir
+/home/jude/EraserStatic/build/_deps/cli11-build/single-include/CMakeFiles/rebuild_cache.dir

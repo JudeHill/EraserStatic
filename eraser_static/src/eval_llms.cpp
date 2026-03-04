@@ -15,9 +15,9 @@ void test_llms_alive() {
     }
 }
 
-void eval_shared_variable_llm_consistency(const Filepath &in_filepath, const Filepath& out_filepath) {
+void eval_shared_variable_llm_consistency(const Filepath &in_filepath, bool slow_llm_requests, const Filepath& out_filepath) {
     SharedVarIdentifier identifier;
-    SummaryResults result = identifier.EvaluateLLMConsistency(in_filepath);
+    SummaryResults result = identifier.EvaluateLLMConsistency(in_filepath, slow_llm_requests);
     auto out_stream = std::ofstream(out_filepath);
     if (!out_stream) {
         throw std::system_error(errno, std::generic_category(),
