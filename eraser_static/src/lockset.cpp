@@ -21,13 +21,13 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
     std::cout << "With next node " << next_node_name << std::endl;
   }
   switch (node->type) {
-  case LOCK: {
+  case NodeType::LOCK: {
     LockNode *lock_node = static_cast<LockNode *>(node);
     LockSet new_lockset = lockset;
     new_lockset.insert(lock_node->varName);
     return visit(lock_node->next, new_lockset, funcs_seen, on_main_thread, epoch);
   }
-  case FUNCTION_CALL: {
+  case NodeType::FUNCTION_CALL: {
     FunctionCallNode *func_call_node = static_cast<FunctionCallNode *>(node);
     LockSet new_lockset = lockset;
     if (!funcs_seen.contains(func_call_node->functionName)) {
@@ -39,20 +39,20 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
     }
     return visit(func_call_node->next, new_lockset, funcs_seen, on_main_thread, epoch);
   }
-  case UNLOCK: {
+  case NodeType::UNLOCK: {
     UnlockNode *unlock_node = static_cast<UnlockNode *>(node);
     LockSet new_lockset = lockset;
     new_lockset.erase(unlock_node->varName);
     return visit(unlock_node->next, new_lockset, funcs_seen, on_main_thread, epoch);
   }
 
-  case READ: {
+  case NodeType::READ: {
     ReadNode *read_node = static_cast<ReadNode *>(node);
     if (handle_read(read_node->varName, lockset, on_main_thread, epoch)) {
       data_races.emplace_back(DataRace{
           .var_name = read_node->varName,
           .node = read_node,
-          .race_type = RACE_READ,
+          .race_type = RaceType::RACE_READ,
           .location = read_node->loc,
           .id = next_race_id,
       });
@@ -61,13 +61,13 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
     return visit(read_node->next, lockset, funcs_seen, on_main_thread, epoch);
   }
 
-  case WRITE: {
+  case NodeType::WRITE: {
     WriteNode *write_node = static_cast<WriteNode *>(node);
     if (handle_write(write_node->varName, lockset, on_main_thread, epoch)) {
       data_races.emplace_back(DataRace{
           .var_name = write_node->varName,
           .node = write_node,
-          .race_type = RACE_WRITE,
+          .race_type = RaceType::RACE_WRITE,
           .location = write_node->loc,
           .id = next_race_id,
       });
@@ -76,7 +76,7 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
     return visit(write_node->next, lockset, funcs_seen, on_main_thread, epoch);
   }
 
-  case IF: {
+  case NodeType::IF: {
     IfNode *ifnode = static_cast<IfNode *>(node);
     // figure out what to do here
     GraphNode *else_node = ifnode->elseNode;
@@ -94,13 +94,13 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
     // assert v is now the end_if corresponding to the original if
     return visit(end_if->getDefaultNextNode(), if_lockset, funcs_seen, on_main_thread, epoch);
   }
-  case ENDIF:
-  case ENDWHILE:
-  case CONTINUE: {
+  case NodeType::ENDIF:
+  case NodeType::ENDWHILE:
+  case NodeType::CONTINUE: {
     return lockset;
   }
 
-  case WHILE: {
+  case NodeType::WHILE: {
     WhileNode *while_node = static_cast<WhileNode *>(node);
     LockSet new_lockset = visit(while_node->whileNode, lockset, funcs_seen, on_main_thread, epoch);
     // new_lockset = new_lockset INTERSECT lockset (worst case lockset)
@@ -114,7 +114,7 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
     EndwhileNode *end_while = while_node->endWhile;
     return visit(end_while->next, new_lockset, funcs_seen, on_main_thread, epoch);
   }
-  case THREAD_CREATE: {
+  case NodeType::THREAD_CREATE: {
     ThreadCreateNode *create_node = static_cast<ThreadCreateNode *>(node);
     thread_depth++;
     LockSet new_lockset =
@@ -122,12 +122,12 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
 
     return visit(create_node->next, new_lockset, funcs_seen, on_main_thread, epoch);
   }
-  case THREAD_JOIN: {
+  case NodeType::THREAD_JOIN: {
     thread_depth--;
     ThreadJoinNode *join_node = static_cast<ThreadJoinNode *>(node);
     return visit(join_node->next, lockset, funcs_seen, on_main_thread, epoch);
   }
-  case BARRIER: {
+  case NodeType::BARRIER: {
     return visit(node->getDefaultNextNode(), lockset, funcs_seen, on_main_thread, epoch + 1);
   }
 
@@ -149,7 +149,7 @@ bool Eraser::handle_read(LockName var_name, const LockSet lockset, bool on_main_
     vars[var_name][epoch] = std::make_unique<VarInfo>(VarInfo{
         .var_name = var_name,
         .only_on_main = on_main_thread,
-        .status = VIRGIN,
+        .status = VarStatus::VIRGIN,
         .lockset = lockset,
     });
     return false;
@@ -159,7 +159,7 @@ bool Eraser::handle_read(LockName var_name, const LockSet lockset, bool on_main_
     var_infos[epoch] = std::make_unique<VarInfo>(VarInfo{
       .var_name = var_name,
       .only_on_main = on_main_thread,
-      .status = VIRGIN,
+      .status = VarStatus::VIRGIN,
       .lockset = lockset,
   });
   }
@@ -174,10 +174,10 @@ bool Eraser::handle_read(LockName var_name, const LockSet lockset, bool on_main_
       ++it;
     }
   }
-  if (var.status == VIRGIN && !var.only_on_main) {
-    var.status = SHARED;
+  if (var.status == VarStatus::VIRGIN && !var.only_on_main) {
+    var.status = VarStatus::SHARED;
   }
-  if (var.status == SHARED_MODIFIED && var.lockset.empty()) {
+  if (var.status == VarStatus::SHARED_MODIFIED && var.lockset.empty()) {
     // reset var lockset if data race
     var.lockset = old_lockset;
     return true;
@@ -198,7 +198,7 @@ bool Eraser::handle_write(LockName var_name, const LockSet lockset, bool on_main
     vars[var_name][epoch] = std::make_unique<VarInfo>(VarInfo{
         .var_name = var_name,
         .only_on_main = on_main_thread,
-        .status = VIRGIN,
+        .status = VarStatus::VIRGIN,
         .lockset = lockset,
     });
   }
@@ -208,7 +208,7 @@ bool Eraser::handle_write(LockName var_name, const LockSet lockset, bool on_main
     var_infos[epoch] = std::make_unique<VarInfo>(VarInfo{
       .var_name = var_name,
       .only_on_main = on_main_thread,
-      .status = VIRGIN,
+      .status = VarStatus::VIRGIN,
       .lockset = lockset,
   });
   }
@@ -216,8 +216,8 @@ bool Eraser::handle_write(LockName var_name, const LockSet lockset, bool on_main
   LockSet old_lockset = var.lockset;
   var.only_on_main = (var.only_on_main && on_main_thread);
 
-  if (!(var.status == SHARED_MODIFIED) && !var.only_on_main) {
-    var.status = SHARED_MODIFIED;
+  if (!(var.status == VarStatus::SHARED_MODIFIED) && !var.only_on_main) {
+    var.status = VarStatus::SHARED_MODIFIED;
   }
   for (auto it = var.lockset.begin(); it != var.lockset.end();) {
     if (!lockset.contains(*it)) {

@@ -28,7 +28,7 @@
 #include <unordered_map>
 #include <vector>
 
-enum BranchType {
+enum class BranchType {
   BRANCH_NONE,
   BRANCH_IF,
   BRANCH_ELSE_IF,
@@ -42,7 +42,7 @@ enum BranchType {
   BRANCH_FOR
 };
 
-enum LhsType { LHS_NONE, LHS_WRITE, LHS_READ_AND_WRITE };
+enum class LhsType { LHS_NONE, LHS_WRITE, LHS_READ_AND_WRITE };
 
 struct VariableInfo {
   int scopeDepth;

@@ -17,7 +17,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-enum VarStatus {
+enum class VarStatus {
   VIRGIN,
   EXCLUSIVE,
   SHARED,
@@ -37,7 +37,7 @@ struct VarInfo {
   int epoch;
 };
 
-enum RaceType {
+enum class RaceType {
   RACE_READ,
   RACE_WRITE,
 };

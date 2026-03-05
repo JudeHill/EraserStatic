@@ -69,19 +69,19 @@ LhsType assignmentOperatorType(CXCursor parent) {
   unsigned int numTokens = 0;
   clang_tokenize(tu, range, &tokens, &numTokens);
 
-  LhsType result = LHS_NONE;
+  LhsType result = LhsType::LHS_NONE;
 
   for (unsigned int i = 0; i < numTokens; ++i) {
     CXString tokenSpelling = clang_getTokenSpelling(tu, tokens[i]);
     std::string token = clang_getCString(tokenSpelling);
 
     if (parentKind == CXCursor_BinaryOperator && token == "=") {
-      result = LHS_WRITE;
+      result = LhsType::LHS_WRITE;
     } else if (parentKind == CXCursor_UnaryOperator &&
                (token == "++" || token == "--")) {
-      result = LHS_READ_AND_WRITE;
+      result = LhsType::LHS_READ_AND_WRITE;
     } else if (parentKind == CXCursor_CompoundAssignOperator) {
-      result = LHS_READ_AND_WRITE;
+      result = LhsType::LHS_READ_AND_WRITE;
     }
 
     clang_disposeString(tokenSpelling);
@@ -237,9 +237,9 @@ void classifyVariable(CXCursor cursor, LhsType lhsType,
   }
 
   if (functionDeclarations.find(varName) == functionDeclarations.end()) {
-    if (lhsType == LHS_WRITE) {
+    if (lhsType == LhsType::LHS_WRITE) {
       (*nodesToAdd).push_back(new WriteNode(varName, clang_getCursorLocation(cursor)));
-    } else if (lhsType == LHS_READ_AND_WRITE) {
+    } else if (lhsType == LhsType::LHS_READ_AND_WRITE) {
       (*nodesToAdd).push_back(new ReadNode(varName,clang_getCursorLocation(cursor)));
       (*nodesToAdd).push_back(new WriteNode(varName, clang_getCursorLocation(cursor)));
     } else {
@@ -255,34 +255,34 @@ BranchType getBranchType(CXCursor cursor, CXCursor parent,
   if (parentKind == CXCursor_IfStmt ||
       parentKind == CXCursor_ConditionalOperator) {
     if (childIndex == 1) {
-      return BRANCH_IF;
+      return BranchType::BRANCH_IF;
     } else if (childIndex == 2 && cursorKind == CXCursor_IfStmt) {
-      return BRANCH_ELSE_IF;
+      return BranchType::BRANCH_ELSE_IF;
     } else if (childIndex == 2) {
-      return BRANCH_ELSE;
+      return BranchType::BRANCH_ELSE;
     }
   } else if (parentKind == CXCursor_WhileStmt) {
     if (childIndex == 0) {
-      return BRANCH_STARTWHILE;
+      return BranchType::BRANCH_STARTWHILE;
     } else if (childIndex == 1) {
-      return BRANCH_WHILE;
+      return BranchType::BRANCH_WHILE;
     }
   } else if (parentKind == CXCursor_ForStmt) {
     if (childIndex == 1) {
-      return BRANCH_FOR_START;
+      return BranchType::BRANCH_FOR_START;
     } else if (childIndex == 2) {
-      return BRANCH_FOR_ITERATOR;
+      return BranchType::BRANCH_FOR_ITERATOR;
     } else if (childIndex == 3) {
-      return BRANCH_FOR;
+      return BranchType::BRANCH_FOR;
     }
   } else if (parentKind == CXCursor_DoStmt) {
     if (childIndex == 0) {
-      return BRANCH_DO_WHILE_START;
+      return BranchType::BRANCH_DO_WHILE_START;
     } else if (childIndex == 1) {
-      return BRANCH_DO_WHILE_COND;
+      return BranchType::BRANCH_DO_WHILE_COND;
     }
   }
-  return BRANCH_NONE;
+  return BranchType::BRANCH_NONE;
 }
 
 static bool isStmtLike(CXCursorKind k) {
@@ -315,23 +315,23 @@ BranchType getBranchTypeGPT(CXCursor cursor, CXCursor parent,
   if (parentKind == CXCursor_IfStmt ||
     parentKind == CXCursor_ConditionalOperator) {
     if (childIndex == 1) {
-    return BRANCH_IF;
+    return BranchType::BRANCH_IF;
     } else if (childIndex == 2 && cursorKind == CXCursor_IfStmt) {
-    return BRANCH_ELSE_IF;
+    return BranchType::BRANCH_ELSE_IF;
     } else if (childIndex == 2) {
-    return BRANCH_ELSE;
+    return BranchType::BRANCH_ELSE;
     }
   } else if (parentKind == CXCursor_WhileStmt) {
   if (childIndex == 0) {
-  return BRANCH_STARTWHILE;
+  return BranchType::BRANCH_STARTWHILE;
   } else if (childIndex == 1) {
-  return BRANCH_WHILE;
+  return BranchType::BRANCH_WHILE;
   }
   } else if (parentKind == CXCursor_DoStmt) {
   if (childIndex == 0) {
-  return BRANCH_DO_WHILE_START;
+  return BranchType::BRANCH_DO_WHILE_START;
   } else if (childIndex == 1) {
-  return BRANCH_DO_WHILE_COND;
+  return BranchType::BRANCH_DO_WHILE_COND;
   }
   } else if (parentKind == CXCursor_ForStmt) {
 
@@ -345,31 +345,31 @@ BranchType getBranchTypeGPT(CXCursor cursor, CXCursor parent,
     if (count_children == 1){
       // Special case: for(;;).
       // TODO: figure out how to handle this
-      return BRANCH_FOR;
+      return BranchType::BRANCH_FOR;
     }
     if (childIndex == count_children - 1){
-      return BRANCH_FOR;
+      return BranchType::BRANCH_FOR;
     }
     if (count_children == 2){
-      return BRANCH_FOR_START;
+      return BranchType::BRANCH_FOR_START;
     }
 
     if (count_children == 3){
       if (childIndex == 1){
-        return BRANCH_FOR_START;
+        return BranchType::BRANCH_FOR_START;
       }
     }
 
 
     if (count_children == 4){
       if (childIndex == 1) {
-        return BRANCH_FOR_START;
+        return BranchType::BRANCH_FOR_START;
       } else if (childIndex == 2) {
-        return BRANCH_FOR_ITERATOR;
+        return BranchType::BRANCH_FOR_ITERATOR;
       }
     }
   }
-  return BRANCH_NONE;
+  return BranchType::BRANCH_NONE;
 }
 
 void onNewScope() {
@@ -518,7 +518,7 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
   unsigned int childIndex = visitorData->childIndex;
   LhsType lhsType = visitorData->lhsType;
   LhsType nextLhsType = lhsType;
-  if (lhsType == LHS_NONE) {
+  if (lhsType == LhsType::LHS_NONE) {
     nextLhsType = assignmentOperatorType(cursor);
   }
 
@@ -539,33 +539,33 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
   BranchType branchType = getBranchTypeGPT(cursor, parent, childIndex);
   WhileNode *forNodeLoop = nullptr;
 
-  if (branchType == BRANCH_IF) {
+  if (branchType == BranchType::BRANCH_IF) {
     IfNode* if_node = new IfNode();
     if_stack.push_back(if_node);
     environment->onAdd(if_node);
-  } else if (branchType == BRANCH_ELSE_IF || branchType == BRANCH_ELSE) {
+  } else if (branchType == BranchType::BRANCH_ELSE_IF || branchType == BranchType::BRANCH_ELSE) {
     environment->onElseAdd();
-  } else if (branchType == BRANCH_STARTWHILE) {
+  } else if (branchType == BranchType::BRANCH_STARTWHILE) {
     environment->onAdd(new StartwhileNode());
-  } else if (branchType == BRANCH_WHILE) {
+  } else if (branchType == BranchType::BRANCH_WHILE) {
     environment->onAdd(new WhileNode());
-  } else if (branchType == BRANCH_DO_WHILE_START) {
+  } else if (branchType == BranchType::BRANCH_DO_WHILE_START) {
     StartwhileNode *startwhileNode = new StartwhileNode();
     startwhileNode->continueReturn = nullptr;
-    startwhileNode->isDoWhile = branchType == BRANCH_DO_WHILE_START;
+    startwhileNode->isDoWhile = branchType == BranchType::BRANCH_DO_WHILE_START;
     environment->onAdd(startwhileNode);
-  } else if(branchType == BRANCH_FOR_START) {
+  } else if(branchType == BranchType::BRANCH_FOR_START) {
     handleForStmtCond(parent, cursor, environment);
-  } else if (branchType == BRANCH_DO_WHILE_COND) {
+  } else if (branchType == BranchType::BRANCH_DO_WHILE_COND) {
     std::cout << "do while" << std::endl;
     environment->onAdd(new ContinueReturnNode());
-  } else if (branchType == BRANCH_FOR_ITERATOR) {
+  } else if (branchType == BranchType::BRANCH_FOR_ITERATOR) {
     forNodeLoop = handleForStmtIncrement(parent, cursor, environment);
   }
   // RECURSIVE CALL
   clang_visitChildren(cursor, visitor, &childData);
   // ---------
-  if (lhsType == LHS_NONE) {
+  if (lhsType == LhsType::LHS_NONE) {
     for (int i = 0; i < childData.nodesToAdd.size(); i++) {
       environment->onAdd(childData.nodesToAdd[i]);
     }
@@ -584,24 +584,24 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
     if_stack.pop_back();
     environment->onAdd(end_if);
   }
-  if (branchType == BRANCH_WHILE) {
+  if (branchType == BranchType::BRANCH_WHILE) {
     environment->onAdd(new ContinueNode());
     environment->onAdd(new EndwhileNode());
   }
   if (cursorKind == CXCursor_ReturnStmt) {
     environment->onAdd(new ReturnNode());
   }
-  if (branchType == BRANCH_DO_WHILE_START) {
+  if (branchType == BranchType::BRANCH_DO_WHILE_START) {
     environment->onAdd(new ContinueNode());
-  } else if (branchType == BRANCH_DO_WHILE_COND) {
+  } else if (branchType == BranchType::BRANCH_DO_WHILE_COND) {
     WhileNode *whileNode = new WhileNode();
     whileNode->isDoWhile = true;
     environment->onAdd(whileNode);
     environment->onAdd(new EndwhileNode());
-  } else if (branchType == BRANCH_FOR_ITERATOR) {
+  } else if (branchType == BranchType::BRANCH_FOR_ITERATOR) {
     environment->goBackToStartWhile();
     environment->currNode = forNodeLoop;
-  } else if (branchType == BRANCH_FOR) {
+  } else if (branchType == BranchType::BRANCH_FOR) {
     environment->onAdd(new ContinueNode());
     environment->onAdd(new EndwhileNode());
   }
@@ -636,7 +636,7 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
 
 
   visitorData->childIndex += 1;
-  visitorData->lhsType = LHS_NONE;
+  visitorData->lhsType = LhsType::LHS_NONE;
   return CXChildVisit_Continue;
 }
 
@@ -667,7 +667,7 @@ void Parser::parseFile(const char *fileName, bool ignore_barriers, bool verbose,
   CXCursor cursor = clang_getTranslationUnitCursor(unit);
   
 
-  VisitorData initialData = {callGraph, 0, {}, LHS_NONE};
+  VisitorData initialData = {callGraph, 0, {}, LhsType::LHS_NONE};
 
   clang_visitChildren(cursor, visitor, &initialData);
 

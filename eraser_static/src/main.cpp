@@ -4,6 +4,7 @@
 #include "eval_llms.h"
 #include "parser.h"
 #include "shared_var_identifier.h"
+#include "write_output.h"
 #include <iostream>
 #include "llm_analyser.h"
 
@@ -16,88 +17,7 @@
 
 namespace fs = std::filesystem;
 
-struct Options {
-  std::string input_path;
-  std::string output_path;
 
-  bool debug = false;
-  bool show_graph = false;
-  bool is_barnes = false;
-  bool symmetric_join = false;
-  bool ignore_barriers = false;
-  bool slow_llm_requests = false;
-  bool evaluating_llms = false;
-  bool test_llms = false;
-  bool write_all_races = false;
-};
-
-struct Results {
-  DataRaceMap data_race_map;
-  SharedVarResults shvar_results;
-  FalsePosResults false_pos_results;
-};
-
-void write_output(std::string filepath, Results results, bool write_all_races = false) {
-  auto out_stream = std::ofstream(filepath);
-  if (!out_stream) {
-    throw std::system_error(errno, std::generic_category(),
-                            "failed to open output file: " + filepath);
-  }
-  out_stream << std::format("Found dataraces involving {} unique variables", results.data_race_map.size())
-             << std::endl;
-  
-  for (const auto &[var_name, data_races] : results.data_race_map) {
-    int num_races_to_write = write_all_races ? data_races.size() : std::min<std::size_t>(ACCESSES_PER_VAR, data_races.size());
-    out_stream << var_name << ": " << data_races.size() << " unprotected accesses" << "\n";
-    for (int i = 0; i < num_races_to_write; i++) {
-      DataRace dr = data_races[i];
-      if (dr.race_type == RACE_READ) {
-        out_stream << "Read";
-      } else {
-        out_stream << "Write";
-      }
-      out_stream << " in file " << dr.location.file_name << " at line " << dr.location.line
-                 << ", position " << dr.location.column << "\n";
-    }
-    if (data_races.size() > num_races_to_write) {
-      out_stream << "..." << "\n";
-    }
-  }
-  out_stream << "\n";
-  out_stream << "LLM analysis of shared variables:" << "\n";
-  SharedVarIdentifier shvar_id;
-  for (const auto &[llm, result] : results.shvar_results) {
-    out_stream << get_llm_name(llm) << "\n";
-    out_stream << "TP: " << result.true_pos << "   FP: " << result.false_pos
-               << "   FN: " << result.false_neg << "\n";
-  }
-  out_stream << "LLM analysis of false positives of data races: " << "\n";
-  for (const auto& llm : all_llms){
-    out_stream << get_llm_name(llm) << "\n";
-    for (const VarResult& var_result : results.false_pos_results[llm]){
-      out_stream << "Variable " << var_result.var_name << "\n";
-      out_stream << (var_result.has_data_race ? "Has a data race" : "No data race") << "\n";
-      out_stream << var_result.true_pos_accesses.size() << " true unprotected accesses, ";
-      out_stream << var_result.false_pos_accesses.size() << " false positives" << "\n";
-      out_stream << "False positives: " << "\n";
-      for (const LLM_DataRace& llm_data_race : var_result.false_pos_accesses){
-        out_stream << (llm_data_race.data_race.race_type == RACE_WRITE ? "Write " : "Read ");
-        out_stream << "in file " << llm_data_race.data_race.location.file_name << ", ";
-        out_stream << "on line " << llm_data_race.data_race.location.line << " ";
-        out_stream << "at position " << llm_data_race.data_race.location.column << "\n";
-        out_stream << "Reasoning: " << llm_data_race.reasoning << "\n";
-      } 
-      out_stream << "True positives: " << "\n";
-      for (const LLM_DataRace& llm_data_race : var_result.true_pos_accesses){
-        out_stream << (llm_data_race.data_race.race_type == RACE_WRITE ? "Write " : "Read ");
-        out_stream << "in file " << llm_data_race.data_race.location.file_name << ", ";
-        out_stream << "on line " << llm_data_race.data_race.location.line << " ";
-        out_stream << "at position " << llm_data_race.data_race.location.column << "\n";
-        out_stream << "Reasoning: " << llm_data_race.reasoning << "\n";
-      }  
-    }
-  }
-}
 
 int main(int argc, char *argv[]) {
 
@@ -120,6 +40,7 @@ int main(int argc, char *argv[]) {
   app.add_flag("-s,--symmetric-join", opts.symmetric_join, "Use symmetric join");
   app.add_flag("-b,--no-barrier", opts.ignore_barriers, "Ignore barriers");
   app.add_flag("--eval-llms", opts.evaluating_llms, "Evaluate LLMs");
+  app.add_flag("--eval-fps", opts.eval_llms_fps, "Evaluate false positives using LLMs");
   app.add_flag("--slow-llms", opts.slow_llm_requests, "Slow down LLMs to avoid rate limiting");
   app.add_flag("--test-llms", opts.test_llms, "Test LLM connectivity");
   app.add_flag("--write-all", opts.write_all_races, "Write all reported unprotected accesses to out, instead of just the first 5 per variable");
@@ -188,15 +109,15 @@ int main(int argc, char *argv[]) {
   SharedVarInfos shared_vars_llm_info = shared_var_id.findSharedVariables(opts.input_path);
   SharedVarResults shvar_results = shared_var_id.EvaluateLLMs(shared_vars_llm_info);
   LLMAnalyser llm_analyser(opts.input_path);
-  FalsePosResults false_pos_results = llm_analyser.ParseResults(llm_analyser.FilterFalsePositives(data_race_map));
+  SummaryFalsePosResults summary_fp_results = llm_analyser.EvalFalsePosLLMConsistency(data_race_map, opts.slow_llm_requests);
 
   std::cout << "Writing output" << std::endl;
-  write_output(
+  write_fp_eval_output(
     opts.output_path,
-    Results{
+    EvalLLMResults{
       .data_race_map = data_race_map,
       .shvar_results = shvar_results,
-      .false_pos_results = false_pos_results,
+      .false_pos_results = summary_fp_results,
     }, 
     opts.write_all_races);
   std::cout << "Finished" << std::endl;

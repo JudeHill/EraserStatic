@@ -6,6 +6,11 @@
 #include "usings.h"
 #define ACCESSES_PER_VAR 5
 
+enum class RaceVerdict {
+    TRUE_POS,
+    FALSE_POS,
+    FALSE_NEG,
+};
 
 struct LLM_DataRace {
     DataRace data_race;
@@ -28,12 +33,17 @@ Need the list of data races, their IDs, and the votes for each one.
 */
 
 struct SummaryFalsePosResult {
-    double fleiss_kappa;
-    // maps DataRaceId -> vote count
-    std::unordered_map<unsigned int, unsigned int> votes;
+    double fleiss_kappa_accesses, fleiss_kappa_variables;
+    // maps DataRaceId -> vote count (this is already mapped per LLM)
+    std::unordered_map<unsigned int, unsigned int> tp_votes_accesses, fp_votes_accesses;
+    // maps VarName (string) -> vote count
+    std::unordered_map<VarName, unsigned int> tp_votes_variables, fp_votes_variables;
 };
 
-using SummaryFalsePosResults = std::unordered_map<LLM, SummaryFalsePosResult>;
+struct SummaryFalsePosResults {
+    std::unordered_map<LLM, SummaryFalsePosResult> results;
+    DataRaceMap data_race_map;
+};
 using FalsePosResult = std::vector<VarResult>;
 using FalsePosResults = std::unordered_map<LLM, FalsePosResult>;
 using JsonResults = std::unordered_map<LLM, std::vector<json>>;

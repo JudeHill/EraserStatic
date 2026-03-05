@@ -1,6 +1,6 @@
 #pragma once
 
-enum NodeType {
+enum class NodeType {
   START,
   LOCK,
   UNLOCK,

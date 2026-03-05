@@ -65,6 +65,48 @@ RaceType convert_access_type(std::string access_type){
   throw std::logic_error("Unrecognised access type string");
 }
 
+template <typename T>
+double calculate_fleiss_kappa_binary(const std::unordered_map<T, unsigned int>& results, int num_runs) {
+    if (results.empty() || num_runs < 2) return 0.0;
+
+    const size_t N = results.size(); // Number of items (Data Races)
+    const double k = static_cast<double>(num_runs);
+    
+    // 1. Calculate the global proportion of TP and FP labels (p_j)
+    double total_tp_votes = 0;
+    for (auto const& [race, tp_count] : results) {
+        total_tp_votes += tp_count;
+    }
+
+    double p_tp = total_tp_votes / (N * k);
+    double p_fp = 1.0 - p_tp; // Since it's binary
+    
+    // Expected agreement (P_e)
+    double Pe = (p_tp * p_tp) + (p_fp * p_fp);
+
+    // 2. Calculate observed agreement for each race (P_i)
+    // Formula: Pi = [1 / k(k-1)] * [ (tp^2 + fp^2) - k ]
+    double sum_Pi = 0.0;
+    for (auto const& [race, tp_count] : results) {
+        double tp = static_cast<double>(tp_count);
+        double fp = k - tp;
+        
+        double Pi = (std::pow(tp, 2) + std::pow(fp, 2) - k) / (k * (k - 1.0));
+        sum_Pi += Pi;
+    }
+
+    // Average observed agreement (P_bar)
+    double P_bar = sum_Pi / static_cast<double>(N);
+
+    // 3. Final Kappa Calculation
+    // Handle the case where Pe is 1 (all votes are the same category)
+    if (std::abs(1.0 - Pe) < 1e-9) {
+        return (P_bar >= 1.0 - 1e-9) ? 1.0 : 0.0;
+    }
+
+    return (P_bar - Pe) / (1.0 - Pe);
+}
+
 LLMAnalyser::LLMAnalyser(Filepath fp) : filepath(fp){
 
 }
@@ -128,7 +170,7 @@ JsonResults LLMAnalyser::FilterFalsePositives(DataRaceMap data_race_map){
         oss << var_name << ": " << data_races.size() << " unprotected accesses" << "\n";
         for (int i = 0; i <data_races.size(); i++) {
           DataRace dr = data_races[i];
-          if (dr.race_type == RACE_READ) {
+          if (dr.race_type == RaceType::RACE_READ) {
             oss << "Read";
           } else {
             oss << "Write";
@@ -219,9 +261,38 @@ SummaryFalsePosResults LLMAnalyser::EvalFalsePosLLMConsistency(DataRaceMap data_
       results.push_back(task.get());
     }
   }
+  SummaryFalsePosResults summary_results = {
+    .results = { },
+    .data_race_map = data_race_map,
+  };
+  for (const auto& llm : all_llms){
+    summary_results.results[llm] = { };
+  }
+  for (const auto& result : results){
+    for (const auto& [llm, llm_result] : result){
+      for (const auto& var_result : llm_result){
+        if (var_result.has_data_race){
+          summary_results.results[llm].tp_votes_variables[var_result.var_name]++;
+        } else {
+          summary_results.results[llm].fp_votes_variables[var_result.var_name]++;
+        }
+        for (const auto& [id, access] : var_result.false_pos_accesses){
+          summary_results.results[llm].tp_votes_accesses[id]++;
+        }
+        for (const auto& [id, access] : var_result.true_pos_accesses){
+          summary_results.results[llm].fp_votes_accesses[id]++;
+        }
+      }
+    }
+  }
   
+  for(const auto& llm : all_llms){
+    SummaryFalsePosResult& cur_result = summary_results.results[llm];
+    cur_result.fleiss_kappa_accesses = calculate_fleiss_kappa_binary(cur_result.tp_votes_accesses, repeats);
+    cur_result.fleiss_kappa_variables = calculate_fleiss_kappa_binary(cur_result.tp_votes_variables, repeats);
+  }
 
-
+  return summary_results;
 }
 
 void LLMAnalyser::HintsToProgrammer(){
