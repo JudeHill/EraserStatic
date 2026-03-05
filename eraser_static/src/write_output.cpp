@@ -34,7 +34,7 @@ void write_shared_variables(std::ofstream& out_stream, SharedVarResults shvar_re
 
 void write_false_positives(std::ofstream& out_stream, FalsePosResults false_pos_results){
     out_stream << "LLM analysis of false positives of data races: " << "\n";
-    for (const auto& llm : all_llms){
+    for (const auto llm : all_llms){
         out_stream << get_llm_name(llm) << "\n";
         for (const VarResult& var_result : false_pos_results[llm]){
         out_stream << "Variable " << var_result.var_name << "\n";
@@ -62,20 +62,32 @@ void write_false_positives(std::ofstream& out_stream, FalsePosResults false_pos_
 }
 void write_fp_eval(std::ostream& out_stream, SummaryFalsePosResults results){
     out_stream << "LLM analysis of false positives of data races: " << "\n";
+    out_stream << "Jaccard agreement per LLM (data races on variables)";
+    for (const auto llm : all_llms){
+        out_stream << get_llm_name(llm) << ": " << results.results[llm].fleiss_kappa_variables << ", ";
+    }
+    out_stream << "\n" << "Jaccard agreement per LLM (unprotected accesses)";
+    for (const auto llm : all_llms){
+        out_stream << get_llm_name(llm) << ": " << results.results[llm].fleiss_kappa_accesses << ", ";
+    }
+    out_stream << "\n";
     for (const auto& [var, data_races] : results.data_race_map){
         out_stream << "Eraser tool found " << data_races.size() << " unprotected accesses on variable ";
         out_stream << var << "\n";
         out_stream << "LLM votes that this variable actually has a race: ";
-        for (const auto& llm : all_llms){
+        for (const auto llm : all_llms){
             out_stream << get_llm_name(llm) << ": " << results.results[llm].tp_votes_variables[var] << ", ";
         }
         out_stream << "\n";
+        for (const auto llm : all_llms){
+
+        }
         for (const auto& data_race : data_races){
             out_stream << (data_race.race_type == RaceType::RACE_WRITE ? "Write " : "Read ");
             out_stream << " on line " << data_race.location.line << ", at position " << data_race.location.column;
             out_stream << ", with id " << data_race.id << "\n";
             out_stream << "LLM votes that this access is actually unprotected: ";
-            for (const auto& llm : all_llms){
+            for (const auto llm : all_llms){
                 out_stream << get_llm_name(llm) << ": " << results.results[llm].tp_votes_accesses[data_race.id] << ", ";
             }
             out_stream << "\n";

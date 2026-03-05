@@ -96,11 +96,11 @@ SharedVarInfos SharedVarIdentifier::findSharedVariables(const Filepath &filepath
       {"additionalProperties", false}};
   SharedVarInfos shvar_infos;
   std::unordered_map<LLM, std::future<json>> futures;
-  for (const LLM& llm : all_llms){
+  for (const LLM llm : all_llms){
     auto task = std::async(std::launch::async, &LLMHandler::PromptWithRetries, &llm_handler, prompt, schema, llm, 3);
     futures[llm] = std::move(task);
   }
-  for (const LLM& llm : all_llms){
+  for (const LLM llm : all_llms){
     shvar_infos[llm] = futures[llm].get();
   }
 
@@ -199,7 +199,7 @@ SummaryResults SharedVarIdentifier::EvaluateLLMConsistency(const Filepath &filep
     }
   
     
-    for (const LLM& llm : all_llms){
+    for (const LLM llm : all_llms){
         double jacquard_score = 0.0;
         unsigned int num_jacq_sets = 0;
         int total_tp = 0, total_fp = 0, total_fn = 0;

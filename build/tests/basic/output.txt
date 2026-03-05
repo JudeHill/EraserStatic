@@ -1,9 +1,53 @@
+Found dataraces involving 2 unique variables
+array.c 0 0 count: 1 unprotected accesses
+Write in file array.c at line 16, position 3
+array.c 0 0 output: 1 unprotected accesses
+Write in file array.c at line 14, position 3
+
+LLM analysis of shared variables:
+Claude
+TP: 5   FP: 0   FN: 1
+Gemini
+TP: 6   FP: 0   FN: 0
+ChatGPT
+TP: 6   FP: 0   FN: 0
+
 LLM analysis of false positives of data races: 
-Eraser tool found 1 unprotected accesses on variable array.c 0 0 count
-LLM votes that this variable actually has a race: Claude: 0, Gemini: 0, ChatGPT: 0, 
-Write  on line 16, at position 3, with id 1
-LLM votes that this access is actually unprotected: Claude: 0, Gemini: 0, ChatGPT: 0, 
-Eraser tool found 1 unprotected accesses on variable array.c 0 0 output
-LLM votes that this variable actually has a race: Claude: 0, Gemini: 0, ChatGPT: 0, 
-Write  on line 14, at position 3, with id 0
-LLM votes that this access is actually unprotected: Claude: 5, Gemini: 5, ChatGPT: 5, 
+Claude
+Variable count
+Has a data race
+1 true unprotected accesses, 0 false positives
+False positives: 
+True positives: 
+Write in file array.c, on line 16 at position 3
+Reasoning: count++ at line 16 is executed by each thread without mutex protection. count++ at line 33 in main thread occurs after pthread_join completes. While pthread_join ensures happens-before relation for each thread's completion, the increments at line 16 from multiple threads race with each other. Unprotected.
+Variable output
+No data race
+0 true unprotected accesses, 1 false positives
+False positives: 
+Write in file array.c, on line 14 at position 3
+Reasoning: Each thread writes to output[tid] where tid is unique per thread (0 to NUM_THREADS-1). Threads access disjoint memory locations (different array indices), so no data race occurs despite lack of explicit synchronization. False positive.
+True positives: 
+Gemini
+Variable count
+Has a data race
+1 true unprotected accesses, 0 false positives
+False positives: 
+True positives: 
+Write in file array.c, on line 16 at position 3
+Reasoning: Multiple threads concurrently write to 'count' without mutual exclusion (mutex is commented out).
+ChatGPT
+Variable count
+Has a data race
+1 true unprotected accesses, 0 false positives
+False positives: 
+True positives: 
+Write in file array.c, on line 16 at position 3
+Reasoning: `count++` in `print_tid` is executed by multiple worker threads concurrently. The mutex protection is commented out, and the barrier `b1` is unused, so there is no happens-before relation between increments. This is a true shared-variable write/write race (also races with the `count++` in main, though not listed).
+Variable output
+No data race
+0 true unprotected accesses, 1 false positives
+False positives: 
+Write in file array.c, on line 14 at position 3
+Reasoning: Each thread computes `tid` from a unique heap-allocated `arg` containing `i` (0..NUM_THREADS-1). Thus each thread writes to a disjoint element `output[tid]` with no overlap, so there is no conflicting access to the same memory location. This is logical partitioning, making the reported race a false positive.
+True positives: 

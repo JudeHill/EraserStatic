@@ -55,6 +55,21 @@ You must respond strictly in the following JSON schema:
 ---
 )";
 
+// We need this because the var name in the Eraser system is not reliably equal to the one 
+// identified by the LLM: hence we need parity. We use the IDs from data races to do this
+// Possible improvement: implement IDs for variables as well and key everything by these IDs instead of names
+std::string get_var_name_key(const VarResult& var_result){
+  if (!var_result.false_pos_accesses.empty()){
+    const auto& [id, access] = *var_result.false_pos_accesses.begin();
+    return access.data_race.var_name;
+  }
+  if (!var_result.true_pos_accesses.empty()){
+    const auto& [id, access] = *var_result.true_pos_accesses.begin();
+    return access.data_race.var_name;
+  }
+  throw std::logic_error("Unable to identify variable name key from given VarResult - no accesses provided");
+}
+
 RaceType convert_access_type(const std::string& access_type){
   if (access_type == "Write" || access_type == "write"){
     return RaceType::RACE_WRITE;
@@ -180,7 +195,7 @@ JsonResults LLMAnalyser::FilterFalsePositives(const DataRaceMap& data_race_map, 
       std::string_view prompt = oss.view();
       JsonResults responses;
       std::unordered_map<LLM, std::future<std::vector<json>>> futures;
-      for (const auto& llm : all_llms){
+      for (const auto llm : all_llms){
         futures[llm] = std::async(std::launch::async, [this, prompt, schema, llm]{
           return this->llm_handler.PromptWithRetries(prompt, schema, llm).at("variables").get<std::vector<json>>();
         });
@@ -204,7 +219,7 @@ void LLMAnalyser::TestFilterFalsePositives(const DataRaceMap& data_race_map, con
 
 FalsePosResults LLMAnalyser::ParseResults(const JsonResults& json_results){
   FalsePosResults results;
-  for (const auto& llm : all_llms){
+  for (const auto llm : all_llms){
     FalsePosResult result;
     for (const auto& var_result_json : json_results.at(llm)){
       VarResult var_result;
@@ -270,28 +285,29 @@ SummaryFalsePosResults LLMAnalyser::EvalFalsePosLLMConsistency(const DataRaceMap
     .results = { },
     .data_race_map = data_race_map,
   };
-  for (const auto& llm : all_llms){
+  for (const auto llm : all_llms){
     summary_results.results[llm] = { };
   }
   for (const auto& result : results){
     for (const auto& [llm, llm_result] : result){
       for (const auto& var_result : llm_result){
+        
         if (var_result.has_data_race){
-          summary_results.results[llm].tp_votes_variables[var_result.var_name]++;
+          summary_results.results[llm].tp_votes_variables[get_var_name_key(var_result)]++;
         } else {
-          summary_results.results[llm].fp_votes_variables[var_result.var_name]++;
+          summary_results.results[llm].fp_votes_variables[get_var_name_key(var_result)]++;
         }
         for (const auto& [id, access] : var_result.false_pos_accesses){
-          summary_results.results[llm].tp_votes_accesses[id]++;
+          summary_results.results[llm].fp_votes_accesses[id]++;
         }
         for (const auto& [id, access] : var_result.true_pos_accesses){
-          summary_results.results[llm].fp_votes_accesses[id]++;
+          summary_results.results[llm].tp_votes_accesses[id]++;
         }
       }
     }
   }
 
-  for(const auto& llm : all_llms){
+  for(const auto llm : all_llms){
     SummaryFalsePosResult& cur_result = summary_results.results[llm];
     cur_result.fleiss_kappa_accesses = calculate_fleiss_kappa_binary(cur_result.tp_votes_accesses, repeats);
     cur_result.fleiss_kappa_variables = calculate_fleiss_kappa_binary(cur_result.tp_votes_variables, repeats);

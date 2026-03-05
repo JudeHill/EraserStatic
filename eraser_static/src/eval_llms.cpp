@@ -23,7 +23,7 @@ void eval_shared_variable_llm_consistency(const Filepath &in_filepath, bool slow
         throw std::system_error(errno, std::generic_category(),
                                 "failed to open output file: " + out_filepath);
       }
-    for (const LLM& llm : all_llms){
+    for (const LLM llm : all_llms){
         out_stream << "Results for " << get_llm_name(llm) << "\n";
         out_stream << "Average TP: " << result[llm].avg_tp << "  ";
         out_stream << "Average FP: " << result[llm].avg_fp << "  ";
