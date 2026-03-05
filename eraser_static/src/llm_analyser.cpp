@@ -181,9 +181,16 @@ JsonResults LLMAnalyser::FilterFalsePositives(DataRaceMap data_race_map){
       }
       std::string_view prompt = oss.view();
       JsonResults responses;
+      std::unordered_map<LLM, std::future<std::vector<json>>> futures;
       for (const auto& llm : all_llms){
-        responses[llm] = llm_handler.PromptWithRetries(prompt, schema, llm).at("variables").get<std::vector<json>>();
+        futures[llm] = std::async(std::launch::async, [this, prompt, schema, llm]{
+          return this->llm_handler.PromptWithRetries(prompt, schema, llm).at("variables").get<std::vector<json>>();
+        });
       }
+      for (auto& [llm, task] : futures){
+        responses[llm] = task.get();
+      }
+
       return responses;
 }
 
@@ -285,7 +292,7 @@ SummaryFalsePosResults LLMAnalyser::EvalFalsePosLLMConsistency(DataRaceMap data_
       }
     }
   }
-  
+
   for(const auto& llm : all_llms){
     SummaryFalsePosResult& cur_result = summary_results.results[llm];
     cur_result.fleiss_kappa_accesses = calculate_fleiss_kappa_binary(cur_result.tp_votes_accesses, repeats);
