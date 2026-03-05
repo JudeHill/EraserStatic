@@ -32,6 +32,6 @@ struct Options {
     SummaryFalsePosResults false_pos_results;
   };
 
-  void write_output(std::string filepath, Results results, bool write_all_races = false);
-  void write_fp_eval_output(std::string filepath, EvalLLMResults results, bool write_all_races = true);
+  void write_output(const Filepath& filepath, const Results& results, bool write_all_races = false);
+  void write_fp_eval_output(const Filepath& filepath, const EvalLLMResults& results, bool write_all_races = true);
   

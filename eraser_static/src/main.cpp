@@ -109,17 +109,32 @@ int main(int argc, char *argv[]) {
   SharedVarInfos shared_vars_llm_info = shared_var_id.findSharedVariables(opts.input_path);
   SharedVarResults shvar_results = shared_var_id.EvaluateLLMs(shared_vars_llm_info);
   LLMAnalyser llm_analyser(opts.input_path);
-  SummaryFalsePosResults summary_fp_results = llm_analyser.EvalFalsePosLLMConsistency(data_race_map, opts.slow_llm_requests);
+  if (opts.eval_llms_fps){
+    SummaryFalsePosResults summary_fp_results = llm_analyser.EvalFalsePosLLMConsistency(data_race_map, shvar_results, opts.slow_llm_requests);
 
-  std::cout << "Writing output" << std::endl;
-  write_fp_eval_output(
-    opts.output_path,
-    EvalLLMResults{
-      .data_race_map = data_race_map,
-      .shvar_results = shvar_results,
-      .false_pos_results = summary_fp_results,
-    }, 
-    opts.write_all_races);
+    std::cout << "Writing output" << std::endl;
+    write_fp_eval_output(
+      opts.output_path,
+      EvalLLMResults{
+        .data_race_map = data_race_map,
+        .shvar_results = shvar_results,
+        .false_pos_results = summary_fp_results,
+      }, 
+      opts.write_all_races);
+  } else {
+    FalsePosResults fp_results = llm_analyser.ParseResults(llm_analyser.FilterFalsePositives(data_race_map, shvar_results));
+
+    std::cout << "Writing output" << std::endl;
+    write_output(
+      opts.output_path,
+      Results{
+        .data_race_map = data_race_map,
+        .shvar_results = shvar_results,
+        .false_pos_results = fp_results,
+      }, 
+      opts.write_all_races);
+  }
+  
   std::cout << "Finished" << std::endl;
 
   return 0;

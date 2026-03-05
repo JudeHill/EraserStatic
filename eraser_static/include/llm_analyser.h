@@ -50,12 +50,12 @@ using JsonResults = std::unordered_map<LLM, std::vector<json>>;
 
 class LLMAnalyser {
     public:
-        JsonResults FilterFalsePositives(DataRaceMap data_race_map);
+        JsonResults FilterFalsePositives(const DataRaceMap& data_race_map, const SharedVarResults& shvar_results);
         void HintsToProgrammer();
-        void TestFilterFalsePositives(DataRaceMap data_race_map);
-        LLMAnalyser(Filepath filepath);
-        FalsePosResults ParseResults(JsonResults json_results);
-        SummaryFalsePosResults EvalFalsePosLLMConsistency(DataRaceMap data_race_map, bool slow_llms = false, unsigned int repeats = 5U);
+        void TestFilterFalsePositives(const DataRaceMap& data_race_map, const SharedVarResults& shvar_results);
+        LLMAnalyser(const Filepath filepath);
+        FalsePosResults ParseResults(const JsonResults& json_results);
+        SummaryFalsePosResults EvalFalsePosLLMConsistency(const DataRaceMap& data_race_map, const SharedVarResults& shvar_results, bool slow_llms = false, unsigned int repeats = 5U);
     private:
         const Filepath filepath;
         LLMHandler llm_handler;

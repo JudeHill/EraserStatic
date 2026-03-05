@@ -55,7 +55,7 @@ You must respond strictly in the following JSON schema:
 ---
 )";
 
-RaceType convert_access_type(std::string access_type){
+RaceType convert_access_type(const std::string& access_type){
   if (access_type == "Write" || access_type == "write"){
     return RaceType::RACE_WRITE;
   }
@@ -107,12 +107,11 @@ double calculate_fleiss_kappa_binary(const std::unordered_map<T, unsigned int>& 
     return (P_bar - Pe) / (1.0 - Pe);
 }
 
-LLMAnalyser::LLMAnalyser(Filepath fp) : filepath(fp){
+LLMAnalyser::LLMAnalyser(const Filepath fp) : filepath(fp){
 
 }
 
-JsonResults LLMAnalyser::FilterFalsePositives(DataRaceMap data_race_map){
-    SharedVarInfos shvar_infos = shared_var_identifier.findSharedVariables(filepath);
+JsonResults LLMAnalyser::FilterFalsePositives(const DataRaceMap& data_race_map, const SharedVarResults& shvar_results){
     json schema = {
       {"$schema", "http://json-schema.org/draft-07/schema#"},
       {"type", "object"},
@@ -153,9 +152,8 @@ JsonResults LLMAnalyser::FilterFalsePositives(DataRaceMap data_race_map){
       std::ostringstream oss;
       create_prompt(oss, filepath, prompt_1);
       oss << "\n" << "SHARED VARIABLES:" << "\n" << "---" << "\n";
-      SharedVarResults results = shared_var_identifier.EvaluateLLMs(shvar_infos);
       std::unordered_map<std::string, unsigned int> votes;
-      for (const auto& [llm, llm_result] : results){
+      for (const auto& [llm, llm_result] : shvar_results){
         for (const auto& var : llm_result.votes){
           votes[var]++;
         }
@@ -194,8 +192,8 @@ JsonResults LLMAnalyser::FilterFalsePositives(DataRaceMap data_race_map){
       return responses;
 }
 
-void LLMAnalyser::TestFilterFalsePositives(DataRaceMap data_race_map){
-  JsonResults results = FilterFalsePositives(data_race_map);
+void LLMAnalyser::TestFilterFalsePositives(const DataRaceMap& data_race_map, const SharedVarResults& shvar_results){
+  JsonResults results = FilterFalsePositives(data_race_map, shvar_results);
   for (const auto& [llm, result] : results){
      std::cout << get_llm_name(llm) << std::endl;
      for (const auto& var_result : result){
@@ -204,11 +202,11 @@ void LLMAnalyser::TestFilterFalsePositives(DataRaceMap data_race_map){
   }
 }
 
-FalsePosResults LLMAnalyser::ParseResults(JsonResults json_results){
+FalsePosResults LLMAnalyser::ParseResults(const JsonResults& json_results){
   FalsePosResults results;
   for (const auto& llm : all_llms){
     FalsePosResult result;
-    for (const auto& var_result_json : json_results[llm]){
+    for (const auto& var_result_json : json_results.at(llm)){
       VarResult var_result;
       var_result.has_data_race = var_result_json.at("data_race").get<bool>();
       var_result.var_name = var_result_json.at("name").get<std::string>();
@@ -251,12 +249,12 @@ FalsePosResults LLMAnalyser::ParseResults(JsonResults json_results){
   return results;
 }
 
-SummaryFalsePosResults LLMAnalyser::EvalFalsePosLLMConsistency(DataRaceMap data_race_map, bool slow_llms, unsigned int repeats){
+SummaryFalsePosResults LLMAnalyser::EvalFalsePosLLMConsistency(const DataRaceMap& data_race_map, const SharedVarResults& shvar_results, bool slow_llms, unsigned int repeats){
   std::vector<std::future<FalsePosResults>> futures;
   std::vector<FalsePosResults> results;
   for (int i=0;i<repeats;i++){
-    futures.push_back(std::async(std::launch::async, [this, &data_race_map](){
-      return ParseResults(FilterFalsePositives(data_race_map));
+    futures.push_back(std::async(std::launch::async, [this, &data_race_map, &shvar_results](){
+      return ParseResults(FilterFalsePositives(data_race_map, shvar_results));
     }));
     if (slow_llms) {
       results.push_back(futures.back().get());

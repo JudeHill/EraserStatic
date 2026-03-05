@@ -84,7 +84,7 @@ void write_fp_eval(std::ostream& out_stream, SummaryFalsePosResults results){
     
 }
 
-void write_output(std::string filepath, Results results, bool write_all_races = false) {
+void write_output(const Filepath& filepath, const Results& results, bool write_all_races) {
     auto out_stream = std::ofstream(filepath);
     if (!out_stream) {
         throw std::system_error(errno, std::generic_category(),
@@ -97,7 +97,7 @@ void write_output(std::string filepath, Results results, bool write_all_races = 
     write_false_positives(out_stream, results.false_pos_results);
 }
 
-void write_fp_eval_output(std::string filepath, EvalLLMResults results, bool write_all_races = true){
+void write_fp_eval_output(const Filepath& filepath, const EvalLLMResults& results, bool write_all_races){
     auto out_stream = std::ofstream(filepath);
     if (!out_stream) {
         throw std::system_error(errno, std::generic_category(),

@@ -9,34 +9,34 @@ std::string GraphNode::getPrintableNameWithId() {
 
 std::string GraphNode::getNodeType() {
   switch (type) {
-  case START:
+  case NodeType::START:
     return "START";
-  case LOCK:
+  case NodeType::LOCK:
     return "LOCK";
-  case UNLOCK:
+  case NodeType::UNLOCK:
     return "UNLOCK";
-  case READ:
+  case NodeType::READ:
     return "READ";
-  case WRITE:
+  case NodeType::WRITE:
     return "WRITE";
-  case FUNCTION_CALL:
+  case NodeType::FUNCTION_CALL:
     return "FUNCTION_CALL";
-  case WHILE:
+  case NodeType::WHILE:
     return "WHILE";
-  case ENDWHILE:
+  case NodeType::ENDWHILE:
     return "ENDWHILE";
-  case BREAK:
+  case NodeType::BREAK:
     return "BREAK";
-  case CONTINUE:
+  case NodeType::CONTINUE:
     return "CONTINUE";
-  case IF:
+  case NodeType::IF:
     return "IF";
-  case ENDIF:
+  case NodeType::ENDIF:
     return "ENDIF";
-  case RETURN:
+  case NodeType::RETURN:
     return "RETURN";
   default:
     break;
-  }
   return "UNKNOWN";
+}
 }

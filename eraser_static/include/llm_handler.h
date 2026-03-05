@@ -25,10 +25,10 @@ std::string_view get_llm_name(LLM llm);
 class LLMHandler{
 public:
     LLMHandler();
-    json Prompt(const std::string_view prompt, const json& schema, const LLM& llm);
-    json PromptWithRetries(const std::string_view prompt, const json& schema, const LLM& llm, unsigned int retries = 3);
+    json Prompt(const std::string_view& prompt, const json& schema, const LLM llm);
+    json PromptWithRetries(const std::string_view& prompt, const json& schema, const LLM llm, unsigned int retries = 3);
 private:
-    json PromptGPT(const std::string_view prompt, const json& schema);
-    json PromptGemini(const std::string_view prompt, const json& schema);
-    json PromptClaude(const std::string_view prompt, const json& schema);
+    json PromptGPT(const std::string_view& prompt, const json& schema);
+    json PromptGemini(const std::string_view& prompt, const json& schema);
+    json PromptClaude(const std::string_view& prompt, const json& schema);
 };

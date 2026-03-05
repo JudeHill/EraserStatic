@@ -60,8 +60,8 @@ private:
   std::unordered_map<std::string, VarInfos> vars;
   LockSet visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncName> funcs_seen,
                 bool on_main_thread = true, int epoch = 0);
-  bool handle_read(LockName var_name, const LockSet lockset, bool on_main_thread, int epoch);
-  bool handle_write(LockName var_name, const LockSet lockset, bool on_main_thread, int epoch);
+  bool handle_read(LockName var_name, const LockSet& lockset, bool on_main_thread, int epoch);
+  bool handle_write(LockName var_name, const LockSet& lockset, bool on_main_thread, int epoch);
 
 public:
   Eraser() {};

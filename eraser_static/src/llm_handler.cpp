@@ -11,7 +11,7 @@ static size_t write_cb(char* ptr, size_t size, size_t nmemb, void* userdata) {
     return size * nmemb;
 }
 
-std::string_view get_llm_name(LLM llm){
+std::string_view get_llm_name(const LLM llm){
     switch (llm){
         case LLM::GPT:
             return "ChatGPT";
@@ -63,7 +63,7 @@ static std::string must_getenv(const char* name) {
 }
 
 
-json LLMHandler::PromptGPT(const std::string_view prompt, const json& schema) {
+json LLMHandler::PromptGPT(const std::string_view& prompt, const json& schema) {
     std::string api_key = must_getenv("OPENAI_API_KEY");
 
     json body = {
@@ -140,7 +140,7 @@ json LLMHandler::PromptGPT(const std::string_view prompt, const json& schema) {
     return parse_and_validate_json_text(out, schema);
 }
 
-json LLMHandler::PromptGemini(const std::string_view prompt, const json& schema) {
+json LLMHandler::PromptGemini(const std::string_view& prompt, const json& schema) {
     std::string api_key = must_getenv("GEMINI_API_KEY");
     std::string model = GEMINI_VERSION;
 
@@ -206,7 +206,7 @@ json LLMHandler::PromptGemini(const std::string_view prompt, const json& schema)
     return parse_and_validate_json_text(text, schema);
 }
 
-json LLMHandler::PromptClaude(const std::string_view prompt, const json& schema) {
+json LLMHandler::PromptClaude(const std::string_view& prompt, const json& schema) {
     std::string api_key = must_getenv("ANTHROPIC_API_KEY");
 
     std::string model = CLAUDE_VERSION;
@@ -271,7 +271,7 @@ json LLMHandler::PromptClaude(const std::string_view prompt, const json& schema)
     return parse_and_validate_json_text(text, schema);
 }
 
-json LLMHandler::Prompt(const std::string_view prompt, const json& schema, const LLM& llm){
+json LLMHandler::Prompt(const std::string_view& prompt, const json& schema, const LLM llm){
     switch (llm)
     {
     case LLM::GPT:
@@ -293,7 +293,7 @@ static std::unordered_set<std::string> timeout_errors{
     "curl error (GPT): Timeout was reached",
     "curl error (Claude): Timeout was reached",
 };
-json LLMHandler::PromptWithRetries(const std::string_view prompt, const json& schema, const LLM& llm, unsigned int retries){
+json LLMHandler::PromptWithRetries(const std::string_view& prompt, const json& schema, const LLM llm, unsigned int retries){
     std::cout << "Prompting " << get_llm_name(llm) << std::endl;
     unsigned int remaining_retries = retries;
     while (remaining_retries > 0){

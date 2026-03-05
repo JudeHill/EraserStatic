@@ -137,7 +137,7 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
   }
 }
 
-bool Eraser::handle_read(LockName var_name, const LockSet lockset, bool on_main_thread, int epoch) {
+bool Eraser::handle_read(LockName var_name, const LockSet& lockset, bool on_main_thread, int epoch) {
   // handle init
   if (thread_depth == 0) {
     return false;
@@ -185,7 +185,7 @@ bool Eraser::handle_read(LockName var_name, const LockSet lockset, bool on_main_
   return false;
 }
 
-bool Eraser::handle_write(LockName var_name, const LockSet lockset, bool on_main_thread,
+bool Eraser::handle_write(LockName var_name, const LockSet& lockset, bool on_main_thread,
                           int epoch) {
   // handle init
   if (thread_depth == 0) {
