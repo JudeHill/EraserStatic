@@ -58,14 +58,14 @@ You must respond strictly in the following JSON schema:
 // We need this because the var name in the Eraser system is not reliably equal to the one 
 // identified by the LLM: hence we need parity. We use the IDs from data races to do this
 // Possible improvement: implement IDs for variables as well and key everything by these IDs instead of names
-std::string get_var_name_key(const VarResult& var_result){
+std::string get_var_name_key(const VarResult& var_result, const DataRaceMap& data_race_map){
   if (!var_result.false_pos_accesses.empty()){
     const auto& [id, access] = *var_result.false_pos_accesses.begin();
-    return access.data_race.var_name;
+    return data_race_map.by_id.at(id)->var_name;
   }
   if (!var_result.true_pos_accesses.empty()){
     const auto& [id, access] = *var_result.true_pos_accesses.begin();
-    return access.data_race.var_name;
+    return data_race_map.by_id.at(id)->var_name;
   }
   throw std::logic_error("Unable to identify variable name key from given VarResult - no accesses provided");
 }
@@ -179,10 +179,10 @@ JsonResults LLMAnalyser::FilterFalsePositives(const DataRaceMap& data_race_map, 
         }
       }
       oss << "\n" << "RACE REPORT:" << "\n";
-      for (const auto &[var_name, data_races] : data_race_map) {
+      for (const auto &[var_name, data_races] : data_race_map.by_var) {
         oss << var_name << ": " << data_races.size() << " unprotected accesses" << "\n";
         for (int i = 0; i <data_races.size(); i++) {
-          DataRace dr = data_races[i];
+          const DataRace& dr = *data_races[i];
           if (dr.race_type == RaceType::RACE_READ) {
             oss << "Read";
           } else {
@@ -291,11 +291,11 @@ SummaryFalsePosResults LLMAnalyser::EvalFalsePosLLMConsistency(const DataRaceMap
   for (const auto& result : results){
     for (const auto& [llm, llm_result] : result){
       for (const auto& var_result : llm_result){
-        
+        std::string var_name_key = get_var_name_key(var_result, data_race_map);
         if (var_result.has_data_race){
-          summary_results.results[llm].tp_votes_variables[get_var_name_key(var_result)]++;
+          summary_results.results[llm].tp_votes_variables[var_name_key]++;
         } else {
-          summary_results.results[llm].fp_votes_variables[get_var_name_key(var_result)]++;
+          summary_results.results[llm].fp_votes_variables[var_name_key]++;
         }
         for (const auto& [id, access] : var_result.false_pos_accesses){
           summary_results.results[llm].fp_votes_accesses[id]++;

@@ -1,14 +1,14 @@
 #include "write_output.h"
 
 void write_data_races(std::ofstream& out_stream, DataRaceMap data_race_map, bool write_all_races){
-    out_stream << std::format("Found dataraces involving {} unique variables", data_race_map.size())
-               << std::endl;
+    out_stream << std::format("Found dataraces involving {} unique variables", data_race_map.by_var.size())
+               << std::format("With {} total unprotected accesses", data_race_map.by_id.size()) << "\n";
     
-    for (const auto &[var_name, data_races] : data_race_map) {
+    for (const auto &[var_name, data_races] : data_race_map.by_var) {
       int num_races_to_write = write_all_races ? data_races.size() : std::min<std::size_t>(ACCESSES_PER_VAR, data_races.size());
       out_stream << var_name << ": " << data_races.size() << " unprotected accesses" << "\n";
       for (int i = 0; i < num_races_to_write; i++) {
-        DataRace dr = data_races[i];
+        const DataRace& dr = *data_races[i];
         if (dr.race_type == RaceType::RACE_READ) {
           out_stream << "Read";
         } else {
@@ -62,16 +62,16 @@ void write_false_positives(std::ofstream& out_stream, FalsePosResults false_pos_
 }
 void write_fp_eval(std::ostream& out_stream, SummaryFalsePosResults results){
     out_stream << "LLM analysis of false positives of data races: " << "\n";
-    out_stream << "Jaccard agreement per LLM (data races on variables)";
+    out_stream << "Jaccard agreement per LLM (data races on variables) ";
     for (const auto llm : all_llms){
         out_stream << get_llm_name(llm) << ": " << results.results[llm].fleiss_kappa_variables << ", ";
     }
-    out_stream << "\n" << "Jaccard agreement per LLM (unprotected accesses)";
+    out_stream << "\n" << "Jaccard agreement per LLM (unprotected accesses) ";
     for (const auto llm : all_llms){
         out_stream << get_llm_name(llm) << ": " << results.results[llm].fleiss_kappa_accesses << ", ";
     }
     out_stream << "\n";
-    for (const auto& [var, data_races] : results.data_race_map){
+    for (const auto& [var, data_races] : results.data_race_map.by_var){
         out_stream << "Eraser tool found " << data_races.size() << " unprotected accesses on variable ";
         out_stream << var << "\n";
         out_stream << "LLM votes that this variable actually has a race: ";
@@ -83,12 +83,12 @@ void write_fp_eval(std::ostream& out_stream, SummaryFalsePosResults results){
 
         }
         for (const auto& data_race : data_races){
-            out_stream << (data_race.race_type == RaceType::RACE_WRITE ? "Write " : "Read ");
-            out_stream << " on line " << data_race.location.line << ", at position " << data_race.location.column;
-            out_stream << ", with id " << data_race.id << "\n";
+            out_stream << (data_race->race_type == RaceType::RACE_WRITE ? "Write " : "Read ");
+            out_stream << " on line " << data_race->location.line << ", at position " << data_race->location.column;
+            out_stream << ", with id " << data_race->id << "\n";
             out_stream << "LLM votes that this access is actually unprotected: ";
             for (const auto llm : all_llms){
-                out_stream << get_llm_name(llm) << ": " << results.results[llm].tp_votes_accesses[data_race.id] << ", ";
+                out_stream << get_llm_name(llm) << ": " << results.results[llm].tp_votes_accesses[data_race->id] << ", ";
             }
             out_stream << "\n";
         }

@@ -30,7 +30,7 @@ using FuncName = std::string;
 using LockSet = std::unordered_set<LockName>;
 
 struct VarInfo {
-  std::string var_name;
+  VarName var_name;
   bool only_on_main;
   VarStatus status;
   LockSet lockset;
@@ -42,26 +42,33 @@ enum class RaceType {
   RACE_WRITE,
 };
 
+using DataRaceID = unsigned int;
+using Epoch = unsigned int;
+
 struct DataRace {
   std::string var_name;
   GraphNode *node;
   RaceType race_type;
   LocationInfo location;
-  unsigned int id;
+  DataRaceID id;
 };
 
-using DataRaceMap = std::unordered_map<std::string, std::vector<DataRace>>;
-using VarInfos = std::unordered_map<int, std::unique_ptr<VarInfo>>;
+struct DataRaceMap {
+  std::unordered_map<VarName, std::vector<std::shared_ptr<DataRace>>> by_var;
+  std::unordered_map<DataRaceID, std::shared_ptr<DataRace>> by_id;
+};
+
+using VarInfos = std::unordered_map<Epoch, std::unique_ptr<VarInfo>>;
 
 class Eraser {
 private:
   FuncNodeMap start_nodes;
-  std::vector<DataRace> data_races;
-  std::unordered_map<std::string, VarInfos> vars;
+  std::vector<std::shared_ptr<DataRace>> data_races;
+  std::unordered_map<VarName, VarInfos> vars;
   LockSet visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncName> funcs_seen,
-                bool on_main_thread = true, int epoch = 0);
-  bool handle_read(LockName var_name, const LockSet& lockset, bool on_main_thread, int epoch);
-  bool handle_write(LockName var_name, const LockSet& lockset, bool on_main_thread, int epoch);
+                bool on_main_thread = true, Epoch epoch = 0);
+  bool handle_read(LockName var_name, const LockSet& lockset, bool on_main_thread, Epoch epoch);
+  bool handle_write(LockName var_name, const LockSet& lockset, bool on_main_thread, Epoch epoch);
 
 public:
   Eraser() {};
