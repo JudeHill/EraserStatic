@@ -18,6 +18,7 @@ struct Options {
     bool eval_llms_fps = false;
     bool test_llms = false;
     bool write_all_races = false;
+    bool variant_llm_responses = false;
   };
   
   struct Results {

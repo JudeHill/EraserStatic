@@ -25,6 +25,8 @@ having a barrier between accesses. An unprotected access on a variable x implies
 of x should be set to true if one of x's accesses is unprotected
 - False positives are accesses that are not actually unprotected as defined above, but are part of the input.
 - All accesses included in the Data Race Report should be included in the output, categorised as either true or false.
+- You should include **ALL** accesses from the Data Race Report in your output **REGARDLESS** of your categorisation of them as protected or unprotected, 
+or if you categorise a variable as having a data race or not.
 - There is a space for reasoning / justification. This is a complex problem, so take time to think. Put any justification in this box, but keep it 
 **CONCISE**.
 - Each access has an id, which is a non-negative integer. This is used to identify which accesses you are marking as unprotected. When you respond, for each access you should repeat its original ID, as well as
@@ -120,6 +122,56 @@ double calculate_fleiss_kappa_binary(const std::unordered_map<T, unsigned int>& 
     }
 
     return (P_bar - Pe) / (1.0 - Pe);
+}
+
+// Helper to calculate Jaccard for a single pair of sets
+template <typename T>
+double jaccard_sets(const std::unordered_set<T>& s1, const std::unordered_set<T>& s2) {
+    if (s1.empty() && s2.empty()) return 1.0; // Perfect agreement on empty sets
+
+    size_t intersection_count = 0;
+    // Iterate over the smaller set for efficiency
+    const auto& [smaller, larger] = (s1.size() < s2.size()) ? std::tie(s1, s2) : std::tie(s2, s1);
+    
+    for (const auto& item : smaller) {
+        if (larger.find(item) != larger.end()) {
+            intersection_count++;
+        }
+    }
+
+    size_t union_count = s1.size() + s2.size() - intersection_count;
+    return static_cast<double>(intersection_count) / static_cast<double>(union_count);
+}
+
+FalsePosLLMAgreement calculate_jaccard_agreement(const std::vector<FalsePosRunInfo>& run_infos) {
+    if (run_infos.size() < 2) return {1.0, 1.0}; 
+
+    double total_var_j = 0.0;
+    double total_access_j = 0.0;
+    int pair_count = 0;
+
+    // Iterate through all unique pairs (C(n, 2))
+    for (size_t i = 0; i < run_infos.size(); ++i) {
+        for (size_t j = i + 1; j < run_infos.size(); ++j) {
+            
+            // Calculate Jaccard for Variables (Average of TP consistency and FP consistency)
+            double var_tp = jaccard_sets(run_infos[i].var_votes_tp, run_infos[j].var_votes_tp);
+            double var_fp = jaccard_sets(run_infos[i].var_votes_fp, run_infos[j].var_votes_fp);
+            total_var_j += (var_tp + var_fp) / 2.0;
+
+            // Calculate Jaccard for Accesses (Average of TP consistency and FP consistency)
+            double acc_tp = jaccard_sets(run_infos[i].access_votes_tp, run_infos[j].access_votes_tp);
+            double acc_fp = jaccard_sets(run_infos[i].access_votes_fp, run_infos[j].access_votes_fp);
+            total_access_j += (acc_tp + acc_fp) / 2.0;
+
+            pair_count++;
+        }
+    }
+
+    return {
+        total_var_j / pair_count,
+        total_access_j / pair_count
+    };
 }
 
 LLMAnalyser::LLMAnalyser(const Filepath fp) : filepath(fp){
@@ -285,6 +337,7 @@ SummaryFalsePosResults LLMAnalyser::EvalFalsePosLLMConsistency(const DataRaceMap
     .results = { },
     .data_race_map = data_race_map,
   };
+  FalsePosRunInfos run_infos;
   for (const auto llm : all_llms){
     summary_results.results[llm] = { };
   }
@@ -292,25 +345,46 @@ SummaryFalsePosResults LLMAnalyser::EvalFalsePosLLMConsistency(const DataRaceMap
     for (const auto& [llm, llm_result] : result){
       for (const auto& var_result : llm_result){
         std::string var_name_key = get_var_name_key(var_result, data_race_map);
+        FalsePosRunInfo run_info;
         if (var_result.has_data_race){
           summary_results.results[llm].tp_votes_variables[var_name_key]++;
+          run_info.var_votes_tp.insert(var_name_key);
         } else {
           summary_results.results[llm].fp_votes_variables[var_name_key]++;
+          run_info.var_votes_fp.insert(var_name_key);
         }
         for (const auto& [id, access] : var_result.false_pos_accesses){
           summary_results.results[llm].fp_votes_accesses[id]++;
+          run_info.access_votes_fp.insert(id);
         }
         for (const auto& [id, access] : var_result.true_pos_accesses){
           summary_results.results[llm].tp_votes_accesses[id]++;
+          run_info.access_votes_tp.insert(id);
         }
+        // Check consistency
+        if (!run_infos[llm].empty()){
+          const FalsePosRunInfo& last = run_infos[llm].back();
+          size_t num_accesses = last.access_votes_fp.size() + last.access_votes_tp.size();
+          size_t num_vars = last.var_votes_fp.size() + last.var_votes_tp.size();
+          size_t new_num_accesses = run_info.access_votes_fp.size() + run_info.access_votes_tp.size();
+          size_t new_num_vars = run_info.var_votes_fp.size() + run_info.var_votes_tp.size();
+          if (num_accesses != new_num_accesses){
+            std::cout << "Inconsistent number of access votes: " << num_accesses << " votes in last run, but " 
+            << new_num_accesses << " votes now" << std::endl;
+          }
+          if (num_vars != new_num_vars){
+            std::cout << "Inconsistent number of var votes: " << num_vars << " votes in last run, but " 
+            << new_num_vars << " votes now" << std::endl;
+          }
+        }
+        run_infos[llm].push_back(run_info);
       }
     }
   }
 
   for(const auto llm : all_llms){
     SummaryFalsePosResult& cur_result = summary_results.results[llm];
-    cur_result.fleiss_kappa_accesses = calculate_fleiss_kappa_binary(cur_result.tp_votes_accesses, repeats);
-    cur_result.fleiss_kappa_variables = calculate_fleiss_kappa_binary(cur_result.tp_votes_variables, repeats);
+    cur_result.jaccard_agreement = calculate_jaccard_agreement(run_infos[llm]);
   }
 
   return summary_results;

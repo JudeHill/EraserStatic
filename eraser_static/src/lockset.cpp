@@ -250,6 +250,7 @@ DataRaceMap Eraser::compute_data_races(FuncNodeMap func_map, FuncName main_name,
   DataRaceMap data_races_map;
   for (auto &dr : data_races) {
     data_races_map.by_var[dr->var_name].push_back(dr);
+    data_races_map.by_id[dr->id] = dr;
   }
   return data_races_map;
 }

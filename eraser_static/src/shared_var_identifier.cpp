@@ -97,7 +97,9 @@ SharedVarInfos SharedVarIdentifier::findSharedVariables(const Filepath &filepath
   SharedVarInfos shvar_infos;
   std::unordered_map<LLM, std::future<json>> futures;
   for (const LLM llm : all_llms){
-    auto task = std::async(std::launch::async, &LLMHandler::PromptWithRetries, &llm_handler, prompt, schema, llm, 3);
+    auto task = std::async(std::launch::async, [this, prompt, schema, llm]{
+      return this->llm_handler.PromptWithRetries(prompt, schema, llm);
+    });
     futures[llm] = std::move(task);
   }
   for (const LLM llm : all_llms){
@@ -200,8 +202,8 @@ SummaryResults SharedVarIdentifier::EvaluateLLMConsistency(const Filepath &filep
   
     
     for (const LLM llm : all_llms){
-        double jacquard_score = 0.0;
-        unsigned int num_jacq_sets = 0;
+        double jaccard_score = 0.0;
+        unsigned int num_jac_sets = 0;
         int total_tp = 0, total_fp = 0, total_fn = 0;
         std::vector<LLM_result> individual_results_list;
         std::unordered_map<std::string, unsigned int> var_vote_counts;
@@ -209,8 +211,8 @@ SummaryResults SharedVarIdentifier::EvaluateLLMConsistency(const Filepath &filep
             for (int j=i+1;j<repeats;j++){
                 VoteSet s1_union_s2 = set_union(results[i][llm].votes, results[j][llm].votes);
                 VoteSet s1_intersect_s2 = intersect(results[i][llm].votes, results[j][llm].votes);
-                jacquard_score += (static_cast<double>(s1_intersect_s2.size()) / s1_union_s2.size());
-                num_jacq_sets++;
+                jaccard_score += (static_cast<double>(s1_intersect_s2.size()) / s1_union_s2.size());
+                num_jac_sets++;
             }
             for (const auto& var : results[i][llm].votes) {
                 var_vote_counts[var]++;
@@ -221,7 +223,7 @@ SummaryResults SharedVarIdentifier::EvaluateLLMConsistency(const Filepath &filep
             individual_results_list.push_back(results[i][llm]);
         }
         summary_results[llm] = LLM_SummaryResult{
-            .jacquard_score = (jacquard_score / num_jacq_sets),
+            .jaccard_score = (jaccard_score / num_jac_sets),
             .avg_tp = (static_cast<double>(total_tp) / repeats),
             .avg_fp = (static_cast<double>(total_fp) / repeats),
             .avg_fn = (static_cast<double>(total_fn) / repeats),

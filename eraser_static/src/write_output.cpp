@@ -64,11 +64,11 @@ void write_fp_eval(std::ostream& out_stream, SummaryFalsePosResults results){
     out_stream << "LLM analysis of false positives of data races: " << "\n";
     out_stream << "Jaccard agreement per LLM (data races on variables) ";
     for (const auto llm : all_llms){
-        out_stream << get_llm_name(llm) << ": " << results.results[llm].fleiss_kappa_variables << ", ";
+        out_stream << get_llm_name(llm) << ": " << results.results[llm].jaccard_agreement.var_agreement << ", ";
     }
     out_stream << "\n" << "Jaccard agreement per LLM (unprotected accesses) ";
     for (const auto llm : all_llms){
-        out_stream << get_llm_name(llm) << ": " << results.results[llm].fleiss_kappa_accesses << ", ";
+        out_stream << get_llm_name(llm) << ": " << results.results[llm].jaccard_agreement.access_agreement << ", ";
     }
     out_stream << "\n";
     for (const auto& [var, data_races] : results.data_race_map.by_var){

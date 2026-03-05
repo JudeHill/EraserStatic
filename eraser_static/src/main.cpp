@@ -44,6 +44,7 @@ int main(int argc, char *argv[]) {
   app.add_flag("--slow-llms", opts.slow_llm_requests, "Slow down LLMs to avoid rate limiting");
   app.add_flag("--test-llms", opts.test_llms, "Test LLM connectivity");
   app.add_flag("--write-all", opts.write_all_races, "Write all reported unprotected accesses to out, instead of just the first 5 per variable");
+  app.add_flag("-t, --variant-responses", opts.variant_llm_responses, "Turn LLM temperature up (0.2) to allow non-deterministic responses");
 
   CLI11_PARSE(app, argc, argv);
 

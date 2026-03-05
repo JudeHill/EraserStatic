@@ -32,10 +32,22 @@ Need this PER LLM.
 Need the list of data races, their IDs, and the votes for each one. 
 */
 
+struct FalsePosRunInfo {
+    std::unordered_set<DataRaceID> access_votes_tp, access_votes_fp;
+    std::unordered_set<VarName> var_votes_tp, var_votes_fp;
+};
+
+using FalsePosRunInfos = std::unordered_map<LLM, std::vector<FalsePosRunInfo>>;
+
+struct FalsePosLLMAgreement {
+    double var_agreement, access_agreement;
+};
+
+
 struct SummaryFalsePosResult {
-    double fleiss_kappa_accesses, fleiss_kappa_variables;
+    FalsePosLLMAgreement jaccard_agreement;
     // maps DataRaceId -> vote count (this is already mapped per LLM)
-    std::unordered_map<unsigned int, unsigned int> tp_votes_accesses, fp_votes_accesses;
+    std::unordered_map<DataRaceID, unsigned int> tp_votes_accesses, fp_votes_accesses;
     // maps VarName (string) -> vote count
     std::unordered_map<VarName, unsigned int> tp_votes_variables, fp_votes_variables;
 };
