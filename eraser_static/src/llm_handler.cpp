@@ -3,8 +3,8 @@
 #define GEMINI_VERSION "gemini-2.5-flash"
 #define CLAUDE_VERSION "claude-sonnet-4-5"
 #define BACKOFF 2000
-#define MAX_TOKENS 1024
-#define TIMEOUT_SECONDS 60L
+#define MAX_TOKENS 25000
+#define TIMEOUT_SECONDS 180L
 #define TEMPERATURE_CONSISTENT 0.0
 #define TEMPERATURE_VARIANT 0.2
 #define TOP_P 1.0
@@ -309,10 +309,10 @@ json LLMHandler::PromptWithRetries(const std::string_view& prompt, const json& s
         try {
             json rsp = Prompt(prompt, schema, llm, allow_variant_responses);
             return rsp;
-        } catch (std::runtime_error& e) {
+        } catch (const std::runtime_error& e) {
             // if e is not an overloaded error, re-throw
             if (!overloaded_errors.contains(get_first_line(e.what())) && !timeout_errors.contains(get_first_line(e.what()))){
-                throw e;
+                throw;
             } else {
                 std::cout << "Caught " << std::string(get_first_line(e.what())) << std::endl;
             }

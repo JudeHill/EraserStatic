@@ -235,7 +235,7 @@ bool Eraser::handle_write(LockName var_name, const LockSet& lockset, bool on_mai
 }
 
 
-DataRaceMap Eraser::compute_data_races(FuncNodeMap func_map, FuncName main_name, bool debug_logging,
+std::shared_ptr<DataRaceMap> Eraser::compute_data_races(FuncNodeMap func_map, FuncName main_name, bool debug_logging,
                            bool symmetric_join) {
   data_races.clear();
   assume_sym_join = symmetric_join;
@@ -247,10 +247,11 @@ DataRaceMap Eraser::compute_data_races(FuncNodeMap func_map, FuncName main_name,
   }
   StartNode *start_node = func_map[main_name];
   visit(start_node, LockSet(), {});
-  DataRaceMap data_races_map;
+  std::shared_ptr<DataRaceMap> data_races_map;
+  data_races_map = std::make_shared<DataRaceMap>();
   for (auto &dr : data_races) {
-    data_races_map.by_var[dr->var_name].push_back(dr);
-    data_races_map.by_id[dr->id] = dr;
+    data_races_map->by_var[dr->var_name].push_back(dr);
+    data_races_map->by_id[dr->id] = dr;
   }
   return data_races_map;
 }

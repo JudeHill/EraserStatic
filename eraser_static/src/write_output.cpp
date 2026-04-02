@@ -74,9 +74,10 @@ void write_fp_eval(std::ostream& out_stream, SummaryFalsePosResults results){
     for (const auto& [var, data_races] : results.data_race_map.by_var){
         out_stream << "Eraser tool found " << data_races.size() << " unprotected accesses on variable ";
         out_stream << var << "\n";
-        out_stream << "LLM votes that this variable actually has a race: ";
+        out_stream << "LLM votes that this variable actually has a race / not: ";
         for (const auto llm : all_llms){
-            out_stream << get_llm_name(llm) << ": " << results.results[llm].tp_votes_variables[var] << ", ";
+            out_stream << get_llm_name(llm) << ": " << results.results[llm].tp_votes_variables[var] << "/"
+             << results.results[llm].fp_votes_variables[var] << ", ";
         }
         out_stream << "\n";
         for (const auto llm : all_llms){
@@ -86,9 +87,10 @@ void write_fp_eval(std::ostream& out_stream, SummaryFalsePosResults results){
             out_stream << (data_race->race_type == RaceType::RACE_WRITE ? "Write " : "Read ");
             out_stream << " on line " << data_race->location.line << ", at position " << data_race->location.column;
             out_stream << ", with id " << data_race->id << "\n";
-            out_stream << "LLM votes that this access is actually unprotected: ";
+            out_stream << "LLM votes that this access is actually unprotected / not: ";
             for (const auto llm : all_llms){
-                out_stream << get_llm_name(llm) << ": " << results.results[llm].tp_votes_accesses[data_race->id] << ", ";
+                out_stream << get_llm_name(llm) << ": " << results.results[llm].tp_votes_accesses[data_race->id] << "/" 
+                << results.results[llm].fp_votes_accesses[data_race->id] << ", ";
             }
             out_stream << "\n";
         }

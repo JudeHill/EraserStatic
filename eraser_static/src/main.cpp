@@ -103,7 +103,8 @@ int main(int argc, char *argv[]) {
   }
   Eraser eraser = Eraser();
   std::cout << "Computing data races" << std::endl;
-  DataRaceMap data_race_map = eraser.compute_data_races(func_cfgs, "main", opts.debug, opts.symmetric_join);
+  std::shared_ptr<DataRaceMap> data_race_map = eraser.compute_data_races(func_cfgs, "main", opts.debug, opts.symmetric_join);
+  std::cout << "DataRaceMap of size " << data_race_map->by_id.size() << " with by var " << data_race_map->by_var.size() << std::endl;
 
   std::cout << "Starting LLM analysis" << std::endl;
   SharedVarIdentifier shared_var_id;
@@ -111,25 +112,25 @@ int main(int argc, char *argv[]) {
   SharedVarResults shvar_results = shared_var_id.EvaluateLLMs(shared_vars_llm_info);
   LLMAnalyser llm_analyser(opts.input_path);
   if (opts.eval_llms_fps){
-    SummaryFalsePosResults summary_fp_results = llm_analyser.EvalFalsePosLLMConsistency(data_race_map, shvar_results, opts.slow_llm_requests);
+    SummaryFalsePosResults summary_fp_results = llm_analyser.EvalFalsePosLLMConsistency(*data_race_map, shvar_results, opts.slow_llm_requests);
 
     std::cout << "Writing output" << std::endl;
     write_fp_eval_output(
       opts.output_path,
       EvalLLMResults{
-        .data_race_map = data_race_map,
+        .data_race_map = *data_race_map,
         .shvar_results = shvar_results,
         .false_pos_results = summary_fp_results,
       }, 
       opts.write_all_races);
   } else {
-    FalsePosResults fp_results = llm_analyser.ParseResults(llm_analyser.FilterFalsePositives(data_race_map, shvar_results));
+    FalsePosResults fp_results = llm_analyser.ParseResults(llm_analyser.FilterFalsePositives(*data_race_map, shvar_results));
 
     std::cout << "Writing output" << std::endl;
     write_output(
       opts.output_path,
       Results{
-        .data_race_map = data_race_map,
+        .data_race_map = *data_race_map,
         .shvar_results = shvar_results,
         .false_pos_results = fp_results,
       }, 

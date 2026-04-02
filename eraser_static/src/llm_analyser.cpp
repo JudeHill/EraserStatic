@@ -25,13 +25,18 @@ having a barrier between accesses. An unprotected access on a variable x implies
 of x should be set to true if one of x's accesses is unprotected
 - False positives are accesses that are not actually unprotected as defined above, but are part of the input.
 - All accesses included in the Data Race Report should be included in the output, categorised as either true or false.
+- The ID from each access in your report should be **IDENTICAL** to the ID given in the race report below. These are used to key into a map, so it is **IMPERATIVE** you do not 
+renumber them or change them in any way. Specifically, they should **STAY ZERO INDEXED**.
 - You should include **ALL** accesses from the Data Race Report in your output **REGARDLESS** of your categorisation of them as protected or unprotected, 
 or if you categorise a variable as having a data race or not.
+- If the data race map is **EMPTY** - i.e. there are no races to report - you should return an **EMPTY LIST** in the variables field.
 - There is a space for reasoning / justification. This is a complex problem, so take time to think. Put any justification in this box, but keep it 
 **CONCISE**.
 - Each access has an id, which is a non-negative integer. This is used to identify which accesses you are marking as unprotected. When you respond, for each access you should repeat its original ID, as well as
 line, column and filename.
 - The "name" field in variables should contain **ONLY** the name given to the variable in the Data Race Report and NOTHING ELSE. Anything else should be left for the reasoning section.
+- "Access Type" can be STRICTLY either "read" or "write". For increments, you should report TWO accesses, one "read" and one "write". This is the
+format given to you in the Data Race Report
 
 ### OUTPUT FORMAT
 You must respond strictly in the following JSON schema:
@@ -57,16 +62,24 @@ You must respond strictly in the following JSON schema:
 ---
 )";
 
+static bool displayed = false;
+
 // We need this because the var name in the Eraser system is not reliably equal to the one 
 // identified by the LLM: hence we need parity. We use the IDs from data races to do this
 // Possible improvement: implement IDs for variables as well and key everything by these IDs instead of names
 std::string get_var_name_key(const VarResult& var_result, const DataRaceMap& data_race_map){
   if (!var_result.false_pos_accesses.empty()){
     const auto& [id, access] = *var_result.false_pos_accesses.begin();
+    if (!data_race_map.by_id.contains(id)){
+      throw std::logic_error(std::format("Data race map by id does not contain id {}", id));
+    }
     return data_race_map.by_id.at(id)->var_name;
   }
   if (!var_result.true_pos_accesses.empty()){
     const auto& [id, access] = *var_result.true_pos_accesses.begin();
+    if (!data_race_map.by_id.contains(id)){
+      throw std::logic_error(std::format("Data race map by id does not contain id {}", id));
+    }
     return data_race_map.by_id.at(id)->var_name;
   }
   throw std::logic_error("Unable to identify variable name key from given VarResult - no accesses provided");
@@ -80,6 +93,28 @@ RaceType convert_access_type(const std::string& access_type){
     return RaceType::RACE_READ;
   }
   throw std::logic_error("Unrecognised access type string");
+}
+
+void dump_LLM_result(const FalsePosResult& result){
+  for (const auto& var_result : result){
+    std::cout << "Var result for var " << var_result.var_name << std::endl;
+    std::cout << (var_result.has_data_race ? "Yes data race" : "No data race") << std::endl;
+    std::cout << "False pos votes: " << std::endl;
+    for (const auto& [id, access] : var_result.false_pos_accesses){
+      std::cout << "Var name: " << access.data_race.var_name << " id: " << id << " True pos: " << access.true_pos;
+      std::cout << " line: " << access.data_race.location.line;
+      std::cout << " Access type: " << (access.data_race.race_type == RaceType::RACE_WRITE ? "write" : "read") << std::endl;
+    }
+  }
+}
+
+void dump_data_race_map(const DataRaceMap& data_race_map){
+  std::cout << "Data Race Map of size " << data_race_map.by_id.size()
+  << " with by_var of size " << data_race_map.by_var.size() << std::endl;
+  for (const auto& [id, dr] : data_race_map.by_id){
+    std::cout << "Id: " << id << " Var name: " << dr->var_name << " Line " << dr->location.line
+    << " Race type " << (dr->race_type == RaceType::RACE_WRITE ? "write" : "read") << std::endl;
+  }
 }
 
 template <typename T>
@@ -231,6 +266,9 @@ JsonResults LLMAnalyser::FilterFalsePositives(const DataRaceMap& data_race_map, 
         }
       }
       oss << "\n" << "RACE REPORT:" << "\n";
+      if (data_race_map.by_id.empty() && data_race_map.by_var.empty()){
+        oss << "No races to report. " << "\n";
+      }
       for (const auto &[var_name, data_races] : data_race_map.by_var) {
         oss << var_name << ": " << data_races.size() << " unprotected accesses" << "\n";
         for (int i = 0; i <data_races.size(); i++) {
@@ -245,6 +283,10 @@ JsonResults LLMAnalyser::FilterFalsePositives(const DataRaceMap& data_race_map, 
         }
       }
       std::string_view prompt = oss.view();
+      if (!displayed){
+        // std::cout << prompt << std::endl;
+      }
+      displayed = true;
       JsonResults responses;
       std::unordered_map<LLM, std::future<std::vector<json>>> futures;
       for (const auto llm : all_llms){
@@ -343,9 +385,19 @@ SummaryFalsePosResults LLMAnalyser::EvalFalsePosLLMConsistency(const DataRaceMap
   }
   for (const auto& result : results){
     for (const auto& [llm, llm_result] : result){
+      FalsePosRunInfo run_info;
       for (const auto& var_result : llm_result){
-        std::string var_name_key = get_var_name_key(var_result, data_race_map);
-        FalsePosRunInfo run_info;
+        std::string var_name_key;
+        try {
+          var_name_key = get_var_name_key(var_result, data_race_map);
+        } catch (const std::logic_error& e){
+          // dump_LLM_result(llm_result);
+          // dump_data_race_map(data_race_map);
+          std::cout << e.what() << std::endl;
+          std::cout << std::format("Error getting var name key: {}", var_result.var_name) << std::endl;
+          throw e;
+        }
+        
         if (var_result.has_data_race){
           summary_results.results[llm].tp_votes_variables[var_name_key]++;
           run_info.var_votes_tp.insert(var_name_key);
@@ -361,24 +413,25 @@ SummaryFalsePosResults LLMAnalyser::EvalFalsePosLLMConsistency(const DataRaceMap
           summary_results.results[llm].tp_votes_accesses[id]++;
           run_info.access_votes_tp.insert(id);
         }
-        // Check consistency
-        if (!run_infos[llm].empty()){
-          const FalsePosRunInfo& last = run_infos[llm].back();
-          size_t num_accesses = last.access_votes_fp.size() + last.access_votes_tp.size();
-          size_t num_vars = last.var_votes_fp.size() + last.var_votes_tp.size();
-          size_t new_num_accesses = run_info.access_votes_fp.size() + run_info.access_votes_tp.size();
-          size_t new_num_vars = run_info.var_votes_fp.size() + run_info.var_votes_tp.size();
-          if (num_accesses != new_num_accesses){
-            std::cout << "Inconsistent number of access votes: " << num_accesses << " votes in last run, but " 
-            << new_num_accesses << " votes now" << std::endl;
-          }
-          if (num_vars != new_num_vars){
-            std::cout << "Inconsistent number of var votes: " << num_vars << " votes in last run, but " 
-            << new_num_vars << " votes now" << std::endl;
-          }
-        }
-        run_infos[llm].push_back(run_info);
       }
+      // Check consistency
+      if (!run_infos[llm].empty()){
+        const FalsePosRunInfo& last = run_infos[llm].back();
+        size_t num_accesses = last.access_votes_fp.size() + last.access_votes_tp.size();
+        size_t num_vars = last.var_votes_fp.size() + last.var_votes_tp.size();
+        size_t new_num_accesses = run_info.access_votes_fp.size() + run_info.access_votes_tp.size();
+        size_t new_num_vars = run_info.var_votes_fp.size() + run_info.var_votes_tp.size();
+        if (num_accesses != new_num_accesses){
+          std::cout << "Inconsistent number of access votes: " << num_accesses << " votes in last run, but " 
+          << new_num_accesses << " votes now" << std::endl;
+        }
+        if (num_vars != new_num_vars){
+          std::cout << "Inconsistent number of var votes: " << num_vars << " votes in last run, but " 
+          << new_num_vars << " votes now" << std::endl;
+        }
+      }
+      run_infos[llm].push_back(run_info);
+      std::cout << "Added run number " << run_infos[llm].size() << " to " << get_llm_name(llm) << std::endl;
     }
   }
 

@@ -72,6 +72,6 @@ private:
 
 public:
   Eraser() {};
-  DataRaceMap compute_data_races(FuncNodeMap func_map, FuncName main_name = "main",
+  std::shared_ptr<DataRaceMap> compute_data_races(FuncNodeMap func_map, FuncName main_name = "main",
                                  bool debug_logging = false, bool symmetric_join = false);
 };
