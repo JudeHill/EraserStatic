@@ -1,9 +1,20 @@
 #include "lockset.h"
 
 static bool debug = true;
+static WhileStack while_stack;
 static int thread_depth = 0;
 static bool assume_sym_join = false;
 static DataRaceID next_race_id = 0;
+LockSet intersect(LockSet lockset_1, const LockSet& lockset_2){
+  for (auto it = lockset_1.begin(); it != lockset_1.end();) {
+    if (!lockset_2.contains(*it)) {
+      it = lockset_1.erase(it);
+    } else {
+      ++it;
+    }
+  }
+  return lockset_1;
+}
 
 LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncName> funcs_seen,
                       bool on_main_thread, Epoch epoch) {
@@ -94,24 +105,26 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
     // assert v is now the end_if corresponding to the original if
     return visit(end_if->getDefaultNextNode(), if_lockset, funcs_seen, on_main_thread, epoch);
   }
-  case NodeType::ENDIF:
-  case NodeType::ENDWHILE:
+  case NodeType::BREAK:
   case NodeType::CONTINUE: {
+    while_stack.back().push_back(lockset);
     return lockset;
   }
+  case NodeType::ENDIF:
+  case NodeType::ENDWHILE:
+  
 
   case NodeType::WHILE: {
     WhileNode *while_node = static_cast<WhileNode *>(node);
+    while_stack.push_back({ });
     LockSet new_lockset = visit(while_node->whileNode, lockset, funcs_seen, on_main_thread, epoch);
     // new_lockset = new_lockset INTERSECT lockset (worst case lockset)
-    for (auto it = new_lockset.begin(); it != new_lockset.end();) {
-      if (!lockset.contains(*it)) {
-        it = new_lockset.erase(it);
-      } else {
-        ++it;
-      }
+    new_lockset = intersect(new_lockset, lockset);
+    for (const auto& set : while_stack.back()){
+      new_lockset = intersect(new_lockset, set);
     }
     EndwhileNode *end_while = while_node->endWhile;
+    while_stack.pop_back();
     return visit(end_while->next, new_lockset, funcs_seen, on_main_thread, epoch);
   }
   case NodeType::THREAD_CREATE: {
@@ -149,6 +162,7 @@ bool Eraser::handle_read(LockName var_name, const LockSet& lockset, bool on_main
     vars[var_name][epoch] = std::make_unique<VarInfo>(VarInfo{
         .var_name = var_name,
         .only_on_main = on_main_thread,
+        .written_to = false,
         .status = VarStatus::VIRGIN,
         .lockset = lockset,
     });
@@ -159,6 +173,7 @@ bool Eraser::handle_read(LockName var_name, const LockSet& lockset, bool on_main
     var_infos[epoch] = std::make_unique<VarInfo>(VarInfo{
       .var_name = var_name,
       .only_on_main = on_main_thread,
+      .written_to = false,
       .status = VarStatus::VIRGIN,
       .lockset = lockset,
   });
@@ -175,7 +190,7 @@ bool Eraser::handle_read(LockName var_name, const LockSet& lockset, bool on_main
     }
   }
   if (var.status == VarStatus::VIRGIN && !var.only_on_main) {
-    var.status = VarStatus::SHARED;
+    var.status = var.written_to ? VarStatus::SHARED_MODIFIED : VarStatus::SHARED;
   }
   if (var.status == VarStatus::SHARED_MODIFIED && var.lockset.empty()) {
     // reset var lockset if data race
@@ -198,6 +213,7 @@ bool Eraser::handle_write(LockName var_name, const LockSet& lockset, bool on_mai
     vars[var_name][epoch] = std::make_unique<VarInfo>(VarInfo{
         .var_name = var_name,
         .only_on_main = on_main_thread,
+        .written_to = true,
         .status = VarStatus::VIRGIN,
         .lockset = lockset,
     });
@@ -208,6 +224,7 @@ bool Eraser::handle_write(LockName var_name, const LockSet& lockset, bool on_mai
     var_infos[epoch] = std::make_unique<VarInfo>(VarInfo{
       .var_name = var_name,
       .only_on_main = on_main_thread,
+      .written_to = true,
       .status = VarStatus::VIRGIN,
       .lockset = lockset,
   });
@@ -215,6 +232,7 @@ bool Eraser::handle_write(LockName var_name, const LockSet& lockset, bool on_mai
   VarInfo &var = *var_infos[epoch];
   LockSet old_lockset = var.lockset;
   var.only_on_main = (var.only_on_main && on_main_thread);
+  var.written_to = true;
 
   if (!(var.status == VarStatus::SHARED_MODIFIED) && !var.only_on_main) {
     var.status = VarStatus::SHARED_MODIFIED;

@@ -31,7 +31,7 @@ using LockSet = std::unordered_set<LockName>;
 
 struct VarInfo {
   VarName var_name;
-  bool only_on_main;
+  bool only_on_main, written_to;
   VarStatus status;
   LockSet lockset;
   int epoch;
@@ -59,6 +59,7 @@ struct DataRaceMap {
 };
 
 using VarInfos = std::unordered_map<Epoch, std::unique_ptr<VarInfo>>;
+using WhileStack = std::vector<std::vector<LockSet>>;
 
 class Eraser {
 private:

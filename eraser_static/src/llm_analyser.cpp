@@ -7,7 +7,7 @@ You are an expert C Concurrency Analyst. Your task is to perform a high-fidelity
 Analyze the provided Source Code, Shared Variables list, and Race Report. For each reported race, determine if the logic of the program (e.g., mutexes, semaphores, barriers, or memory offsets) effectively prevents a data race, even if the static analysis tool flagged it.
 
 ### DEFINITIONS
-- A "Data Race" is defined as when one thread reads a shared variable x, and another writes to x. If these two accesses occur without a happens-before relation
+- A "Data Race" is defined as when one thread reads or writes to a shared variable x, and another writes to x. If these two accesses occur without a happens-before relation
 between them (e.g. commonly held lock, barrier between accesses, condition variable, etc.) then this is a data race.
 - For this task, you will identify locations in source code where data races **COULD** occur. For the purposes of this tool, we consider any 
 case where it is theoretically possible for a data race to occur to be a data race
