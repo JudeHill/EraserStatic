@@ -37,6 +37,11 @@ struct VarInfo {
   int epoch;
 };
 
+struct Context {
+  bool on_main_thread, in_loop;
+  Epoch epoch;
+};
+
 enum class RaceType {
   RACE_READ,
   RACE_WRITE,
@@ -67,7 +72,11 @@ private:
   std::vector<std::shared_ptr<DataRace>> data_races;
   std::unordered_map<VarName, VarInfos> vars;
   LockSet visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncName> funcs_seen,
-                bool on_main_thread = true, Epoch epoch = 0);
+                Context ctx = {
+                  .on_main_thread = true,
+                  .in_loop = false,
+                  .epoch = 0
+                });
   bool handle_read(LockName var_name, const LockSet& lockset, bool on_main_thread, Epoch epoch);
   bool handle_write(LockName var_name, const LockSet& lockset, bool on_main_thread, Epoch epoch);
 
