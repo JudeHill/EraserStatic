@@ -25,6 +25,7 @@ struct Options {
     DataRaceMap data_race_map;
     SharedVarResults shvar_results;
     FalsePosResults false_pos_results;
+    FalseNegResults false_neg_results;
   };
 
   struct EvalLLMResults {

@@ -3,7 +3,7 @@
 static bool debug = true;
 static int thread_depth = 0;
 static bool assume_sym_join = false;
-static DataRaceID next_race_id = 0;
+
 
 LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncName> funcs_seen,
                       bool on_main_thread, Epoch epoch) {

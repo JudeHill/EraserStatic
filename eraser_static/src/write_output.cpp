@@ -98,6 +98,23 @@ void write_fp_eval(std::ostream& out_stream, SummaryFalsePosResults results){
     
 }
 
+void write_false_negatives(std::ofstream& out_stream, const FalseNegResults& results){
+    out_stream << "LLM analysis of false negatives of data races: " << "\n";
+    for (const auto llm : all_llms){
+        out_stream << get_llm_name(llm) << "\n";
+        for (const FalseNegVarResult& var_result : results.at(llm)){
+            out_stream << "Variable " << var_result.var_name << " has the following unprotected accesses that were missed\n";
+            for (const auto& llm_data_race : var_result.unprotected_accesses){
+                out_stream << (llm_data_race.data_race.race_type == RaceType::RACE_WRITE ? "Write " : "Read ");
+                out_stream << "in file " << llm_data_race.data_race.location.file_name << ", ";
+                out_stream << "on line " << llm_data_race.data_race.location.line << " ";
+                out_stream << "at position " << llm_data_race.data_race.location.column << "\n";
+                out_stream << "Reasoning: " << llm_data_race.reasoning << "\n";
+            } 
+        }
+    }
+}
+
 void write_output(const Filepath& filepath, const Results& results, bool write_all_races) {
     auto out_stream = std::ofstream(filepath);
     if (!out_stream) {
@@ -109,6 +126,8 @@ void write_output(const Filepath& filepath, const Results& results, bool write_a
     write_shared_variables(out_stream, results.shvar_results);
     out_stream << "\n";
     write_false_positives(out_stream, results.false_pos_results);
+    out_stream << "\n";
+    write_false_negatives(out_stream, results.false_neg_results);
 }
 
 void write_fp_eval_output(const Filepath& filepath, const EvalLLMResults& results, bool write_all_races){

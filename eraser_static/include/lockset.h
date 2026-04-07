@@ -59,6 +59,7 @@ struct DataRaceMap {
 };
 
 using VarInfos = std::unordered_map<Epoch, std::unique_ptr<VarInfo>>;
+static DataRaceID next_race_id = 0;
 
 class Eraser {
 private:
