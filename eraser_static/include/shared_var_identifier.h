@@ -13,6 +13,7 @@
 #include <thread>
 #include <unordered_set>
 #include <vector>
+#include <iomanip>
 #define LLM_API_DELAY_SECONDS 20
 
 using nlohmann::json;
@@ -33,7 +34,7 @@ struct LLM_SummaryResult {
 };
 using SummaryResults = std::unordered_map<LLM, LLM_SummaryResult>;
 using SharedVarResults = std::unordered_map<LLM, LLM_result>;
-void create_prompt(std::ostringstream &oss, const Filepath &filepath, const std::string &prompt);
+void create_prompt(std::ostringstream &oss, const Filepath &filepath, const std::string &prompt, bool number_lines = false);
 
 class SharedVarIdentifier {
 public:

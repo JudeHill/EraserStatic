@@ -146,6 +146,14 @@ std::string get_var_name_key(const VarResult &var_result, const DataRaceMap &dat
       "Unable to identify variable name key from given VarResult - no accesses provided");
 }
 
+// A way to uniquely identify data races for LLMs. 
+// We assume that a race is unique if it has the same type, variable and line number. This will not always be the case, 
+// but we cannot reliably differentiate races from LLM output that are equivalent in all these things
+// as LLMs cannot reliably determine the column of a specific character. 
+std::string get_datarace_key(const DataRace& data_race){
+  return data_race.var_name + std::to_string(data_race.location.line) + (data_race.race_type == RaceType::RACE_READ ? "Read" : "Write");
+}
+
 RaceType convert_access_type(const std::string &access_type) {
   if (access_type == "Write" || access_type == "write") {
     return RaceType::RACE_WRITE;
@@ -246,7 +254,42 @@ double jaccard_sets(const std::unordered_set<T> &s1, const std::unordered_set<T>
   return static_cast<double>(intersection_count) / static_cast<double>(union_count);
 }
 
-FalsePosLLMAgreement calculate_jaccard_agreement(const std::vector<FalsePosRunInfo> &run_infos) {
+template <typename T>
+double jaccard_maps(const std::unordered_map<T, unsigned int> &m1, 
+                    const std::unordered_map<T, unsigned int> &m2) {
+    
+    if (m1.empty() && m2.empty())
+        return 1.0;
+
+    size_t intersection_sum = 0;
+    size_t union_sum = 0;
+
+    // Use a single pass to find intersection and partial union
+    for (const auto &[key, count1] : m1) {
+        auto it = m2.find(key);
+        if (it != m2.end()) {
+            unsigned int count2 = it->second;
+            intersection_sum += std::min(count1, count2);
+            union_sum += std::max(count1, count2);
+        } else {
+            // Key only in m1
+            union_sum += count1;
+        }
+    }
+
+    // Add counts from keys only in m2
+    for (const auto &[key, count2] : m2) {
+        if (m1.find(key) == m1.end()) {
+            union_sum += count2;
+        }
+    }
+
+    if (union_sum == 0) return 0.0; 
+    
+    return static_cast<double>(intersection_sum) / static_cast<double>(union_sum);
+}
+
+JaccardAgreement calculate_jaccard_agreement(const std::vector<FalsePosRunInfo> &run_infos) {
   if (run_infos.size() < 2)
     return {1.0, 1.0};
 
@@ -273,6 +316,31 @@ FalsePosLLMAgreement calculate_jaccard_agreement(const std::vector<FalsePosRunIn
   }
 
   return {total_var_j / pair_count, total_access_j / pair_count};
+}
+
+JaccardAgreement calculate_jaccard_agreement(const std::vector<FalseNegRunInfo>& run_infos){
+  if (run_infos.size() < 2)
+    return {1.0, 1.0};
+
+  double var = 0.0;
+  double acc = 0.0;
+  int pair_count = 0;
+
+  // Iterate through all unique pairs (C(n, 2))
+  for (size_t i = 0; i < run_infos.size(); ++i) {
+    for (size_t j = i + 1; j < run_infos.size(); ++j) {
+
+      // Calculate Jaccard for Variables
+      var = jaccard_sets(run_infos[i].var_votes, run_infos[j].var_votes);
+
+      // Calculate Jaccard for Accesses 
+      acc = jaccard_maps(run_infos[i].access_votes, run_infos[j].access_votes);
+
+
+      pair_count++;
+    }
+  }
+  return {var / pair_count, acc / pair_count};
 }
 
 LLMAnalyser::LLMAnalyser(const Filepath fp) : filepath(fp) {}
@@ -421,7 +489,7 @@ FalsePosResults LLMAnalyser::ParseFalsePosResults(const JsonResults &json_result
 }
 
 JsonResults LLMAnalyser::FindFalseNegatives(const DataRaceMap &data_race_map,
-                                                const SharedVarResults &shvar_results) {
+                                            const SharedVarResults &shvar_results) {
   json schema = {
       {"$schema", "http://json-schema.org/draft-07/schema#"},
       {"type", "object"},
@@ -432,7 +500,6 @@ JsonResults LLMAnalyser::FindFalseNegatives(const DataRaceMap &data_race_map,
            {{"type", "object"},
             {"properties",
              {{"name", {{"type", "string"}}},
-              {"data_race", {{"type", "boolean"}}},
               {"accesses",
                {{"type", "array"},
                 {"items",
@@ -450,7 +517,8 @@ JsonResults LLMAnalyser::FindFalseNegatives(const DataRaceMap &data_race_map,
       {"required", {"variables"}},
       {"additionalProperties", false}};
   std::ostringstream oss;
-  create_prompt(oss, filepath, false_neg_prompt);
+  // Create prompt with line numbers to aid the LLM in locating the correct line numbers for data races
+  create_prompt(oss, filepath, false_neg_prompt, true);
   oss << "\n" << "SHARED VARIABLES:" << "\n" << "---" << "\n";
   // use majority voting from LLMs to establish shared variables
   std::unordered_map<std::string, unsigned int> votes;
@@ -498,7 +566,7 @@ JsonResults LLMAnalyser::FindFalseNegatives(const DataRaceMap &data_race_map,
   return responses;
 }
 
-FalseNegResults LLMAnalyser::ParseFalseNegResults(const JsonResults& json_results){
+FalseNegResults LLMAnalyser::ParseFalseNegResults(const JsonResults &json_results) {
   FalseNegResults results;
   for (const auto llm : all_llms) {
     FalseNegResult result;
@@ -627,6 +695,80 @@ LLMAnalyser::EvalFalsePosLLMConsistency(const DataRaceMap &data_race_map,
   }
 
   return summary_results;
+}
+
+SummaryFalseNegResults
+LLMAnalyser::EvalFalseNegLLMConsistency(const DataRaceMap &data_race_map, const SharedVarResults &shvar_results, bool slow_llms, unsigned int repeats) {
+  std::vector<std::future<FalseNegResults>> futures;
+  std::vector<FalseNegResults> results;
+  for (int i = 0; i < repeats; i++) {
+    futures.push_back(std::async(std::launch::async, [this, &data_race_map, &shvar_results]() {
+      return ParseFalseNegResults(FindFalseNegatives(data_race_map, shvar_results));
+    }));
+    if (slow_llms) {
+      results.push_back(futures.back().get());
+      std::this_thread::sleep_for(std::chrono::seconds(LLM_API_DELAY_SECONDS));
+    }
+  }
+  if (!slow_llms) {
+    for (auto &task : futures) {
+      results.push_back(task.get());
+    }
+  }
+  SummaryFalseNegResults summary_results = {
+      .results = {},
+      .data_race_map = data_race_map,
+  };
+  FalseNegRunInfos run_infos;
+  for (const auto llm : all_llms) {
+    summary_results.results[llm] = {};
+  }
+  for (const auto &result : results) {
+    for (const auto &[llm, llm_result] : result) {
+      FalseNegRunInfo run_info;
+      for (const auto &var_result : llm_result) {
+        FalseNegVariable& var = summary_results.results[llm].variables[var_result.var_name];
+        var.votes++;
+        run_info.var_votes.insert(var_result.var_name);
+        for (const auto& access : var_result.unprotected_accesses){
+          std::string datarace_key = get_datarace_key(access.data_race);
+          if (!var.accesses.contains(datarace_key)){
+            var.accesses[datarace_key] = FalseNegAccess{
+              .access = access,
+              .votes = 0,
+            };
+          }
+          var.accesses[datarace_key].votes++;
+          run_info.access_votes[datarace_key]++;
+        }
+      }
+      // Check consistency
+      if (!run_infos[llm].empty()) {
+        const FalseNegRunInfo &last = run_infos[llm].back();
+        size_t num_accesses = last.access_votes.size();
+        size_t num_vars = last.var_votes.size();
+        size_t new_num_accesses = run_info.access_votes.size();
+        size_t new_num_vars = run_info.var_votes.size();
+        if (num_accesses != new_num_accesses) {
+          std::cout << "Inconsistent number of access votes: " << num_accesses
+                    << " votes in last run, but " << new_num_accesses << " votes now" << std::endl;
+        }
+        if (num_vars != new_num_vars) {
+          std::cout << "Inconsistent number of var votes: " << num_vars
+                    << " votes in last run, but " << new_num_vars << " votes now" << std::endl;
+        }
+      }
+      run_infos[llm].push_back(run_info);
+      std::cout << "Added run number " << run_infos[llm].size() << " to " << get_llm_name(llm)
+                << std::endl;
+    }
+  }
+
+  for (const auto llm : all_llms) {
+    SummaryFalseNegResult &cur_result = summary_results.results[llm];
+    cur_result.jaccard_agreement = calculate_jaccard_agreement(run_infos[llm]);
+  }
+  return summary_results;                         
 }
 
 void LLMAnalyser::HintsToProgrammer() {}

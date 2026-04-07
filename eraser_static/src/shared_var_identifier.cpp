@@ -2,17 +2,29 @@
 
 
 
-std::string parse_c_file(const std::string &path) {
+std::string parse_c_file(const std::string &path, bool number_lines = false) {
   std::ifstream file(path);
   if (!file.is_open())
-    throw std::logic_error("Couldn't open file"); // Handle error
+      throw std::logic_error("Couldn't open file");
 
-  std::stringstream buffer;
-  buffer << file.rdbuf(); // Read the file buffer directly
-  return buffer.str();
+  std::stringstream result;
+  std::string line;
+  int line_count = 1;
+
+  while (std::getline(file, line)) {
+      if (number_lines) {
+          // Right-align numbers for a clean "IDE-like" look
+          result << std::setw(4) << line_count << " | " << line << "\n";
+          line_count++;
+      } else {
+          result << line << "\n";
+      }
+  }
+
+  return result.str();
 }
 
-void create_prompt(std::ostringstream& oss, const Filepath& filepath, const std::string& prompt){
+void create_prompt(std::ostringstream& oss, const Filepath& filepath, const std::string& prompt, bool number_lines){
   bool directory_mode = !filepath.ends_with(".c");
   oss << prompt << "\n";
   oss << "SOURCE CODE:" << "\n";
@@ -37,7 +49,7 @@ void create_prompt(std::ostringstream& oss, const Filepath& filepath, const std:
     }
     for (const auto &file : files) {
       oss << "\n";
-      oss << parse_c_file(file.string());
+      oss << parse_c_file(file.string(), number_lines);
     }
   }
 }

@@ -44,6 +44,7 @@ int main(int argc, char *argv[]) {
       "Write all reported unprotected accesses to out, instead of just the first 5 per variable");
   app.add_flag("-t, --variant-responses", opts.variant_llm_responses,
                "Turn LLM temperature up (0.2) to allow non-deterministic responses");
+  app.add_flag("--eval-fns", opts.eval_llms_fns, "Evaluate false negatives using LLMs");
 
   CLI11_PARSE(app, argc, argv);
 
@@ -124,6 +125,15 @@ int main(int argc, char *argv[]) {
                              .false_pos_results = summary_fp_results,
                          },
                          opts.write_all_races);
+  } else if (opts.eval_llms_fns){
+    SummaryFalseNegResults summary_fn_results = llm_analyser.EvalFalseNegLLMConsistency(*data_race_map, shvar_results, opts.slow_llm_requests);
+    std::cout << "Writing output" << std::endl;
+    write_fn_eval_output(opts.output_path,
+                          EvalLLMResults{
+                            .data_race_map = *data_race_map,
+                            .shvar_results = shvar_results,
+                            .false_neg_results = summary_fn_results,
+                          });
   } else {
     FalsePosResults fp_results = llm_analyser.ParseFalsePosResults(
         llm_analyser.FilterFalsePositives(*data_race_map, shvar_results));
