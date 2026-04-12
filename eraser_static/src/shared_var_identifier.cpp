@@ -31,7 +31,7 @@ void create_prompt(std::ostringstream& oss, const Filepath& filepath, const std:
   oss << "---" << "\n";
   if (!directory_mode) {
     oss << "\n";
-    oss << parse_c_file(filepath);
+    oss << parse_c_file(filepath, number_lines);
   } else {
     std::vector<fs::path> files;
     try {

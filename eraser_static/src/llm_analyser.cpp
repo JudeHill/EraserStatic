@@ -82,7 +82,11 @@ When determining whether an access is genuinely unprotected, consider:
 1. Mutual Exclusion: Is the access protected by a pthread_mutex that is also held on all conflicting accesses?
 2. Logical Partitioning: Are threads accessing disjoint memory locations (e.g., different array indices `arr[tid]`)?
 3. Barriers/Ordering: Is there an explicit synchronization barrier or signaling mechanism (e.g., `pthread_cond_wait`) ensuring sequential access?
-
+4. Multithreaded code: If the region in which the access occurs is not a multithreaded region of the code (i.e. before the calls to pthread_thread_create)
+  or after the calls to pthread_thread_join then any access cannot be considered unprotected, as there is no other running thread with which to form a data race.
+  Shared variable: If the variable is only accessed by one thread in this region of the code, then any access to it is NOT unprotected, since a data race can only be formed between different threads. 
+    Regions of code are split by barriers, or the multithreaded-ness of code: if the code changes from single-threaded to multithreaded, or vice versa, 
+    this is a new region of the code.  
 ### CONSTRAINTS
 - In the output, ONLY include shared variables which have at least one unprotected access that is NOT already included in the input Data Race Report.
 - Only report accesses that are missing from the Data Race Report. Do NOT repeat accesses that are already present in the input report.
@@ -99,6 +103,14 @@ When determining whether an access is genuinely unprotected, consider:
   - a variable already reported as racing, but with additional missed unprotected accesses, and
   - a variable omitted entirely from the Race Report.
 - It is entirely possible that some or all of the accesses in the given Data Race Report are false positives (i.e., they are not actually unprotected). You should not concern yourself with this. 
+- It is VERY COMMON that there will be NO false negatives for you to find. In this case, you should return an EMPTY LIST. Prioritise **ACCURACY** (i.e. correct classification)
+  over SAFETY (overapproximating and assuming many things are unprotected.)
+- Make sure an access you report as unprotected can ACTUALLY be part of a data race before you do so. It must meet the following criteria to qualify:
+  - Be in a multithreaded region of the code
+  - Be in a region of the code (delimited by barriers or thread creation/joining) where AT LEAST TWO threads access the variable and AT LEAST ONE writes to it.
+  - Not be protected by the same mutex as all other accesses to that variable in that region of code
+  - Not be protected by another synchronisation mechanism or mechanisms of some form
+  - NOTE: A variable access not being protected by a mutex is NOT (alone) enough to qualify it as unprotected.
 
 ### OUTPUT FORMAT
 You must respond strictly in the following JSON schema:
@@ -151,7 +163,7 @@ std::string get_var_name_key(const VarResult &var_result, const DataRaceMap &dat
 // but we cannot reliably differentiate races from LLM output that are equivalent in all these things
 // as LLMs cannot reliably determine the column of a specific character. 
 std::string get_datarace_key(const DataRace& data_race){
-  return data_race.var_name + std::to_string(data_race.location.line) + (data_race.race_type == RaceType::RACE_READ ? "Read" : "Write");
+  return data_race.var_name + std::to_string(data_race.location.line) + (data_race.race_type == RaceType::RACE_READ ? "Read" : "Write") + data_race.location.file_name;
 }
 
 RaceType convert_access_type(const std::string &access_type) {
@@ -318,7 +330,7 @@ JaccardAgreement calculate_jaccard_agreement(const std::vector<FalsePosRunInfo> 
   return {total_var_j / pair_count, total_access_j / pair_count};
 }
 
-JaccardAgreement calculate_jaccard_agreement(const std::vector<FalseNegRunInfo>& run_infos){
+JaccardAgreement calculate_jaccard_agreement(const std::vector<FalseNegRunInfo>& run_infos) {
   if (run_infos.size() < 2)
     return {1.0, 1.0};
 
@@ -326,20 +338,14 @@ JaccardAgreement calculate_jaccard_agreement(const std::vector<FalseNegRunInfo>&
   double acc = 0.0;
   int pair_count = 0;
 
-  // Iterate through all unique pairs (C(n, 2))
   for (size_t i = 0; i < run_infos.size(); ++i) {
     for (size_t j = i + 1; j < run_infos.size(); ++j) {
-
-      // Calculate Jaccard for Variables
-      var = jaccard_sets(run_infos[i].var_votes, run_infos[j].var_votes);
-
-      // Calculate Jaccard for Accesses 
-      acc = jaccard_maps(run_infos[i].access_votes, run_infos[j].access_votes);
-
-
+      var += jaccard_sets(run_infos[i].var_votes, run_infos[j].var_votes);
+      acc += jaccard_maps(run_infos[i].access_votes, run_infos[j].access_votes);
       pair_count++;
     }
   }
+
   return {var / pair_count, acc / pair_count};
 }
 
@@ -738,26 +744,12 @@ LLMAnalyser::EvalFalseNegLLMConsistency(const DataRaceMap &data_race_map, const 
               .votes = 0,
             };
           }
+          std::cout << "Voting for key " << datarace_key << " With llm " << get_llm_name(llm) << std::endl;
           var.accesses[datarace_key].votes++;
           run_info.access_votes[datarace_key]++;
         }
       }
-      // Check consistency
-      if (!run_infos[llm].empty()) {
-        const FalseNegRunInfo &last = run_infos[llm].back();
-        size_t num_accesses = last.access_votes.size();
-        size_t num_vars = last.var_votes.size();
-        size_t new_num_accesses = run_info.access_votes.size();
-        size_t new_num_vars = run_info.var_votes.size();
-        if (num_accesses != new_num_accesses) {
-          std::cout << "Inconsistent number of access votes: " << num_accesses
-                    << " votes in last run, but " << new_num_accesses << " votes now" << std::endl;
-        }
-        if (num_vars != new_num_vars) {
-          std::cout << "Inconsistent number of var votes: " << num_vars
-                    << " votes in last run, but " << new_num_vars << " votes now" << std::endl;
-        }
-      }
+     
       run_infos[llm].push_back(run_info);
       std::cout << "Added run number " << run_infos[llm].size() << " to " << get_llm_name(llm)
                 << std::endl;

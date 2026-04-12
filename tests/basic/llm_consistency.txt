@@ -1,0 +1,25 @@
+Results for Claude
+Average TP: 4  Average FP: 0  Average FN: 0
+Jacquard pairwise agreement between iterations (5 iterations): 1
+Vote counts: 
+tids: 5
+count: 5
+mutex_1: 5
+b1: 5
+Results for Gemini
+Average TP: 4  Average FP: 0  Average FN: 0
+Jacquard pairwise agreement between iterations (5 iterations): 1
+Vote counts: 
+tids: 5
+count: 5
+mutex_1: 5
+b1: 5
+Results for ChatGPT
+Average TP: 4  Average FP: 0.2  Average FN: 0
+Jacquard pairwise agreement between iterations (5 iterations): 0.92
+Vote counts: 
+tids: 5
+arg: 1
+count: 5
+mutex_1: 5
+b1: 5

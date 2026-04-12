@@ -126,6 +126,7 @@ int main(int argc, char *argv[]) {
                          },
                          opts.write_all_races);
   } else if (opts.eval_llms_fns){
+    std::cout << "We got to fns" << std::endl;
     SummaryFalseNegResults summary_fn_results = llm_analyser.EvalFalseNegLLMConsistency(*data_race_map, shvar_results, opts.slow_llm_requests);
     std::cout << "Writing output" << std::endl;
     write_fn_eval_output(opts.output_path,

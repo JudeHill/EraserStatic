@@ -305,6 +305,9 @@ static std::unordered_set<std::string> timeout_errors{
 json LLMHandler::PromptWithRetries(const std::string_view& prompt, const json& schema, const LLM llm, bool allow_variant_responses, unsigned int retries){
     std::cout << "Prompting " << get_llm_name(llm) << std::endl;
     unsigned int remaining_retries = retries;
+    std::random_device rd; 
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distr(-1000, 1000);
     while (remaining_retries > 0){
         try {
             json rsp = Prompt(prompt, schema, llm, allow_variant_responses);
@@ -314,11 +317,11 @@ json LLMHandler::PromptWithRetries(const std::string_view& prompt, const json& s
             if (!overloaded_errors.contains(get_first_line(e.what())) && !timeout_errors.contains(get_first_line(e.what()))){
                 throw;
             } else {
-                std::cout << "Caught " << std::string(get_first_line(e.what())) << std::endl;
+                std::cout << "Caught " << std::string(e.what()) << std::endl;
             }
         }
         // exponential backoff: wait for 2 * (attempts) s
-        int backoff = 1000 << (retries - remaining_retries);
+        int backoff = (5000 << (retries - remaining_retries)) + distr(gen);
         std::cout << "Encountered an error with " << get_llm_name(llm) << ", retrying in " << backoff << " milliseconds" << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(backoff));
         remaining_retries--;

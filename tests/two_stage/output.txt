@@ -1,0 +1,3 @@
+Found dataraces involving 1 unique variables
+a: 1 unprotected accesses
+Read in file two_stage_bad.c at line 16, position 13

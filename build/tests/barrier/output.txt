@@ -1,9 +1,0 @@
-Found dataraces involving 0 unique variables
-
-LLM analysis of shared variables:
-Claude
-TP: 7   FP: 0   FN: 0
-Gemini
-TP: 7   FP: 0   FN: 0
-ChatGPT
-TP: 7   FP: 0   FN: 0

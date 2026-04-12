@@ -9,6 +9,7 @@
 #include <nlohmann/json-schema.hpp>
 #include <unordered_set>
 #include <chrono>
+#include <random>
 #include <thread>
 
 using nlohmann::json;

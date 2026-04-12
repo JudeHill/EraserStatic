@@ -98,8 +98,10 @@ void write_fp_eval(std::ostream& out_stream, const SummaryFalsePosResults& resul
     }    
 }
 
-void write_fn_eval(std::ostream& out_stream, const SummaryFalseNegResults& results){
-    out_stream << "LLM analysis of false positives of data races: " << "\n";
+// We can't use const here, because .at() will error if a var is not present, hence need to use [] to default initialise when not
+// present
+void write_fn_eval(std::ostream& out_stream, SummaryFalseNegResults& results){
+    out_stream << "LLM analysis of false negatives of data races: " << "\n";
     out_stream << "Jaccard agreement per LLM (data races on variables) ";
     for (const auto llm : all_llms){
         out_stream << get_llm_name(llm) << ": " << results.results.at(llm).jaccard_agreement.var_agreement << ", ";
@@ -109,29 +111,40 @@ void write_fn_eval(std::ostream& out_stream, const SummaryFalseNegResults& resul
         out_stream << get_llm_name(llm) << ": " << results.results.at(llm).jaccard_agreement.access_agreement << ", ";
     }
     out_stream << "\n";
-    for (const auto& [var, data_races] : results.data_race_map.by_var){
-        out_stream << "Eraser tool found " << data_races.size() << " previously unidentified unprotected accesses on variable ";
-        out_stream << var << "\n";
-        out_stream << "LLM votes that this variable actually has some previously unidentified unprotected accesses: ";
-        for (const auto llm : all_llms){
-            out_stream << get_llm_name(llm) << ": " << results.results.at(llm).variables.at(var).votes << ", ";
-        }
-        out_stream << "\n";
-        for (const auto llm : all_llms){
-
-        }
-        for (const auto& data_race : data_races){
-            std::string datarace_key = get_datarace_key(*data_race);
-            out_stream << (data_race->race_type == RaceType::RACE_WRITE ? "Write " : "Read ");
-            out_stream << " on line " << data_race->location.line << ", at position " << data_race->location.column;
-            out_stream << ", with id " << data_race->id << "\n";
-            out_stream << "LLM votes that this access is actually unprotected and was previously unidentified:";
-            for (const auto llm : all_llms){
-                out_stream << get_llm_name(llm) << ": " << results.results.at(llm).variables.at(var).accesses.at(datarace_key).votes << ", ";
+    std::unordered_set<std::string> seen_vars, seen_keys;
+    for (const auto& [llm, llm_result] : results.results){
+        for (const auto& [var_name, var_info] : llm_result.variables){
+            if (seen_vars.contains(var_name)){
+                continue;
+            }
+            seen_vars.insert(var_name);
+            out_stream << "LLMs detected additional unprotected accesses on variable " << var_name << "\n";
+            out_stream << "Votes that this variable has additional unprotected accesses: ";
+            for (const LLM llm_1 : all_llms){
+                out_stream << get_llm_name(llm_1) << ": " << results.results[llm_1].variables[var_name].votes << ", ";
             }
             out_stream << "\n";
+            for (const LLM llm_2 : all_llms){
+                for (const auto& [datarace_key, datarace] : results.results[llm_2].variables[var_name].accesses){
+                    if (seen_keys.contains(datarace_key)){
+                        continue;
+                    }
+                    seen_keys.insert(datarace_key);
+                    DataRace data_race = datarace.access.data_race;
+                    out_stream << "Unprotected access on var " << var_name << ": " << (data_race.race_type == RaceType::RACE_READ ? "Read" : "Write") <<
+                     " on line " << data_race.location.line << " in file " << data_race.location.file_name << " With key" << datarace_key << "\n";
+                    out_stream << "Votes that this is actually a missed unprotected access (False negative): " << "\n";
+                    for (const LLM llm_3 : all_llms){
+                        int votes = results.results[llm_3].variables[var_name].accesses[datarace_key].votes;
+                        out_stream << get_llm_name(llm_3) << ": " << votes << ", ";
+                    } 
+                    out_stream << "\n";
+
+                }
+            }
+            
         }
-    }    
+    }
 }
 
 void write_false_negatives(std::ofstream& out_stream, const FalseNegResults& results){
@@ -175,7 +188,7 @@ void write_fp_eval_output(const Filepath& filepath, const EvalLLMResults& result
     write_fp_eval(out_stream, results.false_pos_results);
 }
 
-void write_fn_eval_output(const Filepath& filepath, const EvalLLMResults& results, bool write_all_races){
+void write_fn_eval_output(const Filepath& filepath, EvalLLMResults results, bool write_all_races){
     auto out_stream = std::ofstream(filepath);
     if (!out_stream) {
         throw std::system_error(errno, std::generic_category(),
