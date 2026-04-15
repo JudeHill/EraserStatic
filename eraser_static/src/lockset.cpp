@@ -16,6 +16,7 @@ LockSet intersect(LockSet lockset_1, const LockSet& lockset_2){
   return lockset_1;
 }
 
+
 LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncName> funcs_seen, Context ctx) {
   if (node == nullptr) {
     if (debug) {

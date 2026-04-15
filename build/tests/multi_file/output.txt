@@ -1,3 +1,0 @@
-Found dataraces involving 1 unique variables
-global: 1 unprotected accesses
-Write in file ./extern.c at line 7, position 5

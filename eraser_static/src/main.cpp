@@ -1,23 +1,21 @@
 // to be implemented
-#include "graph_visualizer.h"
-#include "llm_handler.h"
 #include "eval_llms.h"
+#include "graph_visualizer.h"
+#include "llm_analyser.h"
+#include "llm_handler.h"
 #include "parser.h"
 #include "shared_var_identifier.h"
 #include "write_output.h"
 #include <iostream>
-#include "llm_analyser.h"
 
 #include "lockset.h"
+#include <CLI/CLI.hpp>
 #include <algorithm>
 #include <filesystem>
 #include <system_error>
 #include <vector>
-#include <CLI/CLI.hpp>
 
 namespace fs = std::filesystem;
-
-
 
 int main(int argc, char *argv[]) {
 
@@ -28,11 +26,9 @@ int main(int argc, char *argv[]) {
   CLI::App app{"eraser-static"};
 
   // Positional arguments
-  app.add_option("in_filename", opts.input_path, 
-                 "Input .c file or directory")->required();
+  app.add_option("in_filename", opts.input_path, "Input .c file or directory")->required();
 
-  app.add_option("out_filename", opts.output_path, 
-                 "Output filename")->required();
+  app.add_option("out_filename", opts.output_path, "Output filename")->required();
 
   // Flags
   app.add_flag("-v,--verbose", opts.debug, "Verbose output");
@@ -43,19 +39,23 @@ int main(int argc, char *argv[]) {
   app.add_flag("--eval-fps", opts.eval_llms_fps, "Evaluate false positives using LLMs");
   app.add_flag("--slow-llms", opts.slow_llm_requests, "Slow down LLMs to avoid rate limiting");
   app.add_flag("--test-llms", opts.test_llms, "Test LLM connectivity");
-  app.add_flag("--write-all", opts.write_all_races, "Write all reported unprotected accesses to out, instead of just the first 5 per variable");
-  app.add_flag("-t, --variant-responses", opts.variant_llm_responses, "Turn LLM temperature up (0.2) to allow non-deterministic responses");
+  app.add_flag(
+      "--write-all", opts.write_all_races,
+      "Write all reported unprotected accesses to out, instead of just the first 5 per variable");
+  app.add_flag("-t, --variant-responses", opts.variant_llm_responses,
+               "Turn LLM temperature up (0.2) to allow non-deterministic responses");
+  app.add_flag("--eval-fns", opts.eval_llms_fns, "Evaluate false negatives using LLMs");
 
   CLI11_PARSE(app, argc, argv);
 
   bool directory_mode = !opts.input_path.ends_with(".c");
 
   if (opts.test_llms) {
-      test_llms_alive();
-      return 0;
+    test_llms_alive();
+    return 0;
   }
 
-  if (opts.evaluating_llms){
+  if (opts.evaluating_llms) {
     eval_shared_variable_llm_consistency(opts.input_path, opts.slow_llm_requests);
     return 0;
   }
@@ -103,40 +103,53 @@ int main(int argc, char *argv[]) {
   }
   Eraser eraser = Eraser();
   std::cout << "Computing data races" << std::endl;
-  std::shared_ptr<DataRaceMap> data_race_map = eraser.compute_data_races(func_cfgs, "main", opts.debug, opts.symmetric_join);
-  std::cout << "DataRaceMap of size " << data_race_map->by_id.size() << " with by var " << data_race_map->by_var.size() << std::endl;
+  std::shared_ptr<DataRaceMap> data_race_map =
+      eraser.compute_data_races(func_cfgs, "main", opts.debug, opts.symmetric_join);
+  std::cout << "DataRaceMap of size " << data_race_map->by_id.size() << " with by var "
+            << data_race_map->by_var.size() << std::endl;
 
   std::cout << "Starting LLM analysis" << std::endl;
   SharedVarIdentifier shared_var_id;
   SharedVarInfos shared_vars_llm_info = shared_var_id.findSharedVariables(opts.input_path);
   SharedVarResults shvar_results = shared_var_id.EvaluateLLMs(shared_vars_llm_info);
   LLMAnalyser llm_analyser(opts.input_path);
-  if (opts.eval_llms_fps){
-    SummaryFalsePosResults summary_fp_results = llm_analyser.EvalFalsePosLLMConsistency(*data_race_map, shvar_results, opts.slow_llm_requests);
+  if (opts.eval_llms_fps) {
+    SummaryFalsePosResults summary_fp_results = llm_analyser.EvalFalsePosLLMConsistency(
+        *data_race_map, shvar_results, opts.slow_llm_requests);
 
     std::cout << "Writing output" << std::endl;
-    write_fp_eval_output(
-      opts.output_path,
-      EvalLLMResults{
-        .data_race_map = *data_race_map,
-        .shvar_results = shvar_results,
-        .false_pos_results = summary_fp_results,
-      }, 
-      opts.write_all_races);
+    write_fp_eval_output(opts.output_path,
+                         EvalLLMResults{
+                             .data_race_map = *data_race_map,
+                             .shvar_results = shvar_results,
+                             .false_pos_results = summary_fp_results,
+                         },
+                         opts.write_all_races);
+  } else if (opts.eval_llms_fns){
+    std::cout << "We got to fns" << std::endl;
+    SummaryFalseNegResults summary_fn_results = llm_analyser.EvalFalseNegLLMConsistency(*data_race_map, shvar_results, opts.slow_llm_requests);
+    std::cout << "Writing output" << std::endl;
+    write_fn_eval_output(opts.output_path,
+                          EvalLLMResults{
+                            .data_race_map = *data_race_map,
+                            .shvar_results = shvar_results,
+                            .false_neg_results = summary_fn_results,
+                          });
   } else {
-    FalsePosResults fp_results = llm_analyser.ParseResults(llm_analyser.FilterFalsePositives(*data_race_map, shvar_results));
-
+    FalsePosResults fp_results = llm_analyser.ParseFalsePosResults(
+        llm_analyser.FilterFalsePositives(*data_race_map, shvar_results));
+    FalseNegResults fn_results = llm_analyser.ParseFalseNegResults(llm_analyser.FindFalseNegatives(*data_race_map, shvar_results));
     std::cout << "Writing output" << std::endl;
-    write_output(
-      opts.output_path,
-      Results{
-        .data_race_map = *data_race_map,
-        .shvar_results = shvar_results,
-        .false_pos_results = fp_results,
-      }, 
-      opts.write_all_races);
+    write_output(opts.output_path,
+                 Results{
+                     .data_race_map = *data_race_map,
+                     .shvar_results = shvar_results,
+                     .false_pos_results = fp_results,
+                     .false_neg_results = fn_results,
+                 },
+                 opts.write_all_races);
   }
-  
+
   std::cout << "Finished" << std::endl;
 
   return 0;
