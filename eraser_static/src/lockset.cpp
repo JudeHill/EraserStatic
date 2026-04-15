@@ -2,6 +2,7 @@
 
 static bool debug = true;
 static WhileStack while_stack;
+static FuncStack func_stack;
 static int thread_depth = 0;
 static bool assume_sym_join = false;
 static DataRaceID next_race_id = 0;
@@ -44,9 +45,14 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
     if (!funcs_seen.contains(func_call_node->functionName)) {
       // no recursion
       funcs_seen.insert(func_call_node->functionName);
+      func_stack.push_back({ });
       new_lockset = visit(start_nodes[func_call_node->functionName], lockset, funcs_seen,
                           ctx);
       funcs_seen.erase(func_call_node->functionName);
+      for (const auto& set : func_stack.back()){
+        new_lockset = intersect(new_lockset, set);
+      }
+      func_stack.pop_back();
     }
     return visit(func_call_node->next, new_lockset, funcs_seen, ctx);
   }
@@ -110,8 +116,13 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
     while_stack.back().push_back(lockset);
     return lockset;
   }
+  case NodeType::RETURN: {
+    func_stack.back().push_back(lockset);
+  }
   case NodeType::ENDIF:
-  case NodeType::ENDWHILE:
+  case NodeType::ENDWHILE: {
+    return lockset;
+  }
   
 
   case NodeType::WHILE: {

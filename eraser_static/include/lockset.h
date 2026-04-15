@@ -66,6 +66,7 @@ struct DataRaceMap {
 using VarInfos = std::unordered_map<Epoch, std::unique_ptr<VarInfo>>;
 static DataRaceID next_race_id = 0;
 using WhileStack = std::vector<std::vector<LockSet>>;
+using FuncStack = std::vector<std::vector<LockSet>>;
 
 class Eraser {
 private:
