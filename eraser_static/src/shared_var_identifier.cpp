@@ -30,7 +30,7 @@ void create_prompt(std::ostringstream& oss, const Filepath& filepath, const std:
   oss << "SOURCE CODE:" << "\n";
   oss << "---" << "\n";
   if (!directory_mode) {
-    oss << "\n";
+    oss << filepath << "\n";
     oss << parse_c_file(filepath, number_lines);
   } else {
     std::vector<fs::path> files;
@@ -48,7 +48,7 @@ void create_prompt(std::ostringstream& oss, const Filepath& filepath, const std:
       std::cerr << "Error: " << e.what() << std::endl;
     }
     for (const auto &file : files) {
-      oss << "\n";
+      oss << file.c_str() <<"\n";
       oss << parse_c_file(file.string(), number_lines);
     }
   }
