@@ -35,6 +35,7 @@ int main(int argc, char *argv[]) {
   app.add_flag("-g,--show-graph", opts.show_graph, "Show graph");
   app.add_flag("-s,--symmetric-join", opts.symmetric_join, "Use symmetric join");
   app.add_flag("-b,--no-barrier", opts.ignore_barriers, "Ignore barriers");
+  app.add_flag("--no-llms", opts.no_llms, "Disable the use of LLMs");
   app.add_flag("--eval-llms", opts.evaluating_llms, "Evaluate LLMs");
   app.add_flag("--eval-fps", opts.eval_llms_fps, "Evaluate false positives using LLMs");
   app.add_flag("--slow-llms", opts.slow_llm_requests, "Slow down LLMs to avoid rate limiting");
@@ -107,7 +108,11 @@ int main(int argc, char *argv[]) {
       eraser.compute_data_races(func_cfgs, "main", opts.debug, opts.symmetric_join);
   std::cout << "DataRaceMap of size " << data_race_map->by_id.size() << " with by var "
             << data_race_map->by_var.size() << std::endl;
-
+  if (opts.no_llms){
+    std::cout << "Writing output";
+    write_output(opts.output_path, *data_race_map);
+    std::cout << "Finished";
+  }
   std::cout << "Starting LLM analysis" << std::endl;
   SharedVarIdentifier shared_var_id;
   SharedVarInfos shared_vars_llm_info = shared_var_id.findSharedVariables(opts.input_path);

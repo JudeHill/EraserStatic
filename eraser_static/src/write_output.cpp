@@ -179,6 +179,15 @@ void write_output(const Filepath& filepath, const Results& results, bool write_a
     write_false_negatives(out_stream, results.false_neg_results);
 }
 
+void write_output(const Filepath& filepath, const DataRaceMap& data_race_map, bool write_all_races) {
+    auto out_stream = std::ofstream(filepath);
+    if (!out_stream) {
+        throw std::system_error(errno, std::generic_category(),
+                                "failed to open output file: " + filepath);
+    }
+    write_data_races(out_stream, data_race_map, write_all_races);
+}
+
 void write_fp_eval_output(const Filepath& filepath, const EvalLLMResults& results, bool write_all_races){
     auto out_stream = std::ofstream(filepath);
     if (!out_stream) {
