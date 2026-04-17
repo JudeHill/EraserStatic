@@ -1,6 +1,6 @@
 #include "lockset.h"
 
-static bool debug = true;
+static bool debug= true;
 static WhileStack while_stack;
 static FuncStack func_stack;
 static int thread_depth = 0;
@@ -113,11 +113,21 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
   }
   case NodeType::BREAK:
   case NodeType::CONTINUE: {
-    while_stack.back().push_back(lockset);
+    if (!while_stack.empty()){
+      while_stack.back().push_back(lockset);
+    } else {
+      throw std::logic_error("Tried to access back of empty while stack");
+    }
+    
     return lockset;
   }
   case NodeType::RETURN: {
-    func_stack.back().push_back(lockset);
+    if (!func_stack.empty()){
+      func_stack.back().push_back(lockset);
+    } else {
+      throw std::logic_error("Tried to access back of empty func stack");
+    }
+    return lockset;
   }
   case NodeType::ENDIF:
   case NodeType::ENDWHILE: {
@@ -148,10 +158,11 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
       .in_loop = false,
       .epoch = ctx.epoch,
     };
-    LockSet new_lockset =
-        visit(start_nodes[create_node->functionName], lockset, funcs_seen, new_ctx);
+    func_stack.push_back({ });
+    visit(start_nodes[create_node->functionName], lockset, funcs_seen, new_ctx);
+    func_stack.pop_back();
 
-    return visit(create_node->next, new_lockset, funcs_seen, ctx);
+    return visit(create_node->next, lockset, funcs_seen, ctx);
   }
   case NodeType::THREAD_JOIN: {
     thread_depth--;

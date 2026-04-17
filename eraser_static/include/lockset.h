@@ -42,6 +42,7 @@ struct VarInfo {
 struct Context {
   bool on_main_thread, in_loop;
   Epoch epoch;
+  unsigned int recursion_depth;
 };
 
 enum class RaceType {
@@ -78,7 +79,8 @@ private:
                 Context ctx = {
                   .on_main_thread = true,
                   .in_loop = false,
-                  .epoch = 0
+                  .epoch = 0,
+                  .recursion_depth = 0
                 });
   bool handle_read(LockName var_name, const LockSet& lockset, bool on_main_thread, Epoch epoch);
   bool handle_write(LockName var_name, const LockSet& lockset, bool on_main_thread, Epoch epoch);
