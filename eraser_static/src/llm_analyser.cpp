@@ -77,6 +77,25 @@ case where it is theoretically possible for a data race to occur to be a data ra
   1. accesses on shared variables that do not appear in the Race Report at all, and
   2. additional unprotected accesses on variables that do appear in the Race Report, where those specific accesses were omitted.
 
+- An "UNPROTECTED access" is defined as follows:
+
+  An access to a shared variable is **UNPROTECTED** if it belongs to the smallest subset of accesses whose removal would eliminate all possible data races on that variable.
+
+  Formally:
+  - Consider all accesses to the variable within a program region (regions are delimited by barriers or changes in multithreaded execution).
+  - Identify the smallest subset of accesses such that, if those accesses were removed, the remaining accesses would share a non-empty common lockset.
+  - Mark exactly those accesses as UNPROTECTED.
+
+  Preconditions (must be checked first):
+  - If all accesses in the region are reads, then there are NO unprotected accesses.
+  - If all accesses in the region are performed by a single thread, then there are NO unprotected accesses.
+
+  Important:
+  - An access is NOT unprotected merely because it could participate in a data race.
+  - Multiple accesses may be unprotected.
+  - Later accesses may also be unprotected if they independently violate the common locking discipline.
+  - Only mark accesses whose removal is necessary to restore a consistent (non-empty) lockset across the remaining accesses.
+
 ### CRITERIA FOR EVALUATION
 When determining whether an access is genuinely unprotected, consider:
 1. Mutual Exclusion: Is the access protected by a pthread_mutex that is also held on all conflicting accesses?
@@ -87,6 +106,7 @@ When determining whether an access is genuinely unprotected, consider:
   Shared variable: If the variable is only accessed by one thread in this region of the code, then any access to it is NOT unprotected, since a data race can only be formed between different threads. 
     Regions of code are split by barriers, or the multithreaded-ness of code: if the code changes from single-threaded to multithreaded, or vice versa, 
     this is a new region of the code.  
+
 ### CONSTRAINTS
 - In the output, ONLY include shared variables which have at least one unprotected access that is NOT already included in the input Data Race Report.
 - Only report accesses that are missing from the Data Race Report. Do NOT repeat accesses that are already present in the input report.
