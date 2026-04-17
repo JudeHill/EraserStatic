@@ -25,6 +25,8 @@ enum class VarStatus {
 
 };
 
+using DataRaceID = unsigned int;
+using Epoch = unsigned int;
 using LockName = std::string;
 using FuncName = std::string;
 using LockSet = std::unordered_set<LockName>;
@@ -47,8 +49,8 @@ enum class RaceType {
   RACE_WRITE,
 };
 
-using DataRaceID = unsigned int;
-using Epoch = unsigned int;
+
+static DataRaceID next_race_id = 0;
 
 struct DataRace {
   std::string var_name;
@@ -64,7 +66,6 @@ struct DataRaceMap {
 };
 
 using VarInfos = std::unordered_map<Epoch, std::unique_ptr<VarInfo>>;
-static DataRaceID next_race_id = 0;
 using WhileStack = std::vector<std::vector<LockSet>>;
 using FuncStack = std::vector<std::vector<LockSet>>;
 

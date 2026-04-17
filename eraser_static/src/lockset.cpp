@@ -5,7 +5,7 @@ static WhileStack while_stack;
 static FuncStack func_stack;
 static int thread_depth = 0;
 static bool assume_sym_join = false;
-static DataRaceID next_race_id = 0;
+
 LockSet intersect(LockSet lockset_1, const LockSet& lockset_2){
   for (auto it = lockset_1.begin(); it != lockset_1.end();) {
     if (!lockset_2.contains(*it)) {
@@ -158,12 +158,13 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
     ThreadJoinNode *join_node = static_cast<ThreadJoinNode *>(node);
     return visit(join_node->next, lockset, funcs_seen, ctx);
   }
-  Context new_ctx = ctx;
-  // We ignore barriers in loops (epoch handling becomes too complicated)
-  if (!ctx.in_loop){
-    new_ctx.epoch++;
-  }
+  
   case NodeType::BARRIER: {
+    Context new_ctx = ctx;
+    // We ignore barriers in loops (epoch handling becomes too complicated)
+    if (!ctx.in_loop){
+      new_ctx.epoch++;
+    }
     return visit(node->getDefaultNextNode(), lockset, funcs_seen, new_ctx);
   }
 
