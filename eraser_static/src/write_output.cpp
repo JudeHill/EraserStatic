@@ -2,7 +2,7 @@
 
 void write_data_races(std::ofstream& out_stream, const DataRaceMap& data_race_map, bool write_all_races){
     out_stream << std::format("Found dataraces involving {} unique variables", data_race_map.by_var.size())
-               << std::format("With {} total unprotected accesses", data_race_map.by_id.size()) << "\n";
+               << std::format(" With {} total unprotected accesses", data_race_map.by_id.size()) << "\n";
     
     for (const auto &[var_name, data_races] : data_race_map.by_var) {
       int num_races_to_write = write_all_races ? data_races.size() : std::min<std::size_t>(ACCESSES_PER_VAR, data_races.size());
@@ -172,8 +172,9 @@ void write_output(const Filepath& filepath, const Results& results, bool write_a
     }
     write_data_races(out_stream, results.data_race_map, write_all_races);
     out_stream << "\n";
-    write_shared_variables(out_stream, results.shvar_results);
-    out_stream << "\n";
+    // We don't actually need to write the results of shared var finding, it is implicit in the subsequent results
+    // write_shared_variables(out_stream, results.shvar_results);
+    // out_stream << "\n";
     write_false_positives(out_stream, results.false_pos_results);
     out_stream << "\n";
     write_false_negatives(out_stream, results.false_neg_results);

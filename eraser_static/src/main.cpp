@@ -109,9 +109,10 @@ int main(int argc, char *argv[]) {
   std::cout << "DataRaceMap of size " << data_race_map->by_id.size() << " with by var "
             << data_race_map->by_var.size() << std::endl;
   if (opts.no_llms){
-    std::cout << "Writing output";
+    std::cout << "Writing output" << std::endl;
     write_output(opts.output_path, *data_race_map);
-    std::cout << "Finished";
+    std::cout << "Finished" << std::endl;
+    return 0;
   }
   std::cout << "Starting LLM analysis" << std::endl;
   SharedVarIdentifier shared_var_id;

@@ -291,6 +291,8 @@ bool Eraser::handle_write(LockName var_name, const LockSet& lockset, bool on_mai
 std::shared_ptr<DataRaceMap> Eraser::compute_data_races(FuncNodeMap func_map, FuncName main_name, bool debug_logging,
                            bool symmetric_join) {
   data_races.clear();
+  func_stack.clear();
+  func_stack.push_back({});
   assume_sym_join = symmetric_join;
   debug = debug_logging;
   start_nodes = func_map;
