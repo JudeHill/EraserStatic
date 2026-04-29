@@ -36,7 +36,7 @@ void write_false_positives(std::ofstream& out_stream, const FalsePosResults& fal
     out_stream << "LLM analysis of false positives of data races: " << "\n";
     for (const auto llm : all_llms){
         out_stream << get_llm_name(llm) << "\n";
-        for (const VarResult& var_result : false_pos_results.at(llm)){
+        for (const VarResult& var_result : false_pos_results.at(llm).var_results){
         out_stream << "Variable " << var_result.var_name << "\n";
         out_stream << (var_result.has_data_race ? "Has a data race" : "No data race") << "\n";
         out_stream << var_result.true_pos_accesses.size() << " true unprotected accesses, ";
