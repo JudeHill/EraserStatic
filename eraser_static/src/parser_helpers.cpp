@@ -249,7 +249,6 @@ void handleForStmtCond(CXCursor ForStmt, CXCursor cond, ConstructionEnvironment 
 
 
 WhileNode* handleForStmtIncrement(CXCursor ForStmt, CXCursor increment, ConstructionEnvironment *environment){
-    std::cout << "we got here" << std::endl;
     WhileNode* forNodeLoop = new WhileNode();
     environment->onAdd(forNodeLoop);
     environment->onAdd(new ContinueReturnNode());

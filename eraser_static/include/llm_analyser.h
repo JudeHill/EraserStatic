@@ -96,10 +96,17 @@ struct SummaryFalseNegResults {
 };
 
 std::string get_datarace_key(const DataRace& data_race);
-
-using FalsePosResult = std::vector<VarResult>;
+struct FalsePosResult {
+  std::vector<VarResult> var_results;
+  std::string response_str;
+};
 using FalsePosResults = std::unordered_map<LLM, FalsePosResult>;
-using JsonResults = std::unordered_map<LLM, std::vector<json>>;
+struct JsonResult {
+  std::vector<json> var_json;
+  std::string response_str;
+};
+using JsonResults = std::unordered_map<LLM, JsonResult>;
+
 
 class LLMAnalyser {
 public:

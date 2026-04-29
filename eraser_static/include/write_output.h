@@ -39,6 +39,6 @@ struct Options {
 
   void write_output(const Filepath& filepath, const Results& results, bool write_all_races = false);
   void write_output(const Filepath& filepath, const DataRaceMap& data_race_map, bool write_all_races = true);
-  void write_fp_eval_output(const Filepath& filepath, const EvalLLMResults& results, bool write_all_races = true);
+  void write_fp_eval_output(const Filepath& filepath, EvalLLMResults results, bool write_all_races = true);
   void write_fn_eval_output(const Filepath& filepath, EvalLLMResults results, bool write_all_races = true);
   

@@ -61,10 +61,13 @@ void write_false_positives(std::ofstream& out_stream, const FalsePosResults& fal
     }
 }
 
-void write_fp_eval(std::ostream& out_stream, const SummaryFalsePosResults& results){
+void write_fp_eval(std::ostream& out_stream, SummaryFalsePosResults& results){
     out_stream << "LLM analysis of false positives of data races: " << "\n";
     out_stream << "Jaccard agreement per LLM (data races on variables) ";
     for (const auto llm : all_llms){
+        if (!results.results.contains(llm)){
+            throw std::logic_error(std::format("Missing response from {}", get_llm_name(llm)));
+        }
         out_stream << get_llm_name(llm) << ": " << results.results.at(llm).jaccard_agreement.var_agreement << ", ";
     }
     out_stream << "\n" << "Jaccard agreement per LLM (unprotected accesses) ";
@@ -77,8 +80,8 @@ void write_fp_eval(std::ostream& out_stream, const SummaryFalsePosResults& resul
         out_stream << var << "\n";
         out_stream << "LLM votes that this variable actually has a race / not: ";
         for (const auto llm : all_llms){
-            out_stream << get_llm_name(llm) << ": " << results.results.at(llm).tp_votes_variables.at(var) << "/"
-             << results.results.at(llm).fp_votes_variables.at(var) << ", ";
+            out_stream << get_llm_name(llm) << ": " << results.results.at(llm).tp_votes_variables[var] << "/"
+             << results.results.at(llm).fp_votes_variables[var] << ", ";
         }
         out_stream << "\n";
         for (const auto llm : all_llms){
@@ -90,8 +93,8 @@ void write_fp_eval(std::ostream& out_stream, const SummaryFalsePosResults& resul
             out_stream << ", with id " << data_race->id << "\n";
             out_stream << "LLM votes that this access is actually unprotected / not: ";
             for (const auto llm : all_llms){
-                out_stream << get_llm_name(llm) << ": " << results.results.at(llm).tp_votes_accesses.at(data_race->id) << "/" 
-                << results.results.at(llm).fp_votes_accesses.at(data_race->id) << ", ";
+                out_stream << get_llm_name(llm) << ": " << results.results.at(llm).tp_votes_accesses[data_race->id] << "/" 
+                << results.results.at(llm).fp_votes_accesses[data_race->id] << ", ";
             }
             out_stream << "\n";
         }
@@ -189,7 +192,7 @@ void write_output(const Filepath& filepath, const DataRaceMap& data_race_map, bo
     write_data_races(out_stream, data_race_map, write_all_races);
 }
 
-void write_fp_eval_output(const Filepath& filepath, const EvalLLMResults& results, bool write_all_races){
+void write_fp_eval_output(const Filepath& filepath, EvalLLMResults results, bool write_all_races){
     auto out_stream = std::ofstream(filepath);
     if (!out_stream) {
         throw std::system_error(errno, std::generic_category(),

@@ -68,72 +68,132 @@ You are an expert C Concurrency Analyst. Your task is to perform a high-fidelity
 ### TASK DESCRIPTION
 Analyze the provided Source Code, Shared Variables list, and Race Report. Your goal is to find unprotected accesses that could participate in a data race, but which were NOT included in the Race Report.
 
+---
+
+### CRITICAL REGION RULE (MANDATORY FIRST STEP)
+Before performing ANY race reasoning, you MUST partition the program into **execution regions**.
+
+A new region begins at:
+1. Calls to `pthread_create` or `pthread_join` (transition between single-threaded and multithreaded execution)
+2. Every valid `pthread_barrier_wait`
+3. Any other synchronization that establishes a happens-before relationship
+
+STRICT RULES:
+- Accesses in DIFFERENT regions MUST NEVER be compared.
+- Two accesses separated by a valid barrier CANNOT race.
+- When a barrier is reached, ALL variable locksets RESET to FULL.
+- If a barrier exists but its correctness (e.g. thread count) is unclear, you MUST assume it is valid.
+- You MUST only identify unprotected accesses by comparing accesses that occur within the SAME region.
+
+FAILURE TO FOLLOW THIS RULE WILL RESULT IN INCORRECT ANALYSIS.
+
+---
+
 ### DEFINITIONS
-- A "Data Race" is defined as when one thread reads a shared variable x, and another writes to x. If these two accesses occur without a happens-before relation
-between them (e.g. commonly held lock, barrier between accesses, condition variable, etc.) then this is a data race.
-- For this task, you will identify locations in source code where data races **COULD** occur. For the purposes of this tool, we consider any 
-case where it is theoretically possible for a data race to occur to be a data race.
+
+- A "Data Race" is defined as when one thread reads a shared variable x, and another writes to x, and BOTH accesses occur within the SAME REGION without a happens-before relation (e.g. common lock, condition variable, etc.).
+- A Barrier (represented here by a call to pthread_barrier_wait) will block a thread at that barrier until ALL threads have reached that barrier. Specifically, if a thread is executing some code past the location of the call to pthread_barrier_wait, this NECESSARILY means that ALL threads MUST have passed the barrier, i.e. no thread can still be executing code BEFORE the barrier, this is IMPOSSIBLE. 
+- For this task, you will identify locations in source code where data races would occur, if the program were to be executed. We consider any case where it is theoretically possible for a data race to occur WITHIN A REGION to be a data race.
+
 - A "False Negative" is an unprotected access that is missing from the Race Report. This includes:
   1. accesses on shared variables that do not appear in the Race Report at all, and
   2. additional unprotected accesses on variables that do appear in the Race Report, where those specific accesses were omitted.
 
-- An "UNPROTECTED access" is defined as follows:
+---
 
-  An access to a shared variable is **UNPROTECTED** if it belongs to the smallest subset of accesses whose removal would eliminate all possible data races on that variable.
+### UNPROTECTED ACCESS DEFINITION
 
-  Formally:
-  - Consider all accesses to the variable within a program region (regions are delimited by barriers or changes in multithreaded execution).
-  - Identify the smallest subset of accesses such that, if those accesses were removed, the remaining accesses would share a non-empty common lockset.
-  - Mark exactly those accesses as UNPROTECTED.
+An access to a shared variable is **UNPROTECTED** if it belongs to the smallest subset of accesses (WITHIN A SINGLE REGION) whose removal would eliminate all possible data races on that variable.
 
-  Preconditions (must be checked first):
-  - If all accesses in the region are reads, then there are NO unprotected accesses.
-  - If all accesses in the region are performed by a single thread, then there are NO unprotected accesses.
+Formally:
+- Consider ONLY accesses within the SAME REGION.
+- Identify the smallest subset of accesses such that, if those accesses were removed, the remaining accesses would share a non-empty common lockset.
+- Mark exactly those accesses as UNPROTECTED.
 
-  Important:
-  - An access is NOT unprotected merely because it could participate in a data race.
-  - Multiple accesses may be unprotected.
-  - Later accesses may also be unprotected if they independently violate the common locking discipline.
-  - Only mark accesses whose removal is necessary to restore a consistent (non-empty) lockset across the remaining accesses.
+Preconditions (must be checked first, WITHIN EACH REGION):
+- If all accesses are reads → NO unprotected accesses.
+- If all accesses are performed by a single thread → NO unprotected accesses.
+
+Important:
+- An access is NOT unprotected merely because it could participate in a data race.
+- Multiple accesses may be unprotected.
+- Later accesses may also be unprotected if they independently violate the locking discipline.
+- Only mark accesses whose removal is necessary to restore a consistent lockset.
+- NEVER consider accesses across different regions.
+
+---
 
 ### CRITERIA FOR EVALUATION
+
 When determining whether an access is genuinely unprotected, consider:
-1. Mutual Exclusion: Is the access protected by a pthread_mutex that is also held on all conflicting accesses?
-2. Logical Partitioning: Are threads accessing disjoint memory locations (e.g., different array indices `arr[tid]`)?
-3. Barriers/Ordering: Is there an explicit synchronization barrier or signaling mechanism (e.g., `pthread_cond_wait`) ensuring sequential access?
-4. Multithreaded code: If the region in which the access occurs is not a multithreaded region of the code (i.e. before the calls to pthread_thread_create)
-  or after the calls to pthread_thread_join then any access cannot be considered unprotected, as there is no other running thread with which to form a data race.
-  Shared variable: If the variable is only accessed by one thread in this region of the code, then any access to it is NOT unprotected, since a data race can only be formed between different threads. 
-    Regions of code are split by barriers, or the multithreaded-ness of code: if the code changes from single-threaded to multithreaded, or vice versa, 
-    this is a new region of the code.  
+
+1. Mutual Exclusion:
+   Is the access protected by a pthread_mutex that is also held on all conflicting accesses within the SAME REGION?
+
+2. Logical Partitioning:
+   Are threads accessing disjoint memory locations (e.g., `arr[tid]`)? If so, NOT a race.
+
+3. Barriers / Ordering:
+   If accesses are separated by a barrier → THEY CANNOT RACE.
+   Do NOT compare them.
+
+4. Multithreaded Context:
+   - If the region is single-threaded → NO unprotected accesses.
+   - A variable must be accessed by at least TWO threads in the SAME REGION, and at least one access must be a write.
+
+5. Synchronisation Mechanisms:
+   Consider condition variables, signaling, or other ordering guarantees within the SAME REGION.
+
+---
+
+### HARD VALIDATION RULE (MUST FOLLOW)
+
+For EVERY access you report as unprotected:
+- You MUST be able to identify at least ONE conflicting access:
+  - in the SAME REGION
+  - from a DIFFERENT thread
+  - where at least one access is a write
+  - and where there is NO common protecting mechanism
+
+If the ONLY conflicting accesses are across a barrier or across regions:
+→ DO NOT REPORT IT.
+
+---
+
+### JUSTIFICATION GUIDELINES
+
+- The reasoning for each reported access should focus primarily on **WHY the data race exists**, not the step-by-step process used to discover it.
+- Clearly describe:
+  - the conflicting accesses (read/write across threads),
+  - the absence of mutual exclusion or other synchronization,
+  - and why they can occur concurrently within the same region.
+- Keep explanations **concise and direct**.
+- Do NOT describe the full lockset analysis procedure or region-partitioning process unless absolutely necessary.
+- Avoid meta-reasoning (e.g. “I checked…”, “the analysis shows…”). Instead, state the concurrency issue directly.
+
+---
 
 ### CONSTRAINTS
-- In the output, ONLY include shared variables which have at least one unprotected access that is NOT already included in the input Data Race Report.
-- Only report accesses that are missing from the Data Race Report. Do NOT repeat accesses that are already present in the input report.
-- A variable should appear in the output if and only if it has at least one missing unprotected access.
-- The output is intended to extend the existing Data Race Report with missed unprotected accesses.
-- You should not include protected accesses, even if they are absent from the Data Race Report.
-- If no false negatives are found - i.e. there are no missing unprotected accesses - you should return an **EMPTY LIST** in the variables field.
-- There is a space for reasoning / justification. This is a complex problem, so take time to think. Put any justification in this box, but keep it **CONCISE**.
-- Each access should include its source location: line, column, and filename.
-- The "name" field in variables should contain **ONLY** the name of the variable and NOTHING ELSE. Anything else should be left for the reasoning section.
-- "Access Type" can be STRICTLY either "read" or "write". For increments, you should report TWO accesses, one "read" and one "write".
-- Do not invent accesses that are impossible according to the source code. Only report accesses explicitly present in the code.
-- Be careful to distinguish between:
-  - a variable already reported as racing, but with additional missed unprotected accesses, and
-  - a variable omitted entirely from the Race Report.
-- It is entirely possible that some or all of the accesses in the given Data Race Report are false positives (i.e., they are not actually unprotected). You should not concern yourself with this. 
-- It is VERY COMMON that there will be NO false negatives for you to find. In this case, you should return an EMPTY LIST. Prioritise **ACCURACY** (i.e. correct classification)
-  over SAFETY (overapproximating and assuming many things are unprotected.)
-- Make sure an access you report as unprotected can ACTUALLY be part of a data race before you do so. It must meet the following criteria to qualify:
-  - Be in a multithreaded region of the code
-  - Be in a region of the code (delimited by barriers or thread creation/joining) where AT LEAST TWO threads access the variable and AT LEAST ONE writes to it.
-  - Not be protected by the same mutex as all other accesses to that variable in that region of code
-  - Not be protected by another synchronisation mechanism or mechanisms of some form
-  - NOTE: A variable access not being protected by a mutex is NOT (alone) enough to qualify it as unprotected.
+
+- ONLY include shared variables which have at least one unprotected access NOT already in the Race Report.
+- DO NOT repeat accesses already listed in the Race Report.
+- A variable appears in output ONLY if it has at least one missing unprotected access.
+- You should not include protected accesses.
+- It is VERY COMMON that there are FEW or NO false negatives → returning an EMPTY LIST is valid.
+- Prioritise ACCURACY over over-approximation.
+- Do NOT invent accesses not present in the code.
+- Distinguish carefully between:
+  - variables missing entirely from the report
+  - variables with additional missed accesses
+- Ignore whether the existing report contains false positives.
+- Each reported access MUST be capable of forming a real data race within its region.
+
+---
 
 ### OUTPUT FORMAT
+
 You must respond strictly in the following JSON schema:
+
 {"variables": [
   {
     "name": "string",
@@ -148,6 +208,8 @@ You must respond strictly in the following JSON schema:
     ]
   }
 ]}
+
+---
 
 ### INPUT DATA
 ---
@@ -197,7 +259,7 @@ RaceType convert_access_type(const std::string &access_type) {
 }
 
 void dump_LLM_result(const FalsePosResult &result) {
-  for (const auto &var_result : result) {
+  for (const auto &var_result : result.var_results){
     std::cout << "Var result for var " << var_result.var_name << std::endl;
     std::cout << (var_result.has_data_race ? "Yes data race" : "No data race") << std::endl;
     std::cout << "False pos votes: " << std::endl;
@@ -440,12 +502,16 @@ JsonResults LLMAnalyser::FilterFalsePositives(const DataRaceMap &data_race_map,
   }
   displayed = true;
   JsonResults responses;
-  std::unordered_map<LLM, std::future<std::vector<json>>> futures;
+  std::unordered_map<LLM, std::future<JsonResult>> futures;
   for (const auto llm : all_llms) {
     futures[llm] = std::async(std::launch::async, [this, prompt, schema, llm] {
-      return this->llm_handler.PromptWithRetries(prompt, schema, llm)
+      json response = this->llm_handler.PromptWithRetries(prompt, schema, llm);
+      return JsonResult{
+        .var_json = response
           .at("variables")
-          .get<std::vector<json>>();
+          .get<std::vector<json>>(),
+        .response_str = response.dump(4),
+      };
     });
   }
   for (auto &[llm, task] : futures) {
@@ -460,7 +526,7 @@ void LLMAnalyser::TestFilterFalsePositives(const DataRaceMap &data_race_map,
   JsonResults results = FilterFalsePositives(data_race_map, shvar_results);
   for (const auto &[llm, result] : results) {
     std::cout << get_llm_name(llm) << std::endl;
-    for (const auto &var_result : result) {
+    for (const auto &var_result : result.var_json) {
       std::cout << var_result.dump(4) << std::endl;
     }
   }
@@ -470,7 +536,7 @@ FalsePosResults LLMAnalyser::ParseFalsePosResults(const JsonResults &json_result
   FalsePosResults results;
   for (const auto llm : all_llms) {
     FalsePosResult result;
-    for (const auto &var_result_json : json_results.at(llm)) {
+    for (const auto &var_result_json : json_results.at(llm).var_json) {
       VarResult var_result;
       var_result.has_data_race = var_result_json.at("data_race").get<bool>();
       var_result.var_name = var_result_json.at("name").get<std::string>();
@@ -507,7 +573,8 @@ FalsePosResults LLMAnalyser::ParseFalsePosResults(const JsonResults &json_result
           var_result.false_pos_accesses[id] = llm_data_race;
         }
       }
-      result.push_back(var_result);
+      result.var_results.push_back(var_result);
+      
     }
     results[llm] = result;
   }
@@ -577,17 +644,22 @@ JsonResults LLMAnalyser::FindFalseNegatives(const DataRaceMap &data_race_map,
   }
   std::string_view prompt = oss.view();
   JsonResults responses;
-  std::unordered_map<LLM, std::future<std::vector<json>>> futures;
+  std::unordered_map<LLM, std::future<JsonResult>> futures;
   for (const auto llm : all_llms) {
     futures[llm] = std::async(std::launch::async, [this, prompt, schema, llm] {
-      return this->llm_handler.PromptWithRetries(prompt, schema, llm)
+      json response = this->llm_handler.PromptWithRetries(prompt, schema, llm);
+      return JsonResult{
+        .var_json = response
           .at("variables")
-          .get<std::vector<json>>();
+          .get<std::vector<json>>(),
+        .response_str = response.dump(4),
+      };
     });
   }
   for (auto &[llm, task] : futures) {
     responses[llm] = task.get();
   }
+
 
   return responses;
 }
@@ -596,7 +668,7 @@ FalseNegResults LLMAnalyser::ParseFalseNegResults(const JsonResults &json_result
   FalseNegResults results;
   for (const auto llm : all_llms) {
     FalseNegResult result;
-    for (const auto &var_result_json : json_results.at(llm)) {
+    for (const auto &var_result_json : json_results.at(llm).var_json) {
       FalseNegVarResult var_result;
       var_result.var_name = var_result_json.at("name").get<std::string>();
       for (const json &access_json : var_result_json.at("accesses").get<std::vector<json>>()) {
@@ -664,7 +736,7 @@ LLMAnalyser::EvalFalsePosLLMConsistency(const DataRaceMap &data_race_map,
   for (const auto &result : results) {
     for (const auto &[llm, llm_result] : result) {
       FalsePosRunInfo run_info;
-      for (const auto &var_result : llm_result) {
+      for (const auto &var_result : llm_result.var_results) {
         std::string var_name_key;
         try {
           var_name_key = get_var_name_key(var_result, data_race_map);
@@ -700,13 +772,20 @@ LLMAnalyser::EvalFalsePosLLMConsistency(const DataRaceMap &data_race_map,
         size_t num_vars = last.var_votes_fp.size() + last.var_votes_tp.size();
         size_t new_num_accesses = run_info.access_votes_fp.size() + run_info.access_votes_tp.size();
         size_t new_num_vars = run_info.var_votes_fp.size() + run_info.var_votes_tp.size();
+        bool inconsistency = false;
         if (num_accesses != new_num_accesses) {
           std::cout << "Inconsistent number of access votes: " << num_accesses
                     << " votes in last run, but " << new_num_accesses << " votes now" << std::endl;
+          inconsistency = true;
         }
         if (num_vars != new_num_vars) {
           std::cout << "Inconsistent number of var votes: " << num_vars
                     << " votes in last run, but " << new_num_vars << " votes now" << std::endl;
+          inconsistency = true;
+        }
+        if (inconsistency) {
+          std::cout << "Dumping response" << std::endl;
+          std::cout << llm_result.response_str << std::endl;
         }
       }
       run_infos[llm].push_back(run_info);
