@@ -1,0 +1,5 @@
+Found dataraces involving 2 unique variables With 2 total unprotected accesses
+demo_prog.c 0 0 b: 1 unprotected accesses
+Write in file demo_prog.c at line 29, position 3
+demo_prog.c 0 0 data: 1 unprotected accesses
+Write in file demo_prog.c at line 22, position 3

@@ -1,0 +1,8 @@
+Found dataraces involving 3 unique variables With 4 total unprotected accesses
+write_then_read_complex.c 0 0 data: 1 unprotected accesses
+Write in file write_then_read_complex.c at line 72, position 7
+write_then_read_complex.c 0 0 hist: 2 unprotected accesses
+Read in file write_then_read_complex.c at line 62, position 22
+Read in file write_then_read_complex.c at line 63, position 24
+write_then_read_complex.c 0 0 global_sum: 1 unprotected accesses
+Read in file write_then_read_complex.c at line 61, position 29

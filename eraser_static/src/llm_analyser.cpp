@@ -19,7 +19,8 @@ When determining if a race is a False Positive, consider:
 3. Barriers/Ordering: Is there an explicit synchronization barrier or signaling mechanism (e.g., `pthread_cond_wait`) ensuring sequential access?
 
 ### CONSTRAINTS
-- In the output, ONLY include shared variables which have at least one unprotected access according to the data race report given. 
+- In the output, ONLY include shared variables which **ARE IN THE DATA RACE REPORT** given.
+- Include **ALL** variables **THAT ARE IN THE DATA RACE REPORT**. If the data race report is non-empty, your response SHOULD NOT BE EMPTY.  
 - If an access is "unprotected", this means there is a possibility for this access to be part of a data race (e.g. due to not holding a common lock / not
 having a barrier between accesses. An unprotected access on a variable x implies that x has at least one data race, hence the "data_race" field
 of x should be set to true if one of x's accesses is unprotected
@@ -536,6 +537,7 @@ FalsePosResults LLMAnalyser::ParseFalsePosResults(const JsonResults &json_result
   FalsePosResults results;
   for (const auto llm : all_llms) {
     FalsePosResult result;
+    result.response_str = json_results.at(llm).response_str;
     for (const auto &var_result_json : json_results.at(llm).var_json) {
       VarResult var_result;
       var_result.has_data_race = var_result_json.at("data_race").get<bool>();

@@ -1,0 +1,3 @@
+Found dataraces involving 1 unique variables With 1 total unprotected accesses
+write_then_read_2.c 0 0 cur: 1 unprotected accesses
+Read in file write_then_read_2.c at line 29, position 40
