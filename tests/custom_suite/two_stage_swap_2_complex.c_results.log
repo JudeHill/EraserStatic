@@ -1,4 +1,0 @@
-Found dataraces involving 1 unique variables With 2 total unprotected accesses
-two_stage_swap_2_complex.c 0 0 checksum: 2 unprotected accesses
-Read in file two_stage_swap_2_complex.c at line 78, position 3
-Write in file two_stage_swap_2_complex.c at line 78, position 3
