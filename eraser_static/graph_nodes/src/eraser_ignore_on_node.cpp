@@ -1,10 +1,10 @@
-/* 
+/*
  * This file is part of EraserStatic
  *
  * Original code from: Eraser-CD
  * (https://github.com/ProgrammerByte/Eraser-CD)
  *
- * Copyright (C) 2025 Thomas Pompay
+ * Copyright (C) 2025 Thomas Popay
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,10 +23,7 @@
 #include "eraser_ignore_on_node.h"
 #include "node_types.h"
 
-EraserIgnoreOnNode::EraserIgnoreOnNode()
-    : BasicNode::BasicNode(NodeType::ERASER_IGNORE_ON) {}
+EraserIgnoreOnNode::EraserIgnoreOnNode() : BasicNode::BasicNode(NodeType::ERASER_IGNORE_ON) {}
 EraserIgnoreOnNode::~EraserIgnoreOnNode() = default;
 
-std::string EraserIgnoreOnNode::getPrintableName() {
-  return "Eraser ignore on";
-}
+std::string EraserIgnoreOnNode::getPrintableName() { return "Eraser ignore on"; }

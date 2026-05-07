@@ -1,12 +1,12 @@
-/* 
+/*
  * This file was originally part of Eraser-CD
  * (https://github.com/ProgrammerByte/Eraser-CD)
  *
- * Copyright (C) 2025 Thomas Pompay
+ * Copyright (C) 2025 Thomas Popay
  * Copyright (C) 2026 Jude Hill <jude-stephen-hill@outlook.com>
  *
  * This file was modified by Jude Hill in 2026 for use in EraserStatic.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -22,15 +22,15 @@
  */
 
 #pragma once
+#include "usings.h"
 #include <cstdio>
 #include <fstream>
 #include <iostream>
 #include <sqlite3.h>
 #include <string>
-#include <vector>
 #include <unordered_map>
 #include <unordered_set>
-#include "usings.h"
+#include <vector>
 
 class CallGraph {
 public:
@@ -38,17 +38,15 @@ public:
   virtual ~CallGraph() = default;
   void addNode(std::string funcName, Filename fileName);
   void addEdge(std::string caller, std::string callee, bool onThread);
-  std::vector<std::string>
-  deltaLocksetOrdering(std::vector<std::string> functions);
-  std::vector<std::string>
-  functionVariableLocksetsOrdering(std::vector<std::string> functions);
+  std::vector<std::string> deltaLocksetOrdering(std::vector<std::string> functions);
+  std::vector<std::string> functionVariableLocksetsOrdering(std::vector<std::string> functions);
   bool shouldVisitNode(std::string funcName);
   void markNodesAsStale(std::string fileName);
   void deleteStaleNodes();
   std::string getFilenameFromFuncname(std::string funcName);
 
 private:
-  struct FuncInfo{
+  struct FuncInfo {
     std::string funcname;
     Filename filename;
     bool stale;
@@ -62,16 +60,14 @@ private:
   using CallInfo = u_int8_t;
   const CallInfo onThreadEdge = 1;
   const CallInfo notOnThreadEdge = 1 << 1;
-  
-  
 
   struct PairHash {
-    std::size_t operator()(const std::pair<std::string, std::string>& p) const noexcept {
-        auto h1 = std::hash<std::string>{}(p.first);
-        auto h2 = std::hash<std::string>{}(p.second);
+    std::size_t operator()(const std::pair<std::string, std::string> &p) const noexcept {
+      auto h1 = std::hash<std::string>{}(p.first);
+      auto h2 = std::hash<std::string>{}(p.second);
 
-        // Combine hashes (standard technique)
-        return h1 ^ (h2 + 0x9e3779b97f4a7c15ULL + (h1 << 6) + (h1 >> 2));
+      // Combine hashes (standard technique)
+      return h1 ^ (h2 + 0x9e3779b97f4a7c15ULL + (h1 << 6) + (h1 >> 2));
     }
   };
 
@@ -81,4 +77,3 @@ private:
   std::vector<std::string> getNextNodes(std::vector<std::string> &order);
   void markNodes(std::vector<std::string> &startNodes, bool reverse);
 };
-

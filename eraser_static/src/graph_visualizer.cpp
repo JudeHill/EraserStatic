@@ -1,12 +1,12 @@
-/* 
+/*
  * This file was originally part of Eraser-CD
  * (https://github.com/ProgrammerByte/Eraser-CD)
  *
- * Copyright (C) 2025 Thomas Pompay
+ * Copyright (C) 2025 Thomas Popay
  * Copyright (C) 2026 Jude Hill <jude-stephen-hill@outlook.com>
  *
  * This file was modified by Jude Hill in 2026 for use in EraserStatic.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -22,11 +22,11 @@
  */
 
 #include "graph_visualizer.h"
+#include <format>
 #include <fstream>
 #include <functional>
 #include <iostream>
 #include <sstream>
-#include <format>
 static uint16_t graph_number = 0;
 
 template <typename T> std::string GraphVisualizer::pointerToString(T *ptr) {
@@ -80,13 +80,11 @@ void GraphVisualizer::visualizeGraph(StartNode *node) {
 
   file << "digraph G {\n";
   for (GraphNode *node : nodes) {
-    file << "  " << pointerToString(node) << " [label=\"" << nodeNames[node]
-         << "\"];\n";
+    file << "  " << pointerToString(node) << " [label=\"" << nodeNames[node] << "\"];\n";
   }
   for (GraphNode *start : nodes) {
     for (GraphNode *end : adjacencyMatrix[start]) {
-      file << "  " << pointerToString(start) << " -> " << pointerToString(end)
-           << ";\n";
+      file << "  " << pointerToString(start) << " -> " << pointerToString(end) << ";\n";
     }
   }
   file << "}\n";

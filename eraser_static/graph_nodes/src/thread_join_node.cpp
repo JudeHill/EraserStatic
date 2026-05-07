@@ -1,10 +1,10 @@
-/* 
+/*
  * This file is part of EraserStatic
  *
  * Original code from: Eraser-CD
  * (https://github.com/ProgrammerByte/Eraser-CD)
  *
- * Copyright (C) 2025 Thomas Pompay
+ * Copyright (C) 2025 Thomas Popay
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,12 +24,10 @@
 #include "node_types.h"
 
 ThreadJoinNode::ThreadJoinNode(std::string varName, bool global)
-    : varName(varName),
-      global(global), BasicNode::BasicNode(NodeType::THREAD_JOIN) {}
+    : varName(varName), global(global), BasicNode::BasicNode(NodeType::THREAD_JOIN) {}
 
 ThreadJoinNode::~ThreadJoinNode() = default;
 
 std::string ThreadJoinNode::getPrintableName() {
-  return "pthread_join " + std::string(global ? "global " : "") +
-         "var: " + varName;
+  return "pthread_join " + std::string(global ? "global " : "") + "var: " + varName;
 }

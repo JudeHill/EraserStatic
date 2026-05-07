@@ -1,10 +1,10 @@
-/* 
+/*
  * This file is part of EraserStatic
  *
  * Original code from: Eraser-CD
  * (https://github.com/ProgrammerByte/Eraser-CD)
  *
- * Copyright (C) 2025 Thomas Pompay
+ * Copyright (C) 2025 Thomas Popay
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,14 +23,12 @@
 #include "thread_create_node.h"
 #include "node_types.h"
 
-ThreadCreateNode::ThreadCreateNode(std::string functionName,
-                                   std::string varName, bool global)
-    : functionName(functionName), varName(varName),
-      global(global), BasicNode::BasicNode(NodeType::THREAD_CREATE) {}
+ThreadCreateNode::ThreadCreateNode(std::string functionName, std::string varName, bool global)
+    : functionName(functionName), varName(varName), global(global),
+      BasicNode::BasicNode(NodeType::THREAD_CREATE) {}
 
 ThreadCreateNode::~ThreadCreateNode() = default;
 
 std::string ThreadCreateNode::getPrintableName() {
-  return "pthread_create " + functionName + ", " + (global ? "global " : "") +
-         "var: " + varName;
+  return "pthread_create " + functionName + ", " + (global ? "global " : "") + "var: " + varName;
 }

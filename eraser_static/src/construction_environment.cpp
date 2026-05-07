@@ -2,7 +2,7 @@
  * This file was originally part of Eraser-CD
  * (https://github.com/ProgrammerByte/Eraser-CD)
  *
- * Copyright (C) 2025 Thomas Pompay
+ * Copyright (C) 2025 Thomas Popay
  * Copyright (C) 2026 Jude Hill <jude-stephen-hill@outlook.com>
  *
  * This file was modified by Jude Hill in 2026 for use in EraserStatic.

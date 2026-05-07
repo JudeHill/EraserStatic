@@ -1,10 +1,10 @@
-/* 
+/*
  * This file is part of EraserStatic
  *
  * Original code from: Eraser-CD
  * (https://github.com/ProgrammerByte/Eraser-CD)
  *
- * Copyright (C) 2025 Thomas Pompay
+ * Copyright (C) 2025 Thomas Popay
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,12 +20,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
 #include "lock_node.h"
 #include "node_types.h"
 
-LockNode::LockNode(std::string varName)
-    : varName(varName), BasicNode::BasicNode(NodeType::LOCK) {}
+LockNode::LockNode(std::string varName) : varName(varName), BasicNode::BasicNode(NodeType::LOCK) {}
 LockNode::~LockNode() = default;
 
 std::string LockNode::getPrintableName() { return "Lock " + varName; }

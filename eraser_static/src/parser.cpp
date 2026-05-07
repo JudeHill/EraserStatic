@@ -1,12 +1,12 @@
-/* 
+/*
  * This file was originally part of Eraser-CD
  * (https://github.com/ProgrammerByte/Eraser-CD)
  *
- * Copyright (C) 2025 Thomas Pompay
+ * Copyright (C) 2025 Thomas Popay
  * Copyright (C) 2026 Jude Hill <jude-stephen-hill@outlook.com>
  *
  * This file was modified by Jude Hill in 2026 for use in EraserStatic.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -23,12 +23,10 @@
 
 #include "parser.h"
 
-
 static std::unordered_map<std::string, bool> funcMap = {};
 static std::vector<std::string> functions = {};
 static std::set<std::string> functionDeclarations = {};
-static std::vector<std::unordered_map<std::string, VariableInfo>> scopeStack =
-    {};
+static std::vector<std::unordered_map<std::string, VariableInfo>> scopeStack = {};
 static std::vector<unsigned int> scopeNums = {0};
 static int inFunc = 0;
 static int scopeDepth = 0;
@@ -40,7 +38,7 @@ static std::string startNodeFuncName;
 static ConstructionEnvironment *environment;
 static bool updateCallGraph;
 static bool eraserIgnoreOn = false;
-static std::vector<IfNode*> if_stack;
+static std::vector<IfNode *> if_stack;
 
 std::unordered_map<std::string, StartNode *> funcCfgs;
 
@@ -52,17 +50,13 @@ struct ForChildInfo {
 
 static std::vector<ForChildInfo> forStack;
 
-
-Parser::Parser(CallGraph *callGraph_, FileIncludes *fileIncludes_):
-callGraph(callGraph_), fileIncludes(fileIncludes_)
-{
+Parser::Parser(CallGraph *callGraph_, FileIncludes *fileIncludes_)
+    : callGraph(callGraph_), fileIncludes(fileIncludes_) {
   funcCfgs = {};
   environment = new ConstructionEnvironment();
 }
 
-FuncNodeMap Parser::getFunctionCfgs(){
-  return funcCfgs;
-}
+FuncNodeMap Parser::getFunctionCfgs() { return funcCfgs; }
 
 std::string getCursorFilename(CXCursor cursor) {
   CXSourceLocation location = clang_getCursorLocation(cursor);
@@ -100,8 +94,7 @@ LhsType assignmentOperatorType(CXCursor parent) {
 
     if (parentKind == CXCursor_BinaryOperator && token == "=") {
       result = LhsType::LHS_WRITE;
-    } else if (parentKind == CXCursor_UnaryOperator &&
-               (token == "++" || token == "--")) {
+    } else if (parentKind == CXCursor_UnaryOperator && (token == "++" || token == "--")) {
       result = LhsType::LHS_READ_AND_WRITE;
     } else if (parentKind == CXCursor_CompoundAssignOperator) {
       result = LhsType::LHS_READ_AND_WRITE;
@@ -132,13 +125,10 @@ VariableInfo findVariableInfo(std::string varName) {
 }
 
 bool isSharedVar(struct VariableInfo variableInfo) {
-  return !variableInfo.isAtomic &&
-         (variableInfo.isStatic || variableInfo.scopeDepth == 0);
+  return !variableInfo.isAtomic && (variableInfo.isStatic || variableInfo.scopeDepth == 0);
 }
 
-bool isSharedVar(std::string varName) {
-  return isSharedVar(findVariableInfo(varName));
-}
+bool isSharedVar(std::string varName) { return isSharedVar(findVariableInfo(varName)); }
 
 std::string getVariableName(std::string varName, CXCursor cursor,
                             struct VariableInfo variableInfo) {
@@ -154,7 +144,6 @@ std::string getVariableName(std::string varName, CXCursor cursor) {
   return getVariableName(varName, cursor, findVariableInfo(varName));
 }
 
-
 std::string getNthArg(CXCursor cursor, int targetArg, bool isPtr = false) {
   struct ArgClientData {
     int targetArg;
@@ -168,13 +157,11 @@ std::string getNthArg(CXCursor cursor, int targetArg, bool isPtr = false) {
   clang_visitChildren(
       cursor,
       [](CXCursor c, CXCursor parent, CXClientData clientData) {
-        struct ArgClientData *argClientData =
-            reinterpret_cast<struct ArgClientData *>(clientData);
+        struct ArgClientData *argClientData = reinterpret_cast<struct ArgClientData *>(clientData);
 
         if (argClientData->argNum == argClientData->targetArg) {
           argClientData->argCursor = &c;
-          if (argClientData->isPtr &&
-              clang_getCursorKind(c) == CXCursor_UnaryOperator) {
+          if (argClientData->isPtr && clang_getCursorKind(c) == CXCursor_UnaryOperator) {
             argClientData->isPtr = false;
             return CXChildVisit_Recurse;
           }
@@ -211,9 +198,7 @@ std::string getFuncName(CXCursor cursor, std::string funcName) {
   return funcName;
 }
 
-
-void classifyVariable(CXCursor cursor, LhsType lhsType,
-                      std::vector<GraphNode *> *nodesToAdd) {
+void classifyVariable(CXCursor cursor, LhsType lhsType, std::vector<GraphNode *> *nodesToAdd) {
   CXString varNameObj = clang_getCursorSpelling(cursor);
   std::string varName = clang_getCString(varNameObj);
   clang_disposeString(varNameObj);
@@ -221,20 +206,17 @@ void classifyVariable(CXCursor cursor, LhsType lhsType,
   CXCursorKind cursorKind = clang_getCursorKind(cursor);
   CXType cursorType = clang_getCursorType(cursor);
 
-  if (cursorKind == CXCursor_DeclRefExpr &&
-      cursorType.kind == CXType_FunctionProto) {
+  if (cursorKind == CXCursor_DeclRefExpr && cursorType.kind == CXType_FunctionProto) {
     return;
   }
 
   struct VariableInfo variableInfo;
-  bool isDeclaration =
-      cursorKind == CXCursor_VarDecl || cursorKind == CXCursor_ParmDecl;
+  bool isDeclaration = cursorKind == CXCursor_VarDecl || cursorKind == CXCursor_ParmDecl;
 
   CXString typeSpelling = clang_getTypeSpelling(cursorType);
   std::string typeString = clang_getCString(typeSpelling);
   if (isDeclaration) {
-    variableInfo.isStatic =
-        clang_Cursor_getStorageClass(cursor) == CX_SC_Static;
+    variableInfo.isStatic = clang_Cursor_getStorageClass(cursor) == CX_SC_Static;
     variableInfo.isAtomic = typeString.find("_Atomic") != std::string::npos;
     variableInfo.scopeDepth = scopeDepth;
     variableInfo.scopeNum = scopeNums[scopeDepth];
@@ -243,8 +225,7 @@ void classifyVariable(CXCursor cursor, LhsType lhsType,
   } else {
     variableInfo = findVariableInfo(varName);
   }
-  if (variableInfo.isAtomic ||
-      (!variableInfo.isStatic && variableInfo.scopeDepth > 0)) {
+  if (variableInfo.isAtomic || (!variableInfo.isStatic && variableInfo.scopeDepth > 0)) {
     return;
   }
   if (typeString.find("pthread_mutex_t") != std::string::npos) {
@@ -263,7 +244,7 @@ void classifyVariable(CXCursor cursor, LhsType lhsType,
     if (lhsType == LhsType::LHS_WRITE) {
       (*nodesToAdd).push_back(new WriteNode(varName, clang_getCursorLocation(cursor)));
     } else if (lhsType == LhsType::LHS_READ_AND_WRITE) {
-      (*nodesToAdd).push_back(new ReadNode(varName,clang_getCursorLocation(cursor)));
+      (*nodesToAdd).push_back(new ReadNode(varName, clang_getCursorLocation(cursor)));
       (*nodesToAdd).push_back(new WriteNode(varName, clang_getCursorLocation(cursor)));
     } else {
       environment->onAdd(new ReadNode(varName, clang_getCursorLocation(cursor)));
@@ -271,12 +252,10 @@ void classifyVariable(CXCursor cursor, LhsType lhsType,
   }
 }
 
-BranchType getBranchType(CXCursor cursor, CXCursor parent,
-                         unsigned int childIndex) {
+BranchType getBranchType(CXCursor cursor, CXCursor parent, unsigned int childIndex) {
   CXCursorKind cursorKind = clang_getCursorKind(cursor);
   CXCursorKind parentKind = clang_getCursorKind(parent);
-  if (parentKind == CXCursor_IfStmt ||
-      parentKind == CXCursor_ConditionalOperator) {
+  if (parentKind == CXCursor_IfStmt || parentKind == CXCursor_ConditionalOperator) {
     if (childIndex == 1) {
       return BranchType::BRANCH_IF;
     } else if (childIndex == 2 && cursorKind == CXCursor_IfStmt) {
@@ -310,81 +289,78 @@ BranchType getBranchType(CXCursor cursor, CXCursor parent,
 
 static bool isStmtLike(CXCursorKind k) {
   switch (k) {
-    case CXCursor_CompoundStmt:
-    case CXCursor_IfStmt:
-    case CXCursor_ForStmt:
-    case CXCursor_WhileStmt:
-    case CXCursor_DoStmt:
-    case CXCursor_SwitchStmt:
-    case CXCursor_ReturnStmt:
-    case CXCursor_BreakStmt:
-    case CXCursor_ContinueStmt:
-    case CXCursor_GotoStmt:
-    case CXCursor_LabelStmt:
-    case CXCursor_CaseStmt:
-    case CXCursor_DefaultStmt:
-    case CXCursor_NullStmt:
-      return true;
-    default:
-      return false;
+  case CXCursor_CompoundStmt:
+  case CXCursor_IfStmt:
+  case CXCursor_ForStmt:
+  case CXCursor_WhileStmt:
+  case CXCursor_DoStmt:
+  case CXCursor_SwitchStmt:
+  case CXCursor_ReturnStmt:
+  case CXCursor_BreakStmt:
+  case CXCursor_ContinueStmt:
+  case CXCursor_GotoStmt:
+  case CXCursor_LabelStmt:
+  case CXCursor_CaseStmt:
+  case CXCursor_DefaultStmt:
+  case CXCursor_NullStmt:
+    return true;
+  default:
+    return false;
   }
 }
 
-BranchType getBranchTypeGPT(CXCursor cursor, CXCursor parent,
-  unsigned int childIndex) {
+BranchType getBranchTypeGPT(CXCursor cursor, CXCursor parent, unsigned int childIndex) {
   CXCursorKind cursorKind = clang_getCursorKind(cursor);
   CXCursorKind parentKind = clang_getCursorKind(parent);
 
-  if (parentKind == CXCursor_IfStmt ||
-    parentKind == CXCursor_ConditionalOperator) {
+  if (parentKind == CXCursor_IfStmt || parentKind == CXCursor_ConditionalOperator) {
     if (childIndex == 1) {
-    return BranchType::BRANCH_IF;
+      return BranchType::BRANCH_IF;
     } else if (childIndex == 2 && cursorKind == CXCursor_IfStmt) {
-    return BranchType::BRANCH_ELSE_IF;
+      return BranchType::BRANCH_ELSE_IF;
     } else if (childIndex == 2) {
-    return BranchType::BRANCH_ELSE;
+      return BranchType::BRANCH_ELSE;
     }
   } else if (parentKind == CXCursor_WhileStmt) {
-  if (childIndex == 0) {
-  return BranchType::BRANCH_STARTWHILE;
-  } else if (childIndex == 1) {
-  return BranchType::BRANCH_WHILE;
-  }
+    if (childIndex == 0) {
+      return BranchType::BRANCH_STARTWHILE;
+    } else if (childIndex == 1) {
+      return BranchType::BRANCH_WHILE;
+    }
   } else if (parentKind == CXCursor_DoStmt) {
-  if (childIndex == 0) {
-  return BranchType::BRANCH_DO_WHILE_START;
-  } else if (childIndex == 1) {
-  return BranchType::BRANCH_DO_WHILE_COND;
-  }
+    if (childIndex == 0) {
+      return BranchType::BRANCH_DO_WHILE_START;
+    } else if (childIndex == 1) {
+      return BranchType::BRANCH_DO_WHILE_COND;
+    }
   } else if (parentKind == CXCursor_ForStmt) {
 
     ForChildInfo &info = forStack.back();
     unsigned int count_children = getCachedChildCount(parent);
-    // BIG assumption: 
+    // BIG assumption:
     // We assume all for loops are either: for(;;){body}
     // or for(;cond;) {body}, or for(;cond;increment){body}
     // or for(init;cond;inc) {body}
-    // This is not necessarily true, but is better than what we had before. 
-    if (count_children == 1){
+    // This is not necessarily true, but is better than what we had before.
+    if (count_children == 1) {
       // Special case: for(;;).
       // TODO: figure out how to handle this
       return BranchType::BRANCH_FOR;
     }
-    if (childIndex == count_children - 1){
+    if (childIndex == count_children - 1) {
       return BranchType::BRANCH_FOR;
     }
-    if (count_children == 2){
+    if (count_children == 2) {
       return BranchType::BRANCH_FOR_START;
     }
 
-    if (count_children == 3){
-      if (childIndex == 1){
+    if (count_children == 3) {
+      if (childIndex == 1) {
         return BranchType::BRANCH_FOR_START;
       }
     }
 
-
-    if (count_children == 4){
+    if (count_children == 4) {
       if (childIndex == 1) {
         return BranchType::BRANCH_FOR_START;
       } else if (childIndex == 2) {
@@ -405,14 +381,14 @@ void onNewScope() {
   }
 }
 
-void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd, CallGraph *callGraph) {
+void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd,
+                        CallGraph *callGraph) {
   std::string caller = funcName;
   std::string funcName = clang_getCString(clang_getCursorSpelling(cursor));
   if (funcName == "EraserIgnoreOff") {
     eraserIgnoreOn = false;
     environment->onAdd(new EraserIgnoreOffNode());
-  } else if (funcName == "pthread_mutex_lock" ||
-    funcName == "pthread_mutex_unlock") {
+  } else if (funcName == "pthread_mutex_lock" || funcName == "pthread_mutex_unlock") {
     std::string spelling = getNthArg(cursor, 1, true);
     VariableInfo variableInfo = findVariableInfo(spelling);
     if (isSharedVar(variableInfo)) {
@@ -431,13 +407,13 @@ void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd, C
     // if (varName != "") {
     environment->onAdd(new ThreadJoinNode(varName, global));
     // }
-  } else if (funcName == "pthread_barrier_wait" && !ignoreBarriers){
+  } else if (funcName == "pthread_barrier_wait" && !ignoreBarriers) {
     std::string spelling = getNthArg(cursor, 1);
     VariableInfo variableInfo = findVariableInfo(spelling);
     std::string varName = getVariableName(spelling, cursor, variableInfo);
     bool global = isSharedVar(variableInfo);
     environment->onAdd(new BarrierNode(varName, global));
-    
+
   } else if (!eraserIgnoreOn) {
     if (funcName == "pthread_create") {
       std::cout << "Started pthreads create" << std::endl;
@@ -473,8 +449,9 @@ void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd, C
 }
 
 CXChildVisitResult printVisitor(CXCursor cursor, CXCursor parent, CXClientData data) {
-  unsigned indent = *(unsigned*)data;
-  for (unsigned i = 0; i < indent; ++i) std::cout << "  ";
+  unsigned indent = *(unsigned *)data;
+  for (unsigned i = 0; i < indent; ++i)
+    std::cout << "  ";
 
   CXString kind = clang_getCursorKindSpelling(clang_getCursorKind(cursor));
   CXString spelling = clang_getCursorSpelling(cursor);
@@ -489,8 +466,8 @@ CXChildVisitResult printVisitor(CXCursor cursor, CXCursor parent, CXClientData d
   return CXChildVisit_Continue;
 }
 
-void Parser::dump_AST(CXCursor ast){
-  if (clang_Cursor_isNull(ast)){
+void Parser::dump_AST(CXCursor ast) {
+  if (clang_Cursor_isNull(ast)) {
     std::cout << "Null cursor, exiting" << std::endl;
     return;
   }
@@ -499,19 +476,18 @@ void Parser::dump_AST(CXCursor ast){
   clang_visitChildren((ast), printVisitor, &indent);
 }
 
-CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
-                           CXClientData clientData) {
-  
+CXChildVisitResult visitor(CXCursor cursor, CXCursor parent, CXClientData clientData) {
+
   CXCursorKind cursorKind = clang_getCursorKind(cursor);
   VisitorData *visitorData = reinterpret_cast<VisitorData *>(clientData);
   CallGraph *callGraph = visitorData->callGraph;
-  
+
   if (cursorKind == CXCursor_ForStmt) {
     forStack.push_back(ForChildInfo{});
     // STUFF GOES HERE
     handleForStmt(cursor, environment);
   }
-  
+
   if (cursorKind == CXCursor_FunctionDecl) {
     ignoreNextCompound = true;
     onNewScope();
@@ -537,7 +513,6 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
     }
   }
 
-  
   unsigned int childIndex = visitorData->childIndex;
   LhsType lhsType = visitorData->lhsType;
   LhsType nextLhsType = lhsType;
@@ -549,8 +524,7 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
   std::vector<GraphNode *> nodesToAddAfterChildren = {};
   if (cursorKind == CXCursor_CallExpr) {
     handleFunctionCall(cursor, &childData.nodesToAdd, callGraph);
-  } else if (cursorKind == CXCursor_VarDecl ||
-             cursorKind == CXCursor_DeclRefExpr ||
+  } else if (cursorKind == CXCursor_VarDecl || cursorKind == CXCursor_DeclRefExpr ||
              cursorKind == CXCursor_ParmDecl) {
     classifyVariable(cursor, lhsType, &visitorData->nodesToAdd);
   } else if (cursorKind == CXCursor_BreakStmt) {
@@ -563,7 +537,7 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
   WhileNode *forNodeLoop = nullptr;
 
   if (branchType == BranchType::BRANCH_IF) {
-    IfNode* if_node = new IfNode();
+    IfNode *if_node = new IfNode();
     if_stack.push_back(if_node);
     environment->onAdd(if_node);
   } else if (branchType == BranchType::BRANCH_ELSE_IF || branchType == BranchType::BRANCH_ELSE) {
@@ -577,7 +551,7 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
     startwhileNode->continueReturn = nullptr;
     startwhileNode->isDoWhile = branchType == BranchType::BRANCH_DO_WHILE_START;
     environment->onAdd(startwhileNode);
-  } else if(branchType == BranchType::BRANCH_FOR_START) {
+  } else if (branchType == BranchType::BRANCH_FOR_START) {
     handleForStmtCond(parent, cursor, environment);
   } else if (branchType == BranchType::BRANCH_DO_WHILE_COND) {
     std::cout << "do while" << std::endl;
@@ -597,10 +571,9 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
       visitorData->nodesToAdd.push_back(childData.nodesToAdd[i]);
     }
   }
-  if (cursorKind == CXCursor_IfStmt ||
-      cursorKind == CXCursor_ConditionalOperator) {
-    EndifNode* end_if = new EndifNode();
-    if (if_stack.empty()){
+  if (cursorKind == CXCursor_IfStmt || cursorKind == CXCursor_ConditionalOperator) {
+    EndifNode *end_if = new EndifNode();
+    if (if_stack.empty()) {
       throw new std::logic_error("Tried to add an end_if without a preceding if");
     }
     if_stack.back()->endIf = end_if;
@@ -650,13 +623,11 @@ CXChildVisitResult visitor(CXCursor cursor, CXCursor parent,
         // declaration of a different function inside a function
         funcName = startNodeFuncName;
       }
-      
     }
   }
   if (cursorKind == CXCursor_ForStmt) {
-  forStack.pop_back();
-}
-
+    forStack.pop_back();
+  }
 
   visitorData->childIndex += 1;
   visitorData->lhsType = LhsType::LHS_NONE;
@@ -679,8 +650,8 @@ void Parser::parseFile(const char *fileName, bool ignore_barriers, bool verbose,
   scopeStack.push_back(std::unordered_map<std::string, VariableInfo>());
 
   CXIndex index = clang_createIndex(0, 0);
-  CXTranslationUnit unit = clang_parseTranslationUnit(
-      index, fileName, nullptr, 0, nullptr, 0, CXTranslationUnit_None);
+  CXTranslationUnit unit =
+      clang_parseTranslationUnit(index, fileName, nullptr, 0, nullptr, 0, CXTranslationUnit_None);
 
   if (unit == nullptr) {
     std::cerr << "Unable to parse translation unit. Quitting." << std::endl;
@@ -688,7 +659,6 @@ void Parser::parseFile(const char *fileName, bool ignore_barriers, bool verbose,
   }
 
   CXCursor cursor = clang_getTranslationUnitCursor(unit);
-  
 
   VisitorData initialData = {callGraph, 0, {}, LhsType::LHS_NONE};
 
@@ -699,8 +669,8 @@ void Parser::parseFile(const char *fileName, bool ignore_barriers, bool verbose,
     fileIncludes->clearIncludes(fileNameString);
     clang_getInclusions(
         unit,
-        [](CXFile includedFile, CXSourceLocation *_includer,
-           unsigned int _isIncluderNonlocal, CXClientData data) {
+        [](CXFile includedFile, CXSourceLocation *_includer, unsigned int _isIncluderNonlocal,
+           CXClientData data) {
           CXString includedFileName = clang_getFileName(includedFile);
           std::string fileName = clang_getCString(includedFileName);
           clang_disposeString(includedFileName);
@@ -713,7 +683,7 @@ void Parser::parseFile(const char *fileName, bool ignore_barriers, bool verbose,
         },
         this);
   }
-  if (verbose){
+  if (verbose) {
     dump_AST(cursor);
   }
   clang_disposeTranslationUnit(unit);
@@ -749,15 +719,11 @@ Parser::~Parser() {
   }
 }
 
-
-void Parser::visualizeCFG(){
+void Parser::visualizeCFG() {
   GraphVisualizer *gv = new GraphVisualizer();
-  for (const auto& [_, node] : funcCfgs){
+  for (const auto &[_, node] : funcCfgs) {
     gv->visualizeGraph(node);
   }
-  
+
   delete gv;
 }
-
-
-

@@ -1,10 +1,10 @@
-/* 
+/*
  * This file is part of EraserStatic
  *
  * Original code from: Eraser-CD
  * (https://github.com/ProgrammerByte/Eraser-CD)
  *
- * Copyright (C) 2025 Thomas Pompay
+ * Copyright (C) 2025 Thomas Popay
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,13 +21,13 @@
  */
 
 #pragma once
-#include "graph_node.h"
 #include "endif_node.h"
+#include "graph_node.h"
 #include <vector>
 
 class SwitchNode : public GraphNode {
 public:
-  std::vector<GraphNode*> caseNodes;
+  std::vector<GraphNode *> caseNodes;
   explicit SwitchNode();
   virtual ~SwitchNode();
   GraphNode *getNextNode();

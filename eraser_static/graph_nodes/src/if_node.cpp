@@ -1,12 +1,12 @@
-/* 
+/*
  * This file was originally part of Eraser-CD
  * (https://github.com/ProgrammerByte/Eraser-CD)
  *
- * Copyright (C) 2025 Thomas Pompay
+ * Copyright (C) 2025 Thomas Popay
  * Copyright (C) 2026 Jude Hill <jude-stephen-hill@outlook.com>
  *
  * This file was modified by Jude Hill in 2026 for use in EraserStatic.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -20,7 +20,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
 
 #include "if_node.h"
 #include "node_types.h"
@@ -37,9 +36,7 @@ GraphNode *IfNode::getNextNode() {
   return nullptr;
 }
 
-GraphNode *IfNode::getDefaultNextNode() {
-  return ifNode;
-}
+GraphNode *IfNode::getDefaultNextNode() { return ifNode; }
 
 void IfNode::add(GraphNode *node) {
   if (hasElse) {

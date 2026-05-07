@@ -1,12 +1,12 @@
-/* 
+/*
  * This file was originally part of Eraser-CD
  * (https://github.com/ProgrammerByte/Eraser-CD)
  *
- * Copyright (C) 2025 Thomas Pompay
+ * Copyright (C) 2025 Thomas Popay
  * Copyright (C) 2026 Jude Hill <jude-stephen-hill@outlook.com>
  *
  * This file was modified by Jude Hill in 2026 for use in EraserStatic.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -35,9 +35,7 @@ GraphNode *BasicNode::getNextNode() {
   return nullptr;
 }
 
-GraphNode *BasicNode::getDefaultNextNode(){
-  return next;
-}
+GraphNode *BasicNode::getDefaultNextNode() { return next; }
 
 void BasicNode::add(GraphNode *node) { next = node; }
 

@@ -1,10 +1,10 @@
-/* 
+/*
  * This file is part of EraserStatic
  *
  * Original code from: Eraser-CD
  * (https://github.com/ProgrammerByte/Eraser-CD)
  *
- * Copyright (C) 2025 Thomas Pompay
+ * Copyright (C) 2025 Thomas Popay
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,8 +23,7 @@
 #include "continue_return_node.h"
 #include "node_types.h"
 
-ContinueReturnNode::ContinueReturnNode()
-    : BasicNode::BasicNode(NodeType::CONTINUE_RETURN) {}
+ContinueReturnNode::ContinueReturnNode() : BasicNode::BasicNode(NodeType::CONTINUE_RETURN) {}
 ContinueReturnNode::~ContinueReturnNode() = default;
 
 std::string ContinueReturnNode::getPrintableName() { return "continue return"; }

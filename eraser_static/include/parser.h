@@ -1,12 +1,12 @@
-/* 
+/*
  * This file was originally part of Eraser-CD
  * (https://github.com/ProgrammerByte/Eraser-CD)
  *
- * Copyright (C) 2025 Thomas Pompay
+ * Copyright (C) 2025 Thomas Popay
  * Copyright (C) 2026 Jude Hill <jude-stephen-hill@outlook.com>
  *
  * This file was modified by Jude Hill in 2026 for use in EraserStatic.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -22,8 +22,8 @@
  */
 
 #pragma once
-#include "break_node.h"
 #include "barrier_node.h"
+#include "break_node.h"
 #include "call_graph.h"
 #include "construction_environment.h"
 #include "continue_node.h"
@@ -44,8 +44,8 @@
 #include "thread_join_node.h"
 #include "unlock_node.h"
 #include "write_node.h"
-#include <graph_visualizer.h>
 #include <clang-c/Index.h>
+#include <graph_visualizer.h>
 #include <iostream>
 #include <set>
 #include <unordered_map>
@@ -74,7 +74,7 @@ struct VariableInfo {
   bool isAtomic;
 };
 
-using FuncNodeMap = std::unordered_map<std::string, StartNode*>;
+using FuncNodeMap = std::unordered_map<std::string, StartNode *>;
 
 struct VisitorData {
   CallGraph *callGraph;
@@ -96,12 +96,12 @@ public:
   explicit Parser(CallGraph *callGraph_, FileIncludes *fileIncludes_);
   virtual ~Parser();
 
-  void parseFile(const char *fileName, bool ignore_barriers = false, bool verbose = false, bool fileChanged = true);
+  void parseFile(const char *fileName, bool ignore_barriers = false, bool verbose = false,
+                 bool fileChanged = true);
   void handleFunctionCall(CXCursor cursor, std::vector<GraphNode *> *nodesToAdd);
   void visualizeCFG();
   std::vector<std::string> getFunctions();
   FuncNodeMap getFunctionCfgs();
-
 
 private:
   CallGraph *callGraph;
