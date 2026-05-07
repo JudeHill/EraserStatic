@@ -1,0 +1,44 @@
+Found dataraces involving 1 unique variables With 1 total unprotected accesses
+write_then_read_2.c 0 0 racey: 1 unprotected accesses
+Write in file write_then_read_2.c at line 27, position 3
+
+LLM analysis of false positives of data races: 
+Claude
+Variable racey
+Has a data race
+1 true unprotected accesses, 0 false positives
+False positives: 
+True positives: 
+Write in file write_then_read_2.c, on line 27 at position 3
+Reasoning: This write to racey occurs after the barrier but is not protected by any mutex. All N threads execute this write simultaneously after the barrier, creating a data race as multiple threads write to the same shared variable concurrently without synchronization.
+Gemini
+Variable racey
+Has a data race
+1 true unprotected accesses, 0 false positives
+False positives: 
+True positives: 
+Write in file write_then_read_2.c, on line 27 at position 3
+Reasoning: Multiple threads write to 'racey' concurrently after the barrier. Although they all write the same value (0), these concurrent writes constitute a data race as there is no mutual exclusion or ordering between them for these specific writes.
+ChatGPT
+Variable racey
+Has a data race
+1 true unprotected accesses, 0 false positives
+False positives: 
+True positives: 
+Write in file write_then_read_2.c, on line 27 at position 3
+Reasoning: All threads execute `racey = 0;` after the barrier. The barrier only synchronizes arrival, not mutual exclusion, so multiple threads can write `racey` concurrently. No mutex/atomic protects `racey` here, so a write-write race is possible.
+
+LLM analysis of false negatives of data races: 
+Claude
+Variable cur has the following unprotected accesses that were missed
+Read in file write_then_read_2.c, on line 30 at position 12
+Reasoning: This read of cur occurs in all N threads after the barrier at line 25. Thread 0 writes to cur at line 21 (protected by mutex m), but all threads read cur at line 30 without holding mutex m. Since the write at line 21 and reads at line 30 are in different regions (separated by the barrier), we must analyze within the post-barrier region only. However, within that region, all threads perform reads of cur without protection. The actual race occurs because cur is written by thread 0 at line 21 without a happens-before relationship to the reads at line 30 in other threads - the barrier only synchronizes after line 25, but thread 0's write at line 21 happens before its own barrier wait, creating a race window where other threads may read cur before thread 0 writes it. More precisely: threads 1-3 may reach line 30 and read cur while thread 0 is still executing lines 19-23, since the barrier at line 25 has not yet synchronized all threads. This read races with the write at line 21.
+Gemini
+Variable racey has the following unprotected accesses that were missed
+Write in file write_then_read_2.c, on line 27 at position 3
+Reasoning: Multiple threads (e.g., thread 1) concurrently write to the shared variable 'racey' at line 27 without any mutual exclusion. This creates a write-write data race with other threads (e.g., thread 0, whose access is already reported) also writing to 'racey' at the same location. The barrier at line 25 does not protect these accesses as they all occur after it.
+Write in file write_then_read_2.c, on line 27 at position 3
+Reasoning: Multiple threads (e.g., thread 2) concurrently write to the shared variable 'racey' at line 27 without any mutual exclusion. This creates a write-write data race with other threads (e.g., thread 0, whose access is already reported) also writing to 'racey' at the same location. The barrier at line 25 does not protect these accesses as they all occur after it.
+Write in file write_then_read_2.c, on line 27 at position 3
+Reasoning: Multiple threads (e.g., thread 3) concurrently write to the shared variable 'racey' at line 27 without any mutual exclusion. This creates a write-write data race with other threads (e.g., thread 0, whose access is already reported) also writing to 'racey' at the same location. The barrier at line 25 does not protect these accesses as they all occur after it.
+ChatGPT

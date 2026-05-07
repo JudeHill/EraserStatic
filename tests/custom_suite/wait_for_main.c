@@ -34,7 +34,7 @@ int main(void) {
     int *arg = malloc(sizeof(int));
     *arg = i;
     int Error = pthread_create(&threads[i], NULL, (void *(*)(void *))(worker), NULL);
-    // pthread_create(&threads[i], NULL, (void * (*))(print_tid), NULL);
+
   }
   racey++;
   pthread_barrier_wait(&b1);

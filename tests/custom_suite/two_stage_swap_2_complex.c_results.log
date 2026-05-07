@@ -1,0 +1,44 @@
+Found dataraces involving 1 unique variables With 2 total unprotected accesses
+two_stage_swap_2_complex.c 0 0 checksum: 2 unprotected accesses
+Read in file two_stage_swap_2_complex.c at line 77, position 3
+Write in file two_stage_swap_2_complex.c at line 77, position 3
+
+LLM analysis of false positives of data races: 
+Claude
+Variable checksum
+Has a data race
+2 true unprotected accesses, 0 false positives
+False positives: 
+True positives: 
+Write in file two_stage_swap_2_complex.c, on line 77 at position 3
+Reasoning: This write to checksum at line 77 occurs after the barrier in Phase 2, protected by mutex_1. However, in Phase 2, checksum is also accessed under mutex_2 (line 68). Since different threads can hold different mutexes (mutex_1 vs mutex_2) while accessing checksum in Phase 2, this write is unprotected from concurrent access by threads holding mutex_2.
+Read in file two_stage_swap_2_complex.c, on line 77 at position 3
+Reasoning: This read of checksum at line 77 occurs after the barrier (line 56) in Phase 2. In Phase 2, checksum is protected by mutex_2 (lines 67-69). However, this access at line 77 is protected by mutex_1 (lines 76-78), not mutex_2. This creates a data race because threads in Phase 2 can simultaneously access checksum under different mutexes: some holding mutex_2 (line 68) and others holding mutex_1 (line 77).
+Gemini
+Variable checksum
+No data race
+0 true unprotected accesses, 2 false positives
+False positives: 
+Write in file two_stage_swap_2_complex.c, on line 77 at position 3
+Reasoning: This access to 'checksum' is protected by 'mutex_1'. The operation 'checksum += local_sum;' is enclosed within a pthread_mutex_lock(&mutex_1) and pthread_mutex_unlock(&mutex_1) block, ensuring mutual exclusion.
+Read in file two_stage_swap_2_complex.c, on line 77 at position 3
+Reasoning: This access to 'checksum' is protected by 'mutex_1'. The operation 'checksum += local_sum;' is enclosed within a pthread_mutex_lock(&mutex_1) and pthread_mutex_unlock(&mutex_1) block, ensuring mutual exclusion.
+True positives: 
+ChatGPT
+Variable checksum
+Has a data race
+2 true unprotected accesses, 0 false positives
+False positives: 
+True positives: 
+Write in file two_stage_swap_2_complex.c, on line 77 at position 3
+Reasoning: This write is part of `checksum += local_sum` and occurs while holding `mutex_1`. Because other threads may still be in Phase 2 updating `checksum` under `mutex_2` (no barrier after Phase 2), this write is not mutually exclusive with those updates (different locks), so a data race is possible.
+Read in file two_stage_swap_2_complex.c, on line 77 at position 3
+Reasoning: This read is part of `checksum += local_sum` and occurs while holding `mutex_1`. However, elsewhere `checksum` is also accessed while holding `mutex_2` in Phase 2. Since different mutexes protect `checksum` in different phases, and the final update happens after the barrier but without any synchronization that prevents concurrent Phase-2 `mutex_2`-protected accesses, there is no single common lock establishing happens-before with those accesses. Thus this access can race with Phase-2 updates to `checksum`.
+
+LLM analysis of false negatives of data races: 
+Claude
+Variable checksum has the following unprotected accesses that were missed
+Write in file two_stage_swap_2_complex.c, on line 67 at position 5
+Reasoning: In Phase 2 (after the barrier at line 54), checksum is accessed at line 67 under mutex_2. However, at line 77, checksum is accessed under mutex_1. These two accesses occur in the same region (Phase 2) but are protected by different mutexes, creating a data race between the write at line 67 (mutex_2) and the compound read-write at line 77 (mutex_1).
+Gemini
+ChatGPT

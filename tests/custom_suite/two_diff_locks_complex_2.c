@@ -51,7 +51,6 @@ void *worker(void *arg) {
   /*
    * Phase 2:
    * inventory_count is now handed off to mutex_2.
-   * Threads process shipments and return some stock.
    */
   for (int i = 0; i < ITERS; i++) {
     int amount = work_amount(tid, ITERS - i);
@@ -63,10 +62,6 @@ void *worker(void *arg) {
     pthread_mutex_unlock(&mutex_2);
   }
 
-  /*
-   * This is deliberately protected separately.
-   * It is not part of the ownership handoff pattern.
-   */
   pthread_mutex_lock(&mutex_1);
   audit_total += local_reserved - local_shipped;
   pthread_mutex_unlock(&mutex_1);

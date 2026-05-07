@@ -55,7 +55,6 @@ void *worker(void *arg) {
 
   /*
    * Phase 2:
-   *   The lock discipline switches.
    *   account_a and checksum are now protected by mutex_2.
    *   account_b and total_updates are now protected by mutex_1.
    */
@@ -75,7 +74,7 @@ void *worker(void *arg) {
   }
 
   pthread_mutex_lock(&mutex_1);
-  checksum += local_sum; // race: wrong lock
+  checksum += local_sum; 
   pthread_mutex_unlock(&mutex_1);
 
   return NULL;

@@ -1,0 +1,5 @@
+Found dataraces involving 2 unique variables With 2 total unprotected accesses
+two_phase_read_write.c 0 0 BUF2: 1 unprotected accesses
+Write in file two_phase_read_write.c at line 31, position 3
+two_phase_read_write.c 0 0 RACEY: 1 unprotected accesses
+Read in file two_phase_read_write.c at line 25, position 12

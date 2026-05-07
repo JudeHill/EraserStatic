@@ -16,6 +16,7 @@ void *worker(void *arg) {
   pthread_mutex_unlock(&mutex_1);
   pthread_barrier_wait(&barrier);
   printf(count);
+  racey = 4;
 }
 
 int main(void) {
@@ -27,7 +28,6 @@ int main(void) {
     int *arg = malloc(sizeof(int));
     *arg = i;
     int Error = pthread_create(&threads[i], NULL, (void *(*)(void *))(worker), NULL);
-    // pthread_create(&threads[i], NULL, (void * (*))(print_tid), NULL);
   }
   
 

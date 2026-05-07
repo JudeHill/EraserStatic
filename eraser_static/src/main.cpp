@@ -1,4 +1,23 @@
-// to be implemented
+/* 
+ * Project: EraserStatic
+ * (https://github.com/JudeHill/EraserStatic)
+ *
+ * Copyright (C) 2025-2026 Jude Hill <jude-stephen-hill@outlook.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "eval_llms.h"
 #include "graph_visualizer.h"
 #include "llm_analyser.h"
@@ -16,6 +35,18 @@
 #include <vector>
 
 namespace fs = std::filesystem;
+
+LLM parse_llm(std::string llm_str){
+  if (llm_str == "gemini"){
+    return LLM::GEMINI;
+  } else if (llm_str == "claude"){
+    return LLM::CLAUDE;
+  } else if (llm_str == "gemini"){
+    return LLM::GEMINI;
+  } else {
+    throw std::logic_error("Unable to parse LLM");
+  }
+}
 
 int main(int argc, char *argv[]) {
 
@@ -47,6 +78,9 @@ int main(int argc, char *argv[]) {
                "Turn LLM temperature up (0.2) to allow non-deterministic responses");
   app.add_flag("--eval-fns", opts.eval_llms_fns, "Evaluate false negatives using LLMs");
 
+  // optional LLM specification
+  app.add_option("--llm", opts.llm, "Specify an LLM to use");
+
   CLI11_PARSE(app, argc, argv);
 
   bool directory_mode = !opts.input_path.ends_with(".c");
@@ -60,6 +94,13 @@ int main(int argc, char *argv[]) {
     eval_shared_variable_llm_consistency(opts.input_path, opts.slow_llm_requests);
     return 0;
   }
+
+  if (!opts.llm.empty()){
+    LLM llm = parse_llm(opts.llm);
+    all_llms.clear();
+    all_llms.push_back(llm);
+  }
+
   std::vector<fs::path> files;
   auto cg = std::make_unique<CallGraph>();
   auto fi = std::make_unique<FileIncludes>();

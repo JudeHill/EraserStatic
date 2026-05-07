@@ -1,10 +1,33 @@
+/* 
+ * Project: EraserStatic
+ * (https://github.com/JudeHill/EraserStatic)
+ *
+ * Copyright (C) 2025-2026 Jude Hill <jude-stephen-hill@outlook.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+
 #include "llm_handler.h"
 #define GPT_VERSION "gpt-5.2"
 #define GEMINI_VERSION "gemini-2.5-flash"
 #define CLAUDE_VERSION "claude-sonnet-4-5"
 #define BACKOFF 2000
-#define MAX_TOKENS 25000
-#define TIMEOUT_SECONDS 180L
+// #define MAX_TOKENS 25000
+// #define TIMEOUT_SECONDS 180L
+#define MAX_TOKENS 64000
+#define TIMEOUT_SECONDS 300L // Make longer to handle splash benchmarks
 #define TEMPERATURE_CONSISTENT 0.0
 #define TEMPERATURE_VARIANT 0.2
 #define TOP_P 1.0
@@ -160,6 +183,7 @@ json LLMHandler::PromptGemini(const std::string_view& prompt, const json& schema
         {"generationConfig", {
             {"temperature", allow_variant_responses ? TEMPERATURE_VARIANT : TEMPERATURE_CONSISTENT},
             {"topP", TOP_P},
+            {"maxOutputTokens", MAX_TOKENS},  // <-- ADD THIS
             {"responseMimeType", "application/json"},
             {"responseJsonSchema", schema}
         }}

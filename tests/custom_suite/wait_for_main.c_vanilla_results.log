@@ -1,0 +1,7 @@
+Found dataraces involving 2 unique variables With 4 total unprotected accesses
+wait_for_main.c 0 0 count: 2 unprotected accesses
+Write in file wait_for_main.c at line 41, position 3
+Read in file wait_for_main.c at line 42, position 31
+wait_for_main.c 0 0 racey: 2 unprotected accesses
+Read in file wait_for_main.c at line 39, position 3
+Write in file wait_for_main.c at line 39, position 3

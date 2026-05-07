@@ -1,3 +1,24 @@
+/* 
+ * Project: EraserStatic
+ * (https://github.com/JudeHill/EraserStatic)
+ *
+ * Copyright (C) 2025-2026 Jude Hill <jude-stephen-hill@outlook.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+
 #include "lockset.h"
 
 static bool debug= true;
@@ -112,6 +133,13 @@ LockSet Eraser::visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncN
     return visit(end_if->getDefaultNextNode(), if_lockset, funcs_seen, ctx);
   }
   case NodeType::BREAK:
+  {
+    if (!while_stack.empty()){
+      while_stack.back().push_back(lockset);
+    } 
+    // don't error, as the break node may have been from a switch instead. 
+    return lockset;
+  }
   case NodeType::CONTINUE: {
     if (!while_stack.empty()){
       while_stack.back().push_back(lockset);

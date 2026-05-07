@@ -17,6 +17,10 @@ void *worker(void *arg) {
   pthread_mutex_lock(&mutex_2);
   count++;
   pthread_mutex_unlock(&mutex_2);
+  pthread_barrier_wait(&barrier);
+  pthread_mutex_lock(&mutex_1);
+  count++;
+  pthread_mutex_lock(&mutex_1);
 }
 
 int main(void) {

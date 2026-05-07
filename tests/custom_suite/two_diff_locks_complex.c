@@ -7,15 +7,11 @@
 #define NUM_THREADS 4
 #define N_NODES (1<<18)
 #define N_EDGES (1<<20)
-#define ITERS 10
 
 static int *frontier;
 static int frontier_size = 0;
 
-/* Phase 1 owns frontier under this lock */
 static pthread_mutex_t mutex_frontier = PTHREAD_MUTEX_INITIALIZER;
-
-/* Phase 2 owns frontier/statistics under this lock */
 static pthread_mutex_t mutex_stats = PTHREAD_MUTEX_INITIALIZER;
 
 static uint64_t total_hits = 0;
@@ -42,73 +38,53 @@ static void *worker(void *arg) {
   size_t lo = (size_t)tid * chunk;
   size_t hi = (tid == NUM_THREADS - 1) ? (size_t)N_EDGES : lo + chunk;
 
-  for (int it = 0; it < ITERS; it++) {
+  /*
+   * Phase 1:
+   * frontier and frontier_size are protected by mutex_frontier.
+   */
+  for (size_t i = lo; i < hi; i++) {
+    uint32_t u = src[i];
+    uint32_t v = dst[i];
 
-    /*
-     * Phase 1:
-     * frontier and frontier_size are protected by mutex_frontier.
-     */
-    for (size_t i = lo; i < hi; i++) {
-      uint32_t u = src[i];
-      uint32_t v = dst[i];
-
-      if (active[u] && ((mix32(u + v + (uint32_t)it) & 0xFF) == 0)) {
-        pthread_mutex_lock(&mutex_frontier);
-        frontier[frontier_size++] = (int)v;
-        pthread_mutex_unlock(&mutex_frontier);
-      }
-    }
-
-    /*
-     * Handoff point:
-     * after this barrier, no thread will access frontier using mutex_frontier
-     * until the next iteration reset.
-     */
-    pthread_barrier_wait(&barrier);
-
-    /*
-     * Phase 2:
-     * frontier and frontier_size are now protected by mutex_stats.
-     *
-     * This is the handoff pattern:
-     *   Phase 1: frontier protected by mutex_frontier
-     *   Phase 2: frontier protected by mutex_stats
-     * with the barrier separating the two phases.
-     */
-    uint64_t local_hits = 0;
-    uint64_t local_cost = 0;
-
-    pthread_mutex_lock(&mutex_stats);
-
-    int fsz = frontier_size;
-
-    for (int j = (int)tid; j < fsz; j += NUM_THREADS) {
-      int node = frontier[j];
-
-      uint32_t h = mix32((uint32_t)node + (uint32_t)it);
-      local_cost += (h & 1023);
-      local_hits += (h & 1);
-    }
-
-    total_hits += local_hits;
-    total_cost += local_cost;
-
-    pthread_mutex_unlock(&mutex_stats);
-
-    pthread_barrier_wait(&barrier);
-
-    /*
-     * Reset for next iteration.
-     * This returns ownership of frontier/frontier_size to mutex_frontier.
-     */
-    if (tid == 0) {
+    if (active[u] && ((mix32(u + v) & 0xFF) == 0)) {
       pthread_mutex_lock(&mutex_frontier);
-      frontier_size = 0;
+      frontier[frontier_size++] = (int)v;
       pthread_mutex_unlock(&mutex_frontier);
     }
-
-    pthread_barrier_wait(&barrier);
   }
+
+  /*
+   * Handoff point:
+   */
+  pthread_barrier_wait(&barrier);
+
+  /*
+   * Phase 2:
+   * frontier and frontier_size are now protected by mutex_stats.
+   */
+  uint64_t local_hits = 0;
+  uint64_t local_cost = 0;
+
+  pthread_mutex_lock(&mutex_stats);
+
+  int fsz = frontier_size;
+
+  for (int j = (int)tid; j < fsz; j += NUM_THREADS) {
+    int node = frontier[j];
+
+    uint32_t h = mix32((uint32_t)node);
+    local_cost += (h & 1023);
+    local_hits += (h & 1);
+  }
+
+  total_hits += local_hits;
+  total_cost += local_cost;
+
+  pthread_mutex_unlock(&mutex_stats);
+
+  pthread_mutex_lock(&mutex_frontier);
+  frontier_size = 0; 
+  pthread_mutex_unlock(&mutex_frontier);
 
   return NULL;
 }
