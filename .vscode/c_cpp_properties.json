@@ -4,12 +4,16 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/usr/lib/llvm-18/include"
+                "/usr/lib/llvm-18/include",
+                "${workspaceFolder}/eraser_static/include",
+                "${workspaceFolder}/eraser_static/graph_nodes/include"
             ],
-            "defines": [],
+            "defines": [
+                "_XOPEN_SOURCE = 600"
+            ],
             "compilerPath": "/usr/bin/clang",
-            "cStandard": "c17",
-            "cppStandard": "c++17",
+            "cStandard": "gnu17",
+            "cppStandard": "c++20",
             "intelliSenseMode": "linux-clang-x64"
         }
     ],

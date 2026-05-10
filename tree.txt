@@ -1,0 +1,887 @@
+.
+├── CMakeLists.txt
+├── CMakePresets.json
+├── build
+│   ├── CMakeCache.txt
+│   ├── CMakeFiles
+│   │   ├── 3.28.3
+│   │   │   ├── CMakeCCompiler.cmake
+│   │   │   ├── CMakeCXXCompiler.cmake
+│   │   │   ├── CMakeDetermineCompilerABI_C.bin
+│   │   │   ├── CMakeDetermineCompilerABI_CXX.bin
+│   │   │   ├── CMakeSystem.cmake
+│   │   │   ├── CompilerIdC
+│   │   │   │   ├── CMakeCCompilerId.c
+│   │   │   │   ├── a.out
+│   │   │   │   └── tmp
+│   │   │   └── CompilerIdCXX
+│   │   │       ├── CMakeCXXCompilerId.cpp
+│   │   │       ├── a.out
+│   │   │       └── tmp
+│   │   ├── CMakeConfigureLog.yaml
+│   │   ├── TargetDirectories.txt
+│   │   ├── cmake.check_cache
+│   │   ├── eraser_static.dir
+│   │   │   └── eraser_static
+│   │   │       ├── graph_nodes
+│   │   │       │   └── src
+│   │   │       │       ├── barrier_node.cpp.o
+│   │   │       │       ├── basic_node.cpp.o
+│   │   │       │       ├── break_node.cpp.o
+│   │   │       │       ├── continue_node.cpp.o
+│   │   │       │       ├── continue_return_node.cpp.o
+│   │   │       │       ├── endif_node.cpp.o
+│   │   │       │       ├── endwhile_node.cpp.o
+│   │   │       │       ├── eraser_ignore_off_node.cpp.o
+│   │   │       │       ├── eraser_ignore_on_node.cpp.o
+│   │   │       │       ├── function_call_node.cpp.o
+│   │   │       │       ├── graph_node.cpp.o
+│   │   │       │       ├── if_node.cpp.o
+│   │   │       │       ├── lock_node.cpp.o
+│   │   │       │       ├── read_node.cpp.o
+│   │   │       │       ├── return_node.cpp.o
+│   │   │       │       ├── start_node.cpp.o
+│   │   │       │       ├── startwhile_node.cpp.o
+│   │   │       │       ├── thread_create_node.cpp.o
+│   │   │       │       ├── thread_join_node.cpp.o
+│   │   │       │       ├── unlock_node.cpp.o
+│   │   │       │       ├── while_node.cpp.o
+│   │   │       │       └── write_node.cpp.o
+│   │   │       └── src
+│   │   │           ├── call_graph.cpp.o
+│   │   │           ├── construction_environment.cpp.o
+│   │   │           ├── eval_llms.cpp.o
+│   │   │           ├── file_includes.cpp.o
+│   │   │           ├── graph_visualizer.cpp.o
+│   │   │           ├── llm_analyser.cpp.o
+│   │   │           ├── llm_handler.cpp.o
+│   │   │           ├── lockset.cpp.o
+│   │   │           ├── main.cpp.o
+│   │   │           ├── parser.cpp.o
+│   │   │           ├── parser_helpers.cpp.o
+│   │   │           ├── shared_var_identifier.cpp.o
+│   │   │           └── write_output.cpp.o
+│   │   ├── pkgRedirects
+│   │   └── rules.ninja
+│   ├── Makefile
+│   ├── _deps
+│   │   ├── cli11-build
+│   │   │   ├── CMakeFiles
+│   │   │   ├── cmake_install.cmake
+│   │   │   ├── fuzz
+│   │   │   │   ├── CMakeFiles
+│   │   │   │   └── cmake_install.cmake
+│   │   │   ├── single-include
+│   │   │   │   ├── CMakeFiles
+│   │   │   │   └── cmake_install.cmake
+│   │   │   └── src
+│   │   │       ├── CMakeFiles
+│   │   │       └── cmake_install.cmake
+│   │   ├── cli11-src
+│   │   │   ├── BUILD.bazel
+│   │   │   ├── CHANGELOG.md
+│   │   │   ├── CLI11.CPack.Description.txt
+│   │   │   ├── CMakeLists.txt
+│   │   │   ├── CPPLINT.cfg
+│   │   │   ├── LICENSE
+│   │   │   ├── MODULE.bazel
+│   │   │   ├── README.md
+│   │   │   ├── azure-pipelines.yml
+│   │   │   ├── book
+│   │   │   │   ├── CMakeLists.txt
+│   │   │   │   ├── README.md
+│   │   │   │   ├── SUMMARY.md
+│   │   │   │   ├── book.json
+│   │   │   │   ├── chapters
+│   │   │   │   │   ├── advanced-topics.md
+│   │   │   │   │   ├── an-advanced-example.md
+│   │   │   │   │   ├── basics.md
+│   │   │   │   │   ├── config.md
+│   │   │   │   │   ├── flags.md
+│   │   │   │   │   ├── formatting.md
+│   │   │   │   │   ├── installation.md
+│   │   │   │   │   ├── internals.md
+│   │   │   │   │   ├── options.md
+│   │   │   │   │   ├── subcommands.md
+│   │   │   │   │   ├── toolkits.md
+│   │   │   │   │   └── validators.md
+│   │   │   │   ├── code
+│   │   │   │   │   ├── CMakeLists.txt
+│   │   │   │   │   ├── flags.cpp
+│   │   │   │   │   ├── geet.cpp
+│   │   │   │   │   ├── intro.cpp
+│   │   │   │   │   └── simplest.cpp
+│   │   │   │   └── package.json
+│   │   │   ├── cmake
+│   │   │   │   ├── CLI11.pc.in
+│   │   │   │   ├── CLI11ConfigVersion.cmake.in
+│   │   │   │   ├── CLI11GeneratePkgConfig.cmake
+│   │   │   │   ├── CLI11Warnings.cmake
+│   │   │   │   ├── CLI11precompiled.pc.in
+│   │   │   │   └── CodeCoverage.cmake
+│   │   │   ├── docs
+│   │   │   │   ├── CLI11.svg
+│   │   │   │   ├── CLI11_100.png
+│   │   │   │   ├── CLI11_300.png
+│   │   │   │   ├── CMakeLists.txt
+│   │   │   │   ├── Doxyfile
+│   │   │   │   └── mainpage.md
+│   │   │   ├── examples
+│   │   │   │   ├── CMakeLists.txt
+│   │   │   │   ├── arg_capture.cpp
+│   │   │   │   ├── callback_passthrough.cpp
+│   │   │   │   ├── config_app.cpp
+│   │   │   │   ├── custom_parse.cpp
+│   │   │   │   ├── digit_args.cpp
+│   │   │   │   ├── enum.cpp
+│   │   │   │   ├── enum_ostream.cpp
+│   │   │   │   ├── formatter.cpp
+│   │   │   │   ├── groups.cpp
+│   │   │   │   ├── inter_argument_order.cpp
+│   │   │   │   ├── json.cpp
+│   │   │   │   ├── modhelp.cpp
+│   │   │   │   ├── nested.cpp
+│   │   │   │   ├── option_groups.cpp
+│   │   │   │   ├── positional_arity.cpp
+│   │   │   │   ├── positional_validation.cpp
+│   │   │   │   ├── prefix_command.cpp
+│   │   │   │   ├── ranges.cpp
+│   │   │   │   ├── retired.cpp
+│   │   │   │   ├── shapes.cpp
+│   │   │   │   ├── simple.cpp
+│   │   │   │   ├── subcom_help.cpp
+│   │   │   │   ├── subcom_in_files
+│   │   │   │   │   ├── CMakeLists.txt
+│   │   │   │   │   ├── subcommand_a.cpp
+│   │   │   │   │   ├── subcommand_a.hpp
+│   │   │   │   │   └── subcommand_main.cpp
+│   │   │   │   ├── subcom_partitioned.cpp
+│   │   │   │   ├── subcommands.cpp
+│   │   │   │   ├── testEXE.cpp
+│   │   │   │   └── validators.cpp
+│   │   │   ├── fuzz
+│   │   │   │   ├── CMakeLists.txt
+│   │   │   │   ├── cli11_app_fuzz.cpp
+│   │   │   │   ├── cli11_file_fuzz.cpp
+│   │   │   │   ├── fuzzApp.cpp
+│   │   │   │   ├── fuzzApp.hpp
+│   │   │   │   ├── fuzzCommand.cpp
+│   │   │   │   ├── fuzz_dictionary1.txt
+│   │   │   │   └── fuzz_dictionary2.txt
+│   │   │   ├── include
+│   │   │   │   └── CLI
+│   │   │   │       ├── App.hpp
+│   │   │   │       ├── Argv.hpp
+│   │   │   │       ├── CLI.hpp
+│   │   │   │       ├── Config.hpp
+│   │   │   │       ├── ConfigFwd.hpp
+│   │   │   │       ├── Encoding.hpp
+│   │   │   │       ├── Error.hpp
+│   │   │   │       ├── Formatter.hpp
+│   │   │   │       ├── FormatterFwd.hpp
+│   │   │   │       ├── Macros.hpp
+│   │   │   │       ├── Option.hpp
+│   │   │   │       ├── Split.hpp
+│   │   │   │       ├── StringTools.hpp
+│   │   │   │       ├── Timer.hpp
+│   │   │   │       ├── TypeTools.hpp
+│   │   │   │       ├── Validators.hpp
+│   │   │   │       ├── Version.hpp
+│   │   │   │       └── impl
+│   │   │   │           ├── App_inl.hpp
+│   │   │   │           ├── Argv_inl.hpp
+│   │   │   │           ├── Config_inl.hpp
+│   │   │   │           ├── Encoding_inl.hpp
+│   │   │   │           ├── Formatter_inl.hpp
+│   │   │   │           ├── Option_inl.hpp
+│   │   │   │           ├── Split_inl.hpp
+│   │   │   │           ├── StringTools_inl.hpp
+│   │   │   │           └── Validators_inl.hpp
+│   │   │   ├── meson.build
+│   │   │   ├── meson_options.txt
+│   │   │   ├── scripts
+│   │   │   │   ├── ExtractVersion.py
+│   │   │   │   ├── MakeSingleHeader.py
+│   │   │   │   ├── check_style.sh
+│   │   │   │   ├── check_style_docker.sh
+│   │   │   │   ├── clang-format-pre-commit
+│   │   │   │   └── mdlint_style.rb
+│   │   │   ├── single-include
+│   │   │   │   ├── CLI11.hpp.in
+│   │   │   │   ├── CMakeLists.txt
+│   │   │   │   └── meson.build
+│   │   │   ├── src
+│   │   │   │   ├── CMakeLists.txt
+│   │   │   │   └── Precompile.cpp
+│   │   │   ├── subprojects
+│   │   │   │   └── catch2.wrap
+│   │   │   └── tests
+│   │   │       ├── AppTest.cpp
+│   │   │       ├── BUILD.bazel
+│   │   │       ├── BoostOptionTypeTest.cpp
+│   │   │       ├── CMakeLists.txt
+│   │   │       ├── ComplexTypeTest.cpp
+│   │   │       ├── ConfigFileTest.cpp
+│   │   │       ├── CreationTest.cpp
+│   │   │       ├── DeprecatedTest.cpp
+│   │   │       ├── EncodingTest.cpp
+│   │   │       ├── FormatterTest.cpp
+│   │   │       ├── FuzzFailTest.cpp
+│   │   │       ├── HelpTest.cpp
+│   │   │       ├── HelpersTest.cpp
+│   │   │       ├── NewParseTest.cpp
+│   │   │       ├── OptionGroupTest.cpp
+│   │   │       ├── OptionTypeTest.cpp
+│   │   │       ├── OptionalTest.cpp
+│   │   │       ├── SetTest.cpp
+│   │   │       ├── SimpleTest.cpp
+│   │   │       ├── StringParseTest.cpp
+│   │   │       ├── SubcommandTest.cpp
+│   │   │       ├── TimerTest.cpp
+│   │   │       ├── TransformTest.cpp
+│   │   │       ├── TrueFalseTest.cpp
+│   │   │       ├── WindowsTest.cpp
+│   │   │       ├── app_helper.hpp
+│   │   │       ├── applications
+│   │   │       │   ├── ensure_utf8.cpp
+│   │   │       │   └── ensure_utf8_twice.cpp
+│   │   │       ├── catch.hpp
+│   │   │       ├── data
+│   │   │       │   └── unicode.txt
+│   │   │       ├── find_package_tests
+│   │   │       │   └── CMakeLists.txt
+│   │   │       ├── fuzzFail
+│   │   │       │   ├── fuzz_app_fail1
+│   │   │       │   ├── fuzz_app_fail2
+│   │   │       │   ├── fuzz_app_fail3
+│   │   │       │   ├── fuzz_app_file_fail1
+│   │   │       │   ├── fuzz_app_file_fail10
+│   │   │       │   ├── fuzz_app_file_fail11
+│   │   │       │   ├── fuzz_app_file_fail12
+│   │   │       │   ├── fuzz_app_file_fail13
+│   │   │       │   ├── fuzz_app_file_fail14
+│   │   │       │   ├── fuzz_app_file_fail15
+│   │   │       │   ├── fuzz_app_file_fail16
+│   │   │       │   ├── fuzz_app_file_fail17
+│   │   │       │   ├── fuzz_app_file_fail18
+│   │   │       │   ├── fuzz_app_file_fail19
+│   │   │       │   ├── fuzz_app_file_fail2
+│   │   │       │   ├── fuzz_app_file_fail20
+│   │   │       │   ├── fuzz_app_file_fail21
+│   │   │       │   ├── fuzz_app_file_fail22
+│   │   │       │   ├── fuzz_app_file_fail23
+│   │   │       │   ├── fuzz_app_file_fail24
+│   │   │       │   ├── fuzz_app_file_fail25
+│   │   │       │   ├── fuzz_app_file_fail26
+│   │   │       │   ├── fuzz_app_file_fail27
+│   │   │       │   ├── fuzz_app_file_fail28
+│   │   │       │   ├── fuzz_app_file_fail29
+│   │   │       │   ├── fuzz_app_file_fail3
+│   │   │       │   ├── fuzz_app_file_fail30
+│   │   │       │   ├── fuzz_app_file_fail31
+│   │   │       │   ├── fuzz_app_file_fail32
+│   │   │       │   ├── fuzz_app_file_fail33
+│   │   │       │   ├── fuzz_app_file_fail34
+│   │   │       │   ├── fuzz_app_file_fail35
+│   │   │       │   ├── fuzz_app_file_fail36
+│   │   │       │   ├── fuzz_app_file_fail37
+│   │   │       │   ├── fuzz_app_file_fail38
+│   │   │       │   ├── fuzz_app_file_fail39
+│   │   │       │   ├── fuzz_app_file_fail4
+│   │   │       │   ├── fuzz_app_file_fail5
+│   │   │       │   ├── fuzz_app_file_fail6
+│   │   │       │   ├── fuzz_app_file_fail7
+│   │   │       │   ├── fuzz_app_file_fail8
+│   │   │       │   ├── fuzz_app_file_fail9
+│   │   │       │   ├── fuzz_file_fail1
+│   │   │       │   ├── fuzz_file_fail2
+│   │   │       │   ├── fuzz_file_fail3
+│   │   │       │   ├── fuzz_file_fail4
+│   │   │       │   ├── fuzz_file_fail5
+│   │   │       │   ├── fuzz_file_fail6
+│   │   │       │   ├── fuzz_file_fail7
+│   │   │       │   └── fuzz_file_fail8
+│   │   │       ├── informational.cpp
+│   │   │       ├── link_test_1.cpp
+│   │   │       ├── link_test_2.cpp
+│   │   │       ├── main.cpp
+│   │   │       ├── meson.build
+│   │   │       ├── mesonTest
+│   │   │       │   ├── README.md
+│   │   │       │   ├── main.cpp
+│   │   │       │   └── meson.build
+│   │   │       ├── package_config_tests
+│   │   │       │   └── CMakeLists.txt
+│   │   │       └── tests
+│   │   ├── cli11-subbuild
+│   │   │   ├── CMakeCache.txt
+│   │   │   ├── CMakeFiles
+│   │   │   │   ├── 3.28.3
+│   │   │   │   │   └── CMakeSystem.cmake
+│   │   │   │   ├── CMakeConfigureLog.yaml
+│   │   │   │   ├── TargetDirectories.txt
+│   │   │   │   ├── cli11-populate-complete
+│   │   │   │   ├── cli11-populate.dir
+│   │   │   │   │   ├── Labels.json
+│   │   │   │   │   └── Labels.txt
+│   │   │   │   ├── cmake.check_cache
+│   │   │   │   ├── pkgRedirects
+│   │   │   │   └── rules.ninja
+│   │   │   ├── CMakeLists.txt
+│   │   │   ├── build.ninja
+│   │   │   ├── cli11-populate-prefix
+│   │   │   │   ├── src
+│   │   │   │   │   └── cli11-populate-stamp
+│   │   │   │   │       ├── cli11-populate-build
+│   │   │   │   │       ├── cli11-populate-configure
+│   │   │   │   │       ├── cli11-populate-done
+│   │   │   │   │       ├── cli11-populate-download
+│   │   │   │   │       ├── cli11-populate-gitclone-lastrun.txt
+│   │   │   │   │       ├── cli11-populate-gitinfo.txt
+│   │   │   │   │       ├── cli11-populate-install
+│   │   │   │   │       ├── cli11-populate-mkdir
+│   │   │   │   │       ├── cli11-populate-patch
+│   │   │   │   │       ├── cli11-populate-patch-info.txt
+│   │   │   │   │       ├── cli11-populate-test
+│   │   │   │   │       └── cli11-populate-update-info.txt
+│   │   │   │   └── tmp
+│   │   │   │       ├── cli11-populate-cfgcmd.txt
+│   │   │   │       ├── cli11-populate-gitclone.cmake
+│   │   │   │       ├── cli11-populate-gitupdate.cmake
+│   │   │   │       └── cli11-populate-mkdirs.cmake
+│   │   │   └── cmake_install.cmake
+│   │   ├── json-schema-validator-build
+│   │   │   ├── CMakeFiles
+│   │   │   │   └── nlohmann_json_schema_validator.dir
+│   │   │   │       └── src
+│   │   │   │           ├── json-patch.cpp.o
+│   │   │   │           ├── json-schema-draft7.json.cpp.o
+│   │   │   │           ├── json-uri.cpp.o
+│   │   │   │           ├── json-validator.cpp.o
+│   │   │   │           ├── smtp-address-validator.cpp.o
+│   │   │   │           └── string-format-check.cpp.o
+│   │   │   ├── CTestTestfile.cmake
+│   │   │   ├── cmake_install.cmake
+│   │   │   ├── example
+│   │   │   │   ├── CMakeFiles
+│   │   │   │   │   ├── format-json-schema.dir
+│   │   │   │   │   │   └── format.cpp.o
+│   │   │   │   │   └── readme-json-schema.dir
+│   │   │   │   │       └── readme.cpp.o
+│   │   │   │   ├── CTestTestfile.cmake
+│   │   │   │   ├── cmake_install.cmake
+│   │   │   │   ├── format-json-schema
+│   │   │   │   └── readme-json-schema
+│   │   │   ├── libnlohmann_json_schema_validator.a
+│   │   │   ├── src
+│   │   │   │   ├── CMakeFiles
+│   │   │   │   └── cmake_install.cmake
+│   │   │   └── test
+│   │   │       ├── CMakeFiles
+│   │   │       │   ├── binary-validation.dir
+│   │   │       │   │   └── binary-validation.cpp.o
+│   │   │       │   ├── errors.dir
+│   │   │       │   │   └── errors.cpp.o
+│   │   │       │   ├── issue-105-verbose-combination-errors.dir
+│   │   │       │   │   └── issue-105-verbose-combination-errors.cpp.o
+│   │   │       │   ├── issue-117-format-error.dir
+│   │   │       │   │   └── issue-117-format-error.cpp.o
+│   │   │       │   ├── issue-149-entry-selection.dir
+│   │   │       │   │   └── issue-149-entry-selection.cpp.o
+│   │   │       │   ├── issue-189-default-values.dir
+│   │   │       │   │   └── issue-189-default-values.cpp.o
+│   │   │       │   ├── issue-229-oneof-default-values.dir
+│   │   │       │   │   └── issue-229-oneof-default-values.cpp.o
+│   │   │       │   ├── issue-243-root-default-values.dir
+│   │   │       │   │   └── issue-243-root-default-values.cpp.o
+│   │   │       │   ├── issue-25-default-values.dir
+│   │   │       │   │   └── issue-25-default-values.cpp.o
+│   │   │       │   ├── issue-255-error-message-limit-precision.dir
+│   │   │       │   │   └── issue-255-error-message-limit-precision.cpp.o
+│   │   │       │   ├── issue-293.dir
+│   │   │       │   │   └── issue-293.cpp.o
+│   │   │       │   ├── issue-70-root-schema-constructor.dir
+│   │   │       │   │   └── issue-70-root-schema-constructor.cpp.o
+│   │   │       │   ├── issue-70.dir
+│   │   │       │   │   └── issue-70.cpp.o
+│   │   │       │   ├── issue-98.dir
+│   │   │       │   │   └── issue-98.cpp.o
+│   │   │       │   ├── json-patch.dir
+│   │   │       │   │   └── json-patch.cpp.o
+│   │   │       │   ├── json-schema-validate.dir
+│   │   │       │   │   └── json-schema-validate.cpp.o
+│   │   │       │   ├── string-format-check-test.dir
+│   │   │       │   │   └── string-format-check-test.cpp.o
+│   │   │       │   └── uri.dir
+│   │   │       │       └── uri.cpp.o
+│   │   │       ├── CTestTestfile.cmake
+│   │   │       ├── JSON-Schema-Test-Suite
+│   │   │       │   ├── CMakeFiles
+│   │   │       │   │   └── json-schema-test.dir
+│   │   │       │   │       └── json-schema-test.cpp.o
+│   │   │       │   ├── CTestTestfile.cmake
+│   │   │       │   ├── cmake_install.cmake
+│   │   │       │   └── json-schema-test
+│   │   │       ├── binary-validation
+│   │   │       ├── cmake_install.cmake
+│   │   │       ├── errors
+│   │   │       ├── issue-100
+│   │   │       │   ├── CMakeFiles
+│   │   │       │   ├── CTestTestfile.cmake
+│   │   │       │   └── cmake_install.cmake
+│   │   │       ├── issue-101
+│   │   │       │   ├── CMakeFiles
+│   │   │       │   ├── CTestTestfile.cmake
+│   │   │       │   └── cmake_install.cmake
+│   │   │       ├── issue-105-verbose-combination-errors
+│   │   │       ├── issue-117-format-error
+│   │   │       ├── issue-12
+│   │   │       │   ├── CMakeFiles
+│   │   │       │   ├── CTestTestfile.cmake
+│   │   │       │   └── cmake_install.cmake
+│   │   │       ├── issue-143
+│   │   │       │   ├── CMakeFiles
+│   │   │       │   ├── CTestTestfile.cmake
+│   │   │       │   └── cmake_install.cmake
+│   │   │       ├── issue-149-entry-selection
+│   │   │       ├── issue-189-default-values
+│   │   │       ├── issue-209
+│   │   │       │   ├── CMakeFiles
+│   │   │       │   ├── CTestTestfile.cmake
+│   │   │       │   └── cmake_install.cmake
+│   │   │       ├── issue-229-oneof-default-values
+│   │   │       ├── issue-243-root-default-values
+│   │   │       ├── issue-25-default-values
+│   │   │       ├── issue-255-error-message-limit-precision
+│   │   │       ├── issue-27
+│   │   │       │   ├── CMakeFiles
+│   │   │       │   ├── CTestTestfile.cmake
+│   │   │       │   └── cmake_install.cmake
+│   │   │       ├── issue-293
+│   │   │       ├── issue-311
+│   │   │       │   ├── CMakeFiles
+│   │   │       │   ├── CTestTestfile.cmake
+│   │   │       │   └── cmake_install.cmake
+│   │   │       ├── issue-48
+│   │   │       │   ├── CMakeFiles
+│   │   │       │   ├── CTestTestfile.cmake
+│   │   │       │   └── cmake_install.cmake
+│   │   │       ├── issue-54
+│   │   │       │   ├── CMakeFiles
+│   │   │       │   ├── CTestTestfile.cmake
+│   │   │       │   └── cmake_install.cmake
+│   │   │       ├── issue-70
+│   │   │       ├── issue-70-root-schema-constructor
+│   │   │       ├── issue-75
+│   │   │       │   ├── CMakeFiles
+│   │   │       │   ├── CTestTestfile.cmake
+│   │   │       │   └── cmake_install.cmake
+│   │   │       ├── issue-9
+│   │   │       │   ├── CMakeFiles
+│   │   │       │   ├── CTestTestfile.cmake
+│   │   │       │   └── cmake_install.cmake
+│   │   │       ├── issue-93
+│   │   │       │   ├── CMakeFiles
+│   │   │       │   │   └── issue-93.dir
+│   │   │       │   │       └── issue-93.cpp.o
+│   │   │       │   ├── CTestTestfile.cmake
+│   │   │       │   ├── cmake_install.cmake
+│   │   │       │   └── issue-93
+│   │   │       ├── issue-96
+│   │   │       │   ├── CMakeFiles
+│   │   │       │   ├── CTestTestfile.cmake
+│   │   │       │   └── cmake_install.cmake
+│   │   │       ├── issue-98
+│   │   │       ├── json-patch
+│   │   │       ├── json-schema-validate
+│   │   │       ├── string-format-check-test
+│   │   │       └── uri
+│   │   ├── json-schema-validator-src
+│   │   │   ├── CMakeLists.txt
+│   │   │   ├── CMakePresets.json
+│   │   │   ├── ChangeLog.md
+│   │   │   ├── LICENSE
+│   │   │   ├── README.md
+│   │   │   ├── cmake
+│   │   │   │   ├── CMakePresets-CI.json
+│   │   │   │   ├── CMakePresets-defaults.json
+│   │   │   │   └── nlohmann_json_schema_validatorConfig.cmake.in
+│   │   │   ├── conanfile.py
+│   │   │   ├── example
+│   │   │   │   ├── CMakeLists.txt
+│   │   │   │   ├── format.cpp
+│   │   │   │   └── readme.cpp
+│   │   │   ├── schema
+│   │   │   ├── src
+│   │   │   │   ├── CMakeLists.txt
+│   │   │   │   ├── json-patch.cpp
+│   │   │   │   ├── json-patch.hpp
+│   │   │   │   ├── json-schema-draft7.json.cpp
+│   │   │   │   ├── json-uri.cpp
+│   │   │   │   ├── json-validator.cpp
+│   │   │   │   ├── nlohmann
+│   │   │   │   │   └── json-schema.hpp
+│   │   │   │   ├── smtp-address-validator.cpp
+│   │   │   │   ├── smtp-address-validator.hpp
+│   │   │   │   └── string-format-check.cpp
+│   │   │   └── test
+│   │   │       ├── CMakeLists.txt
+│   │   │       ├── JSON-Schema-Test-Suite
+│   │   │       │   ├── CMakeLists.txt
+│   │   │       │   ├── json-schema-test.cpp
+│   │   │       │   ├── remotes
+│   │   │       │   │   ├── baseUriChange
+│   │   │       │   │   │   └── folderInteger.json
+│   │   │       │   │   ├── baseUriChangeFolder
+│   │   │       │   │   │   └── folderInteger.json
+│   │   │       │   │   ├── baseUriChangeFolderInSubschema
+│   │   │       │   │   │   └── folderInteger.json
+│   │   │       │   │   ├── folder
+│   │   │       │   │   │   └── folderInteger.json
+│   │   │       │   │   ├── integer.json
+│   │   │       │   │   ├── name-defs.json
+│   │   │       │   │   ├── name.json
+│   │   │       │   │   ├── ref-and-definitions.json
+│   │   │       │   │   ├── ref-and-defs.json
+│   │   │       │   │   ├── subSchemas-defs.json
+│   │   │       │   │   └── subSchemas.json
+│   │   │       │   └── tests
+│   │   │       │       └── draft7
+│   │   │       │           ├── additionalItems.json
+│   │   │       │           ├── additionalProperties.json
+│   │   │       │           ├── allOf.json
+│   │   │       │           ├── anyOf.json
+│   │   │       │           ├── boolean_schema.json
+│   │   │       │           ├── const.json
+│   │   │       │           ├── contains.json
+│   │   │       │           ├── default.json
+│   │   │       │           ├── definitions.json
+│   │   │       │           ├── dependencies.json
+│   │   │       │           ├── enum.json
+│   │   │       │           ├── exclusiveMaximum.json
+│   │   │       │           ├── exclusiveMinimum.json
+│   │   │       │           ├── format.json
+│   │   │       │           ├── id.json
+│   │   │       │           ├── if-then-else.json
+│   │   │       │           ├── infinite-loop-detection.json
+│   │   │       │           ├── items.json
+│   │   │       │           ├── maxItems.json
+│   │   │       │           ├── maxLength.json
+│   │   │       │           ├── maxProperties.json
+│   │   │       │           ├── maximum.json
+│   │   │       │           ├── minItems.json
+│   │   │       │           ├── minLength.json
+│   │   │       │           ├── minProperties.json
+│   │   │       │           ├── minimum.json
+│   │   │       │           ├── multipleOf.json
+│   │   │       │           ├── not.json
+│   │   │       │           ├── oneOf.json
+│   │   │       │           ├── optional
+│   │   │       │           │   ├── bignum.json
+│   │   │       │           │   ├── content.json
+│   │   │       │           │   ├── ecmascript-regex.json
+│   │   │       │           │   ├── float-overflow.json
+│   │   │       │           │   ├── format
+│   │   │       │           │   │   ├── date-time.json
+│   │   │       │           │   │   ├── date.json
+│   │   │       │           │   │   ├── email.json
+│   │   │       │           │   │   ├── hostname.json
+│   │   │       │           │   │   ├── idn-email.json
+│   │   │       │           │   │   ├── idn-hostname.json
+│   │   │       │           │   │   ├── ipv4.json
+│   │   │       │           │   │   ├── ipv6.json
+│   │   │       │           │   │   ├── iri-reference.json
+│   │   │       │           │   │   ├── iri.json
+│   │   │       │           │   │   ├── json-pointer.json
+│   │   │       │           │   │   ├── regex.json
+│   │   │       │           │   │   ├── relative-json-pointer.json
+│   │   │       │           │   │   ├── time.json
+│   │   │       │           │   │   ├── uri-reference.json
+│   │   │       │           │   │   ├── uri-template.json
+│   │   │       │           │   │   ├── uri.json
+│   │   │       │           │   │   └── uuid.json
+│   │   │       │           │   ├── non-bmp-regex.json
+│   │   │       │           │   └── unicode.json
+│   │   │       │           ├── pattern.json
+│   │   │       │           ├── patternProperties.json
+│   │   │       │           ├── properties.json
+│   │   │       │           ├── propertyNames.json
+│   │   │       │           ├── ref.json
+│   │   │       │           ├── refRemote.json
+│   │   │       │           ├── required.json
+│   │   │       │           ├── type.json
+│   │   │       │           ├── uniqueItems.json
+│   │   │       │           └── unknownKeyword.json
+│   │   │       ├── binary-validation.cpp
+│   │   │       ├── errors.cpp
+│   │   │       ├── id-ref.cpp
+│   │   │       ├── issue-100
+│   │   │       │   ├── CMakeLists.txt
+│   │   │       │   ├── instance.json
+│   │   │       │   └── schema.json
+│   │   │       ├── issue-101
+│   │   │       │   ├── CMakeLists.txt
+│   │   │       │   ├── instance.json
+│   │   │       │   └── schema.json
+│   │   │       ├── issue-105-verbose-combination-errors.cpp
+│   │   │       ├── issue-117-format-error.cpp
+│   │   │       ├── issue-12
+│   │   │       │   ├── CMakeLists.txt
+│   │   │       │   ├── instance.json
+│   │   │       │   └── schema.json
+│   │   │       ├── issue-143
+│   │   │       │   ├── CMakeLists.txt
+│   │   │       │   ├── instance-fail-1.json
+│   │   │       │   ├── instance-fail-a.json
+│   │   │       │   ├── instance.json
+│   │   │       │   └── schema.json
+│   │   │       ├── issue-149-entry-selection.cpp
+│   │   │       ├── issue-189-default-values.cpp
+│   │   │       ├── issue-209
+│   │   │       │   ├── CMakeLists.txt
+│   │   │       │   ├── color.schema.json
+│   │   │       │   ├── entities.schema.json
+│   │   │       │   └── instance.json
+│   │   │       ├── issue-229-oneof-default-values.cpp
+│   │   │       ├── issue-243-root-default-values.cpp
+│   │   │       ├── issue-25-default-values.cpp
+│   │   │       ├── issue-255-error-message-limit-precision.cpp
+│   │   │       ├── issue-27
+│   │   │       │   ├── CMakeLists.txt
+│   │   │       │   ├── README
+│   │   │       │   ├── instance.json
+│   │   │       │   └── schema.json
+│   │   │       ├── issue-293.cpp
+│   │   │       ├── issue-311
+│   │   │       │   ├── CMakeLists.txt
+│   │   │       │   ├── instance.json
+│   │   │       │   └── schema.json
+│   │   │       ├── issue-48
+│   │   │       │   ├── CMakeLists.txt
+│   │   │       │   ├── instance.json
+│   │   │       │   └── schema.json
+│   │   │       ├── issue-54
+│   │   │       │   ├── CMakeLists.txt
+│   │   │       │   ├── instance.json
+│   │   │       │   └── schema.json
+│   │   │       ├── issue-70-root-schema-constructor.cpp
+│   │   │       ├── issue-70.cpp
+│   │   │       ├── issue-75
+│   │   │       │   ├── CMakeLists.txt
+│   │   │       │   ├── TypeId.json
+│   │   │       │   ├── instance.json
+│   │   │       │   └── schema.json
+│   │   │       ├── issue-9
+│   │   │       │   ├── CMakeLists.txt
+│   │   │       │   ├── bar.json
+│   │   │       │   ├── base.json
+│   │   │       │   ├── foo
+│   │   │       │   │   ├── baz
+│   │   │       │   │   │   ├── baz.json
+│   │   │       │   │   │   └── qux
+│   │   │       │   │   │       └── qux.json
+│   │   │       │   │   └── foo.json
+│   │   │       │   └── instance.json
+│   │   │       ├── issue-93
+│   │   │       │   ├── CMakeLists.txt
+│   │   │       │   ├── blueprints.schema.json
+│   │   │       │   ├── components.schema.json
+│   │   │       │   ├── issue-93.cpp
+│   │   │       │   └── types
+│   │   │       │       └── color.schema.json
+│   │   │       ├── issue-96
+│   │   │       │   ├── CMakeLists.txt
+│   │   │       │   ├── instance.json
+│   │   │       │   └── schema.json
+│   │   │       ├── issue-98.cpp
+│   │   │       ├── json-patch.cpp
+│   │   │       ├── json-schema-validate.cpp
+│   │   │       ├── string-format-check-test.cpp
+│   │   │       ├── test-pipe-in.sh
+│   │   │       └── uri.cpp
+│   │   └── json-schema-validator-subbuild
+│   │       ├── CMakeCache.txt
+│   │       ├── CMakeFiles
+│   │       │   ├── 3.28.3
+│   │       │   │   └── CMakeSystem.cmake
+│   │       │   ├── CMakeConfigureLog.yaml
+│   │       │   ├── TargetDirectories.txt
+│   │       │   ├── cmake.check_cache
+│   │       │   ├── json-schema-validator-populate-complete
+│   │       │   ├── json-schema-validator-populate.dir
+│   │       │   │   ├── Labels.json
+│   │       │   │   └── Labels.txt
+│   │       │   ├── pkgRedirects
+│   │       │   └── rules.ninja
+│   │       ├── CMakeLists.txt
+│   │       ├── build.ninja
+│   │       ├── cmake_install.cmake
+│   │       └── json-schema-validator-populate-prefix
+│   │           ├── src
+│   │           │   └── json-schema-validator-populate-stamp
+│   │           │       ├── json-schema-validator-populate-build
+│   │           │       ├── json-schema-validator-populate-configure
+│   │           │       ├── json-schema-validator-populate-done
+│   │           │       ├── json-schema-validator-populate-download
+│   │           │       ├── json-schema-validator-populate-gitclone-lastrun.txt
+│   │           │       ├── json-schema-validator-populate-gitinfo.txt
+│   │           │       ├── json-schema-validator-populate-install
+│   │           │       ├── json-schema-validator-populate-mkdir
+│   │           │       ├── json-schema-validator-populate-patch
+│   │           │       ├── json-schema-validator-populate-patch-info.txt
+│   │           │       ├── json-schema-validator-populate-test
+│   │           │       └── json-schema-validator-populate-update-info.txt
+│   │           └── tmp
+│   │               ├── json-schema-validator-populate-cfgcmd.txt
+│   │               ├── json-schema-validator-populate-gitclone.cmake
+│   │               ├── json-schema-validator-populate-gitupdate.cmake
+│   │               └── json-schema-validator-populate-mkdirs.cmake
+│   ├── build.ninja
+│   ├── cmake_install.cmake
+│   ├── compare.sh
+│   ├── compile_commands.json
+│   └── eraser_static
+├── docs
+├── eraser_static
+│   ├── graph_nodes
+│   │   ├── include
+│   │   │   ├── barrier_node.h
+│   │   │   ├── basic_node.h
+│   │   │   ├── break_node.h
+│   │   │   ├── continue_node.h
+│   │   │   ├── continue_return_node.h
+│   │   │   ├── endif_node.h
+│   │   │   ├── endswitch_node.h
+│   │   │   ├── endwhile_node.h
+│   │   │   ├── eraser_ignore_off_node.h
+│   │   │   ├── eraser_ignore_on_node.h
+│   │   │   ├── function_call_node.h
+│   │   │   ├── graph_node.h
+│   │   │   ├── if_node.h
+│   │   │   ├── lock_node.h
+│   │   │   ├── node_types.h
+│   │   │   ├── read_node.h
+│   │   │   ├── return_node.h
+│   │   │   ├── start_node.h
+│   │   │   ├── startwhile_node.h
+│   │   │   ├── switch_node.h
+│   │   │   ├── thread_create_node.h
+│   │   │   ├── thread_join_node.h
+│   │   │   ├── typedef.h
+│   │   │   ├── unlock_node.h
+│   │   │   ├── while_node.h
+│   │   │   └── write_node.h
+│   │   └── src
+│   │       ├── barrier_node.cpp
+│   │       ├── basic_node.cpp
+│   │       ├── break_node.cpp
+│   │       ├── continue_node.cpp
+│   │       ├── continue_return_node.cpp
+│   │       ├── endif_node.cpp
+│   │       ├── endswitch_node.cpp
+│   │       ├── endwhile_node.cpp
+│   │       ├── eraser_ignore_off_node.cpp
+│   │       ├── eraser_ignore_on_node.cpp
+│   │       ├── function_call_node.cpp
+│   │       ├── graph_node.cpp
+│   │       ├── if_node.cpp
+│   │       ├── lock_node.cpp
+│   │       ├── read_node.cpp
+│   │       ├── return_node.cpp
+│   │       ├── start_node.cpp
+│   │       ├── startwhile_node.cpp
+│   │       ├── switch_node.cpp
+│   │       ├── thread_create_node.cpp
+│   │       ├── thread_join_node.cpp
+│   │       ├── unlock_node.cpp
+│   │       ├── while_node.cpp
+│   │       └── write_node.cpp
+│   ├── include
+│   │   ├── call_graph.h
+│   │   ├── construction_environment.h
+│   │   ├── eval_llms.h
+│   │   ├── file_includes.h
+│   │   ├── graph_visualizer.h
+│   │   ├── llm_analyser.h
+│   │   ├── llm_handler.h
+│   │   ├── lockset.h
+│   │   ├── parser.h
+│   │   ├── parser_helpers.h
+│   │   ├── shared_var_identifier.h
+│   │   ├── usings.h
+│   │   ├── utils.h
+│   │   └── write_output.h
+│   └── src
+│       ├── call_graph.cpp
+│       ├── construction_environment.cpp
+│       ├── eval_llms.cpp
+│       ├── file_includes.cpp
+│       ├── graph_visualizer.cpp
+│       ├── llm_analyser.cpp
+│       ├── llm_handler.cpp
+│       ├── lockset.cpp
+│       ├── main.cpp
+│       ├── parser.cpp
+│       ├── parser_helpers.cpp
+│       ├── shared_var_identifier.cpp
+│       ├── utils.cpp
+│       ├── visiting_nodes.cpp
+│       └── write_output.cpp
+├── tests
+│   ├── barrier
+│   │   ├── barr
+│   │   ├── hist
+│   │   ├── init_then_write.c
+│   │   ├── llm_consistency.txt
+│   │   ├── myprog
+│   │   ├── output.txt
+│   │   ├── two_diff_locks.c
+│   │   ├── two_diff_locks_complex.c
+│   │   ├── two_phase_read_write.c
+│   │   ├── two_stage_swap.c
+│   │   ├── two_stage_swap_complex.c
+│   │   ├── wait_for_main.c
+│   │   ├── wait_for_main_complex.c
+│   │   ├── write_then_read.c
+│   │   ├── write_then_read_2.c
+│   │   └── write_then_read_complex.c
+│   ├── basic
+│   │   ├── arr
+│   │   ├── array.c
+│   │   ├── basic.c
+│   │   ├── basic.h
+│   │   ├── evl_fn.log
+│   │   ├── graph_1.dot
+│   │   ├── graph_1.png
+│   │   ├── graph_2.dot
+│   │   ├── graph_2.png
+│   │   ├── llm_consistency.txt
+│   │   ├── no_race.c
+│   │   ├── o.txt
+│   │   ├── out.log
+│   │   ├── output.log
+│   │   ├── output.txt
+│   │   ├── output_eval.txt
+│   │   ├── race
+│   │   ├── race.c
+│   │   ├── recursion.c
+│   │   ├── switch.c
+│   │   ├── test
+│   │   └── test_if.c
+│   ├── multi_file
+│   │   ├── extern.c
+│   │   ├── main.c
+│   │   ├── multi_file.h
+│   │   ├── options.txt
+│   │   ├── output.txt
+│   │   └── test
+│   └── two_stage
+│       ├── graph_1.dot
+│       ├── graph_1.png
+│       ├── graph_2.dot
+│       ├── graph_2.png
+│       ├── output.txt
+│       └── two_stage_bad.c
+└── tree.txt
+
+170 directories, 715 files

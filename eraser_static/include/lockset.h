@@ -1,0 +1,113 @@
+/* 
+ * Project: EraserStatic
+ * (https://github.com/JudeHill/EraserStatic)
+ *
+ * Copyright (C) 2025-2026 Jude Hill <jude-stephen-hill@outlook.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+
+#pragma once
+#include "basic_node.h"
+#include "continue_node.h"
+#include "continue_return_node.h"
+#include "function_call_node.h"
+#include "if_node.h"
+#include "lock_node.h"
+#include "parser.h"
+#include "read_node.h"
+#include "start_node.h"
+#include "startwhile_node.h"
+#include "unlock_node.h"
+#include "while_node.h"
+#include "write_node.h"
+#include <format>
+#include <memory>
+#include <unordered_map>
+#include <unordered_set>
+
+enum class VarStatus {
+  VIRGIN,
+  EXCLUSIVE,
+  SHARED,
+  SHARED_MODIFIED,
+
+};
+
+using DataRaceID = unsigned int;
+using Epoch = unsigned int;
+using LockName = std::string;
+using FuncName = std::string;
+using LockSet = std::unordered_set<LockName>;
+
+struct VarInfo {
+  VarName var_name;
+  bool only_on_main, written_to;
+  VarStatus status;
+  LockSet lockset;
+  int epoch;
+};
+
+struct Context {
+  bool on_main_thread, in_loop;
+  Epoch epoch;
+  unsigned int recursion_depth;
+};
+
+enum class RaceType {
+  RACE_READ,
+  RACE_WRITE,
+};
+
+
+static DataRaceID next_race_id = 0;
+
+struct DataRace {
+  std::string var_name;
+  GraphNode *node;
+  RaceType race_type;
+  LocationInfo location;
+  DataRaceID id;
+};
+
+struct DataRaceMap {
+  std::unordered_map<VarName, std::vector<std::shared_ptr<DataRace>>> by_var;
+  std::unordered_map<DataRaceID, std::shared_ptr<DataRace>> by_id;
+};
+
+using VarInfos = std::unordered_map<Epoch, std::unique_ptr<VarInfo>>;
+using WhileStack = std::vector<std::vector<LockSet>>;
+using FuncStack = std::vector<std::vector<LockSet>>;
+
+class Eraser {
+private:
+  FuncNodeMap start_nodes;
+  std::vector<std::shared_ptr<DataRace>> data_races;
+  std::unordered_map<VarName, VarInfos> vars;
+  LockSet visit(GraphNode *node, LockSet lockset, std::unordered_set<FuncName> funcs_seen,
+                Context ctx = {
+                  .on_main_thread = true,
+                  .in_loop = false,
+                  .epoch = 0,
+                  .recursion_depth = 0
+                });
+  bool handle_read(LockName var_name, const LockSet& lockset, bool on_main_thread, Epoch epoch);
+  bool handle_write(LockName var_name, const LockSet& lockset, bool on_main_thread, Epoch epoch);
+
+public:
+  Eraser() {};
+  std::shared_ptr<DataRaceMap> compute_data_races(FuncNodeMap func_map, FuncName main_name = "main",
+                                 bool debug_logging = false, bool symmetric_join = false);
+};

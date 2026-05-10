@@ -1,0 +1,8 @@
+LLM analysis of false negatives of data races: 
+Jaccard agreement per LLM (data races on variables) Gemini: 1, 
+Jaccard agreement per LLM (unprotected accesses) Gemini: 1, 
+LLMs detected additional unprotected accesses on variable race
+Votes that this variable has additional unprotected accesses: Gemini: 5, 
+Unprotected access on var race: Write on line 39 in file two_stage_swap_2.c With keyrace39Writetwo_stage_swap_2.c
+Votes that this is actually a missed unprotected access (False negative): 
+Gemini: 5, 

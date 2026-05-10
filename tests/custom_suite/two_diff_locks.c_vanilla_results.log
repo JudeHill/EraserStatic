@@ -1,0 +1,7 @@
+Found dataraces involving 2 unique variables With 4 total unprotected accesses
+two_diff_locks.c 0 0 count: 2 unprotected accesses
+Read in file two_diff_locks.c at line 23, position 3
+Write in file two_diff_locks.c at line 23, position 3
+two_diff_locks.c 0 0 racey: 2 unprotected accesses
+Read in file two_diff_locks.c at line 19, position 3
+Write in file two_diff_locks.c at line 19, position 3

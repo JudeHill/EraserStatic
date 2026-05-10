@@ -1,0 +1,62 @@
+Found dataraces involving 2 unique variablesWith 2 total unprotected accesses
+array.c 0 0 count: 1 unprotected accesses
+Write in file array.c at line 16, position 3
+array.c 0 0 output: 1 unprotected accesses
+Write in file array.c at line 14, position 3
+
+LLM analysis of shared variables:
+Claude
+TP: 5   FP: 0   FN: 0
+Gemini
+TP: 5   FP: 0   FN: 0
+ChatGPT
+TP: 5   FP: 0   FN: 0
+
+LLM analysis of false positives of data races: 
+Claude
+Variable count
+Has a data race
+2 true unprotected accesses, 0 false positives
+False positives: 
+True positives: 
+Write in file array.c, on line 32 at position 5
+Reasoning: This write to count occurs in main thread after pthread_join. While pthread_join provides happens-before with thread completion, multiple iterations of the loop can race with each other as no mutex protects this increment in main.
+Write in file array.c, on line 16 at position 3
+Reasoning: This write to count occurs in print_tid without holding mutex_1 (the lock/unlock are commented out). Multiple threads execute this concurrently, and there is no synchronization protecting this increment.
+Variable output
+No data race
+0 true unprotected accesses, 1 false positives
+False positives: 
+Write in file array.c, on line 14 at position 3
+Reasoning: Each thread writes to output[tid] where tid is unique per thread (0 to NUM_THREADS-1). Threads access disjoint memory locations (different array indices), so no actual data race occurs despite lack of explicit synchronization.
+True positives: 
+Gemini
+Variable count
+Has a data race
+1 true unprotected accesses, 0 false positives
+False positives: 
+True positives: 
+Write in file array.c, on line 16 at position 3
+Reasoning: Multiple threads concurrently write to 'count' without mutual exclusion. The mutex lock/unlock around this access is commented out, leading to a data race.
+Variable output
+No data race
+0 true unprotected accesses, 1 false positives
+False positives: 
+Write in file array.c, on line 14 at position 3
+Reasoning: Each thread accesses a unique, disjoint memory location (output[tid]) based on its thread ID. This constitutes logical partitioning, preventing a data race.
+True positives: 
+ChatGPT
+Variable count
+Has a data race
+1 true unprotected accesses, 0 false positives
+False positives: 
+True positives: 
+Write in file array.c, on line 16 at position 3
+Reasoning: `count++` in `print_tid` is not protected by `mutex_1` (lock/unlock commented out) and can run concurrently with other threads' `count++` and also with `main`'s `count++` after joins. Non-atomic read-modify-write => true race.
+Variable output
+No data race
+0 true unprotected accesses, 1 false positives
+False positives: 
+Write in file array.c, on line 14 at position 3
+Reasoning: Each thread writes `output[tid]` where `tid` is a unique value (0..NUM_THREADS-1) passed at creation time. Thus threads write disjoint array elements; no two threads access the same location, so no data race on the same memory address.
+True positives: 

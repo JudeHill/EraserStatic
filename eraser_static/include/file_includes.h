@@ -1,0 +1,41 @@
+/*
+ * This file was originally part of Eraser-CD
+ * (https://github.com/ProgrammerByte/Eraser-CD)
+ *
+ * Copyright (C) 2025 Thomas Popay
+ * Copyright (C) 2026 Jude Hill <jude-stephen-hill@outlook.com>
+ *
+ * This file was modified by Jude Hill in 2026 for use in EraserStatic.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+#pragma once
+#include "usings.h"
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+
+class FileIncludes {
+public:
+  explicit FileIncludes();
+  virtual ~FileIncludes() = default;
+  void clearIncludes(std::string fileName);
+  void addInclude(std::string fileName, std::string includedFile);
+  std::unordered_set<std::string> getChildren(std::string fileName);
+
+private:
+  std::unordered_map<Filename, std::unordered_set<Filename>> includesMap;
+};
