@@ -1,0 +1,11 @@
+LLM analysis of false positives of data races: 
+Jaccard agreement per LLM (data races on variables) Gemini: 1, 
+Jaccard agreement per LLM (unprotected accesses) Gemini: 1, 
+Eraser tool found 1 unprotected accesses on variable wait_for_main_complex.c 0 0 x
+LLM votes that this variable actually has a race / not: Gemini: 0/5, 
+Write  on line 102, at position 5, with id 1
+LLM votes that this access is actually unprotected / not: Gemini: 0/5, 
+Eraser tool found 1 unprotected accesses on variable wait_for_main_complex.c 0 0 y
+LLM votes that this variable actually has a race / not: Gemini: 0/5, 
+Write  on line 68, at position 5, with id 0
+LLM votes that this access is actually unprotected / not: Gemini: 0/5, 

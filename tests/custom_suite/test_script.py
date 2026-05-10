@@ -20,7 +20,7 @@ files = [
 
 def run_parameterized_command(filenames, opts, *, delay=True):
     for filename in filenames:
-        output_filename = f"{filename}_vanilla_results.log"
+        output_filename = f"{filename}_fps.log"
         
         print(f"Processing {filename} -> {output_filename}...")
         
@@ -55,4 +55,4 @@ def run_parameterized_command(filenames, opts, *, delay=True):
             time.sleep(60) 
             print("Resuming...")
 
-run_parameterized_command(files, ["--no-llms", "-b"], delay=False)
+run_parameterized_command(files, ["--eval-fps", "--llm=gemini"], delay=False)

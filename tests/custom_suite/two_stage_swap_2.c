@@ -58,7 +58,7 @@ void *worker_1(void *arg) {
 int main(void) {
   pthread_t threads_1[NUM_THREADS];
   pthread_mutex_init(&mutex_1, NULL);
-  pthread_barrier_init(&b1, NULL, NUM_THREADS + 1);
+  pthread_barrier_init(&b2, NULL, NUM_THREADS + 1);
   for (int i = 0; i < NUM_THREADS; i++) {
     int *arg = malloc(sizeof(int));
     *arg = i;
