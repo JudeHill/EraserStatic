@@ -1,3 +1,0 @@
-LLM analysis of false negatives of data races: 
-Jaccard agreement per LLM (data races on variables) Gemini: 1, 
-Jaccard agreement per LLM (unprotected accesses) Gemini: 1, 

@@ -1,5 +1,0 @@
-Found dataraces involving 2 unique variables With 2 total unprotected accesses
-write_then_read.c 0 0 racey: 1 unprotected accesses
-Write in file write_then_read.c at line 19, position 3
-write_then_read.c 0 0 count: 1 unprotected accesses
-Read in file write_then_read.c at line 18, position 10

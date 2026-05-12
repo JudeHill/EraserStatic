@@ -1,7 +1,0 @@
-LLM analysis of false positives of data races: 
-Jaccard agreement per LLM (data races on variables) Gemini: 0.4, 
-Jaccard agreement per LLM (unprotected accesses) Gemini: 0.4, 
-Eraser tool found 1 unprotected accesses on variable two_diff_locks_complex.c 0 0 frontier_size
-LLM votes that this variable actually has a race / not: Gemini: 3/2, 
-Write  on line 106, at position 3, with id 0
-LLM votes that this access is actually unprotected / not: Gemini: 3/2, 

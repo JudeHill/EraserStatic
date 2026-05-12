@@ -1,7 +1,0 @@
-Found dataraces involving 3 unique variables With 3 total unprotected accesses
-demo_prog.c 0 0 b: 1 unprotected accesses
-Write in file demo_prog.c at line 21, position 3
-demo_prog.c 0 0 count: 1 unprotected accesses
-Read in file demo_prog.c at line 23, position 10
-demo_prog.c 0 0 data: 1 unprotected accesses
-Write in file demo_prog.c at line 16, position 3

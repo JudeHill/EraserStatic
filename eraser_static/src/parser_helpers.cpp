@@ -20,20 +20,12 @@
 
 
 #include "parser_helpers.h"
-
-
-static CXChildVisitResult countChildrenVisitor(CXCursor c, CXCursor parent, CXClientData data) {
-    auto *n = static_cast<unsigned*>(data);
-    (*n)++;
-    return CXChildVisit_Continue; // don't recurse further
-  }
   
   static unsigned countChildren(CXCursor parent) {
     unsigned n = 0;
     clang_visitChildren(parent, countChildrenVisitor, &n);
     return n;
   }
-
 
 
 unsigned getCachedChildCount(CXCursor parent) {
@@ -76,165 +68,6 @@ static bool isStmtLike(CXCursorKind k) {
   }
 }
 
-// Walk subtree and see if it contains a declaration statement.
-static bool subtreeHasDeclStmt(CXCursor root) {
-  struct Data { bool found = false; };
-  Data data;
-
-  clang_visitChildren(
-      root,
-      [](CXCursor c, CXCursor /*parent*/, CXClientData clientData) {
-        auto *d = static_cast<Data*>(clientData);
-        if (clang_getCursorKind(c) == CXCursor_DeclStmt ||
-            clang_getCursorKind(c) == CXCursor_VarDecl) {
-          d->found = true;
-          return CXChildVisit_Break;
-        }
-        return CXChildVisit_Recurse;
-      },
-      &data
-  );
-
-  return data.found;
-}
-
-// Heuristic: "looks like increment" if subtree contains ++/-- or assignment-ish ops.
-static bool subtreeLooksLikeIncrement(CXCursor root) {
-  struct Data { bool found = false; };
-  Data data;
-
-  clang_visitChildren(
-      root,
-      [](CXCursor c, CXCursor /*parent*/, CXClientData clientData) {
-        auto *d = static_cast<Data*>(clientData);
-        CXCursorKind k = clang_getCursorKind(c);
-
-        // ++/-- are UnaryOperator nodes (spelling can distinguish but we avoid tokenizing),
-        // still a strong hint if present.
-        if (k == CXCursor_UnaryOperator ||
-            k == CXCursor_CompoundAssignOperator ||
-            k == CXCursor_BinaryOperator) {
-          // We can't know which operator for BinaryOperator without tokens,
-          // but assignment forms are very common in inc; treat presence as a signal.
-          d->found = true;
-          return CXChildVisit_Break;
-        }
-
-        return CXChildVisit_Recurse;
-      },
-      &data
-  );
-
-  return data.found;
-}
-
-// Collect direct children of a cursor (non-recursive).
-static std::vector<CXCursor> getDirectChildren(CXCursor parent) {
-  struct Data { std::vector<CXCursor> out; };
-  Data data;
-
-  clang_visitChildren(
-      parent,
-      [](CXCursor c, CXCursor /*p*/, CXClientData clientData) {
-        auto *d = static_cast<Data*>(clientData);
-        d->out.push_back(c);
-        return CXChildVisit_Continue; // do not recurse; direct children only
-      },
-      &data
-  );
-
-  return data.out;
-}
-
-// Main helper: classify ForStmt children as INIT/COND/INC/BODY.
-// This is "good enough" and avoids tokenization.
-static std::vector<ForChild> classifyForStmtChildrenGoodEnough(CXCursor forCursor) {
-  std::vector<ForChild> result;
-
-  if (clang_getCursorKind(forCursor) != CXCursor_ForStmt) {
-    return result;
-  }
-
-  auto children = getDirectChildren(forCursor);
-
-  // Find body: first stmt-like direct child (usually last, but first is safe).
-  std::optional<unsigned> bodyIdx;
-  for (unsigned i = 0; i < children.size(); ++i) {
-    CXCursorKind k = clang_getCursorKind(children[i]);
-    if (isStmtLike(k)) {
-      bodyIdx = i;
-      break;
-    }
-  }
-
-  // Build header list (direct children before body).
-  std::vector<unsigned> headerIndices;
-  if (bodyIdx.has_value()) {
-    for (unsigned i = 0; i < *bodyIdx; ++i) headerIndices.push_back(i);
-  } else {
-    // Degenerate (shouldn't happen): treat all as header.
-    for (unsigned i = 0; i < children.size(); ++i) headerIndices.push_back(i);
-  }
-
-  // Convenience lambdas
-  auto setKind = [&](unsigned idx, ForClauseKind kind) {
-    result.push_back(ForChild{children[idx], idx, kind});
-  };
-
-  // First, mark body (if present).
-  if (bodyIdx.has_value()) {
-    setKind(*bodyIdx, ForClauseKind::BODY);
-  }
-
-  // Now classify headers with the heuristic you asked for.
-  const size_t h = headerIndices.size();
-
-  if (h == 3) {
-    setKind(headerIndices[0], ForClauseKind::INIT);
-    setKind(headerIndices[1], ForClauseKind::COND);
-    setKind(headerIndices[2], ForClauseKind::INC);
-  } else if (h == 2) {
-    unsigned a = headerIndices[0];
-    unsigned b = headerIndices[1];
-
-    bool aIsDecl = subtreeHasDeclStmt(children[a]) ||
-                   clang_getCursorKind(children[a]) == CXCursor_DeclStmt;
-    bool bLooksInc = subtreeLooksLikeIncrement(children[b]);
-
-    if (aIsDecl) {
-      // init + (cond or inc)
-      setKind(a, ForClauseKind::INIT);
-      setKind(b, bLooksInc ? ForClauseKind::INC : ForClauseKind::COND);
-    } else if (bLooksInc) {
-      // (init/cond) + inc → assume second is inc
-      setKind(b, ForClauseKind::INC);
-
-      // First: if it looks assignment/decl-ish treat as init else cond
-      bool aLooksIncOrInit = subtreeLooksLikeIncrement(children[a]) || aIsDecl;
-      setKind(a, aLooksIncOrInit ? ForClauseKind::INIT : ForClauseKind::COND);
-    } else {
-      // Default: second is condition; first is init if assignment/decl-ish else cond.
-      setKind(b, ForClauseKind::COND);
-      bool aLooksInit = aIsDecl || subtreeLooksLikeIncrement(children[a]);
-      setKind(a, aLooksInit ? ForClauseKind::INIT : ForClauseKind::COND);
-    }
-  } else if (h == 1) {
-    unsigned a = headerIndices[0];
-    bool aIsDecl = subtreeHasDeclStmt(children[a]) ||
-                   clang_getCursorKind(children[a]) == CXCursor_DeclStmt;
-    bool aLooksInc = subtreeLooksLikeIncrement(children[a]);
-
-    if (aIsDecl) setKind(a, ForClauseKind::INIT);
-    else if (aLooksInc) setKind(a, ForClauseKind::INC);
-    else setKind(a, ForClauseKind::COND);
-  } else {
-    // h == 0 or >3: uncommon/odd; mark unknown so caller can fall back.
-    for (unsigned idx : headerIndices) setKind(idx, ForClauseKind::UNKNOWN);
-  }
-
-  return result;
-}
-
 void handleForStmt(CXCursor ForStmt, ConstructionEnvironment *environment){
   unsigned num_children = getCachedChildCount(ForStmt);
   std::cout << "Child count: " << num_children << std::endl;
@@ -274,22 +107,6 @@ WhileNode* handleForStmtIncrement(CXCursor ForStmt, CXCursor increment, Construc
     environment->onAdd(forNodeLoop);
     environment->onAdd(new ContinueReturnNode());
     return forNodeLoop;
-}
-
-CXCursor getFirstChild(CXCursor cursor) {
-  CXCursor firstChild = clang_getNullCursor();
-
-  clang_visitChildren(
-      cursor,
-      [](CXCursor c, CXCursor parent, CXClientData clientData) {
-        CXCursor *firstChildPtr = reinterpret_cast<CXCursor *>(clientData);
-
-        *firstChildPtr = c;
-        return CXChildVisit_Break;
-      },
-      &firstChild);
-
-  return firstChild;
 }
 
 static bool isExprLike(CXCursorKind k) {
